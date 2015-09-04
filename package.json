@@ -1,0 +1,41 @@
+{
+  "name": "node-mongo-proxy",
+  "version": "0.1.0",
+  "description": "A proxied mongodb wrapper w/ schemas",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test DEBUG=*,-babel ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --harmony --harmony_proxies --reporter spec --ui bdd --bail --colors ./tests/*.test.coffee"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamdevonbutler/node-mongo-proxy.git"
+  },
+  "author": "Jay Pescione <jpescione@gmail.com> (https://github.com/iamdevonbutler)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iamdevonbutler/node-mongo-proxy/issues"
+  },
+  "homepage": "https://github.com/iamdevonbutler/node-mongo-proxy#readme",
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "chai": "^3.2.0",
+    "co": "^4.6.0",
+    "coffee-script": "^1.10.0",
+    "harmony-reflect": "^1.4.2",
+    "koa": "^1.0.0",
+    "koa-router": "^5.1.2",
+    "mocha": "^2.3.0",
+    "mongodb": "^2.0.42",
+    "supertest": "^1.1.0"
+  },
+  "dependencies": {
+    "debug": "^2.2.0",
+    "lodash": "^3.10.1",
+    "lodash-deep": "^1.6.0",
+    "moment": "^2.10.6",
+    "xss-filters": "^1.2.6"
+  }
+}
