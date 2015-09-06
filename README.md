@@ -35,7 +35,6 @@ First, install mongoproxy:
 
 ```
 npm install --save mongoproxy
-
 ```
 
 Second, init mongodb:
@@ -48,7 +47,6 @@ const mongoproxy = require('mongoproxy');
 const db = yield mongoproxy.initDatabase(process.env.MONGO_URL);
 
 mongoproxy.addDatabase('api-development', db);
-
 ```
 
 Third, add models:
@@ -68,7 +66,6 @@ mongoproxy.addModels('api-development', {
     }
   }
 });
-
 ```
 
 *Note: when models are added, schema validation will occur to ensure formatting is up to snuff. Validation errors will throw. If you are wrapping your init code with [co](https://github.com/tj/co) to allow yieldables, be sure use manually catch and rethrow all errors using the `co` catch method; otherwise, your code will fail w/o any errors logged in the console.*
@@ -85,8 +82,6 @@ try {
 catch (err) {
 
 }
-
-
 ```
 
 ## Schemas
@@ -104,7 +99,6 @@ e.g. "users.account.name" will query the name field, nested inside the account o
 
 ```
 "users.name": { type: 'string', required: true };
-
 ```
 
 - nested values
@@ -112,7 +106,6 @@ e.g. "users.account.name" will query the name field, nested inside the account o
 ```
 "users.account.name": { type: 'string',  required: true },
 "users.account.email": { type: 'string',  required: true  }
-
 ```
 
 
@@ -122,7 +115,6 @@ e.g. "users.account.name" will query the name field, nested inside the account o
 ```
 // Note square brackets.
 "users.friends": [{ type: 'string' }];
-
 ```
 
 - arrays of objects
@@ -132,7 +124,6 @@ e.g. "users.account.name" will query the name field, nested inside the account o
 "users.account.friends": [{ type: 'object', required: true, default: {} }];
 "users.account.friends.name": { type: 'string' };
 "users.account.friends.email": { type: 'string' };
-
 ```
 
 - arrays of arrays of values
@@ -140,7 +131,6 @@ e.g. "users.account.name" will query the name field, nested inside the account o
 ```
 // Note the double square brackets.
 "users.friends": [[{ type: 'string', required: true, default: [[]] }]];
-
 ```
 
 - arrays of arrays of objects
@@ -149,7 +139,6 @@ e.g. "users.account.name" will query the name field, nested inside the account o
 // Note property type: 'object' and double square brackets.
 "users.friends": [[{ required: true, default: [[{}]] }]];
 "users.friends.name": { type: 'string' };
-
 ```
 
 ### Schema properties
@@ -221,7 +210,6 @@ In instances where you want to run a query w/o schema validation you may prefix 
 
 ```
 var result = db.users.novalidate.insert({});
-
 ```
 
 ## Schema Examples
@@ -253,7 +241,6 @@ mongoproxy.addModels('api-development', {
 
 var db = mongoproxy;
 var result = yield db.users.getByEmail('jay@example.com');
-
 ```
 
 
@@ -266,7 +253,6 @@ Error handling is both local to each collection, via the `onError()` property pa
 mongoproxy.addErrorHandler('api-development', (collectionName, action, errors) => {
    throw '';
 });
-
 ```
 
 The global error handler will be called only if there is not a collection specific error handler.
@@ -281,7 +267,6 @@ catch (err) {
   // log
   // ...
 }
-
 ```
 
 ## Phase II
