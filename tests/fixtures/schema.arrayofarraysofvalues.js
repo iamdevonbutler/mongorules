@@ -1,6 +1,6 @@
 module.exports = {
 
-  "users.account.locations": [[{
+  "account.locations": [[{
     type: 'string',
     required: true,
     transform: function(values) {

@@ -1,6 +1,6 @@
 module.exports = {
 
-  "users.account.friends": [{
+  "account.friends": [{
     type: 'string',
     required: true,
     lowercase: true,

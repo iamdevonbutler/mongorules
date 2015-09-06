@@ -113,15 +113,15 @@ The following illustrates how you go about creating schemas for different data s
 - arrays of values
 
 ```
-// Note square brackets.
+// Note the square brackets.
 "friends": [{ type: 'string' }];
 ```
 
 - arrays of objects
 
 ```
-// Note property type:'object' and square brackets.
-"account.friends": [{ type: 'object', required: true, default: [{}] }];
+// Note the square brackets.
+"account.friends": [{ required: true, default: [{}] }];
 "account.friends.name": { type: 'string' };
 "account.friends.email": { type: 'string' };
 ```
@@ -136,7 +136,7 @@ The following illustrates how you go about creating schemas for different data s
 - arrays of arrays of objects
 
 ```
-// Note property type: 'object' and double square brackets.
+// Note the double square brackets.
 "friends": [[{ required: true, default: [[{}]] }]];
 "friends.name": { type: 'string' };
 ```
@@ -214,9 +214,14 @@ In instances where you want to run a query w/o schema validation you may prefix 
 var result = db.users.novalidate.insert({});
 ```
 
+## Field validation
+Field validation will occur on `insert()`, `update()`, and `save()` operations and enforce the rules declared in your schemas. Simple values, values in arrays, objects and their values in arrays, values in arrays in arrays, and  objects and their values in arrays in arrays, will be validated according to their schemas. As w/ mongodb query errors, field validation failures will throw field validation errors.
+
+See the 'Error handling' section to learn more about handling field validation errors.
+
 
 ## Static methods
-@todo have `this` eql mongoproxy
+@todo have `this` eql mongoproxy (this.users.find({}))
 @todo return promise always?
 
 You can attach static methods to the collection object like so:
@@ -242,7 +247,9 @@ var result = yield db.users.getByEmail('jay@example.com');
 
 ## Error handling
 There are two types of errors here: 1) schema validation errors (developer errors), and 2) field validation errors (bad data errors).
+
 Both types of errors will throw.
+
 Error handling is both local to each collection, via the `onError()` property passed to the `addModels()` method, and global using the following syntax.
 
 ```

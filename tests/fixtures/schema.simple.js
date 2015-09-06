@@ -1,6 +1,6 @@
 module.exports = {
 
-  "users.name": {
+  "name": {
     type: 'string',
     required: true,
     trim: true,
@@ -8,35 +8,35 @@ module.exports = {
     denyXSS: true
   },
 
-  "users.newsletter": {
+  "newsletter": {
     type: 'boolean'
   },
 
-  "users.age": {
+  "age": {
     type: 'number',
     validate: function(value) {
       return value > 0
     }
   },
 
-  "users.mood": {
+  "mood": {
     type: 'number',
     transform: function(value) {
       return 'good ' + value;
     }
   },
 
-  "users.birthday": {
+  "birthday": {
     type: 'date',
     dateFormat: 'MM-DD-YYYY'
   },
 
-  "users.updated": {
+  "updated": {
     type: 'date',
     dateFormat: 'unix'
   },
 
-  "users.created": {
+  "created": {
     type: 'date',
     dateFormat: 'iso8601'
   },

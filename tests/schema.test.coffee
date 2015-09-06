@@ -10,8 +10,8 @@ assert = require('chai').assert
 schema = require('../lib/schema')
 
 describe 'Schema:', ->
-  describe 'Validation:', ->
-  describe 'Transformation:', ->
+
+  describe '_normalizeSchema():', ->
 
   describe '_setSchemaDefaults():', ->
     it 'should set default values for all schema properties', ->
@@ -27,3 +27,5 @@ describe 'Schema:', ->
       expect(defaults.validate).to.not.be.undefined
       expect(defaults.dateFormat).to.not.be.undefined
       Object.keys(defaults).length.should.eql(10)
+
+  describe '_validateSchema():', ->

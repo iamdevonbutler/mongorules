@@ -1,17 +1,17 @@
 module.exports = {
 
-  "users.account.friends": [{
+  "account.friends": [{
     type: 'object',
     default: {}
   }],
 
-  "users.account.friends.name": {
+  "account.friends.name": {
     type: 'string',
     required: true,
     lowercase: true,
   },
 
-  "users.account.friends.age": {
+  "account.friends.age": {
     type: 'number',
     required: true
   }

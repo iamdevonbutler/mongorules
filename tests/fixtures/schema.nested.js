@@ -1,10 +1,10 @@
 module.exports = {
 
-  "users.account.name": {
+  "account.name": {
     type: 'string'
   },
 
-  "users.account.location": {
+  "account.location": {
     type: 'string'
   }
 
