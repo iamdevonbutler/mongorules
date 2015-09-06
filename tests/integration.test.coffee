@@ -12,19 +12,15 @@ db = require('../lib')
 supertest = require('supertest')
 
 
-describe 'Schema validation:', ->
+describe 'Integration tests:', ->
 
+  describe 'insert():', ->
 
-      # db.addModels('node-mongo-proxy', models);
-
-  # describe 'this', ->
-  #
-  #   it 'should work insert a document when given a unknown', (done) ->
-  #     db.users.insert({ a:1 }).then (err, result) ->
-  #       console.log(err, result);
-  #       done()
-
-
+    it 'should work insert a document if a schema for collection does not exist.', (done) ->
+      db.users.insert({ a:1 }).then (result) ->
+        console.log();
+        expect(result.insertedCount).to.be.eql(1)
+        done()
   # describe 'database interactions:', ->
 
       # mongoproxy.users.find {}, (err, result) ->

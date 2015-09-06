@@ -1,8 +1,9 @@
 # koa-mongo-proxy (in development - dont you dare download or look at this)
 
-A thin wrapper around the native mongo driver for databases w/ a schema
+A thin wrapper around the native mongodb driver leveraging promises and schemas.
 
 # Intro
+
 - 1 api to rule them all - the LOTR philosophy.
 
 ## Requirements
@@ -57,8 +58,6 @@ Validation/transformaion of the interior arrays/objects can not occur (except fo
 
 ## Async
 
-## Indexes
-
 # Errors
 
 ## Phase II
@@ -77,8 +76,6 @@ Validation/transformaion of the interior arrays/objects can not occur (except fo
 - what to do if inserting/updating and the value is empty? right now we are running the query. probably shouldn't but what to return.
 
 ## no validate
-
-## addKoa
 
 ## date
 - type  == date
