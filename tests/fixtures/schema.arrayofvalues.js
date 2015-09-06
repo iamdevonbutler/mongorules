@@ -5,11 +5,6 @@ module.exports = {
     required: true,
     lowercase: true,
     trim: true
-  }],
-
-  "users.account.family": [{
-    type: 'string',
-    default: []
   }]
 
 };
