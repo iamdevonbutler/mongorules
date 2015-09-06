@@ -20,7 +20,7 @@ describe 'Integration tests:', ->
       db.users.insert({ a:1 }).then (result) ->
         console.log();
         expect(result.insertedCount).to.be.eql(1)
-        done()
+        done()  
   # describe 'database interactions:', ->
 
       # mongoproxy.users.find {}, (err, result) ->
