@@ -1,8 +1,7 @@
 module.exports = {
 
   "account.friends": [[{
-    type: 'object',
-    default: [{}]
+    default: [[{}]]
   }]],
 
   "account.friends.name": {
