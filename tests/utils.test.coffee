@@ -1,0 +1,95 @@
+'use strict'
+
+require('babel/register')
+
+#Module dependencies.
+should = require('chai').should()
+expect = require('chai').expect
+assert = require('chai').assert
+
+utils = require('../lib/utils')
+func = (x) -> x * x
+
+describe 'Utils:', ->
+
+  describe '_validateDate():', ->
+    it 'should return true given a valid ISO 8601', ->
+      utils._validateDate('2015-09-05T14:48:30Z', 'iso8601').should.be.true
+      utils._validateDate('1994-11-05T08:15:30-05:00', 'iso8601').should.be.true
+      utils._validateDate('2015-09-05T14:48:30', 'iso8601').should.be.true
+
+    it 'should return false given a invalid ISO 8601', ->
+      utils._validateDate('15-09-05T14:48:30Z', 'iso8601').should.be.false
+
+    it 'should return true given a valid unix timestamp', ->
+      utils._validateDate('12345', 'unix').should.be.true
+
+    it 'should return false given a invalid unix timestamp', ->
+      utils._validateDate('11-12-2015', 'unix').should.be.false
+
+    it 'should return true given a matching moment format', ->
+      utils._validateDate('11-12-2015', 'MM-DD-YYYY').should.be.true
+
+    it 'should return false given a non matching moment format', ->
+      utils._validateDate('11-12-15', 'MM-DD-YYYY').should.be.false
+
+
+  describe '_itterateData():', ->
+    # @todo
+
+  describe '_isType():', ->
+    it 'should return true given a string', ->
+      utils._isType('string', 'string').should.be.true
+
+    it 'should return true given a boolean', ->
+      utils._isType(true, 'boolean').should.be.true
+
+    it 'should return true given a array', ->
+      utils._isType([], 'array').should.be.true
+
+    it 'should return true given a object', ->
+      utils._isType({}, 'object').should.be.true
+
+    it 'should return true given a null', ->
+      utils._isType(null, 'null').should.be.true
+
+    it 'should return true given a number', ->
+      utils._isType(1, 'number').should.be.true
+
+    it 'should return true given a undefined', ->
+      utils._isType(undefined, 'undefined').should.be.true
+
+    it 'should return true given a function', ->
+      utils._isType(func, 'function').should.be.true
+
+    it 'should return false given a array when checking for object', ->
+      utils._isType([], 'object').should.be.false
+
+    it 'should return false given a object when checking for array', ->
+      utils._isType({}, 'array').should.be.false
+
+    it 'should return false given a string when checking for object', ->
+      utils._isType('string', 'object').should.be.false
+
+
+  describe '_getType():', ->
+    it 'should return string given a string', ->
+      utils._getType('string').should.eql('string')
+
+    it 'should return number given a number', ->
+      utils._getType(1).should.eql('number')
+
+    it 'should return object given a object', ->
+      utils._getType({}).should.eql('object')
+
+    it 'should return array given a array', ->
+      utils._getType([]).should.eql('array')
+
+    it 'should return boolean given a boolean', ->
+      utils._getType(true).should.eql('boolean')
+
+    it 'should return funciton given a funciton', ->
+      utils._getType(func).should.eql('function')
+
+    it 'should return null given a null', ->
+      utils._getType(null).should.eql('null')

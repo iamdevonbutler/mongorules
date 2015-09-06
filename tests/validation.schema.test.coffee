@@ -1,6 +1,6 @@
 'use strict'
 
-require('./server')
+# require('./setup')
 
 #Module dependencies.
 should = require('chai').should()
@@ -12,7 +12,7 @@ db = require('../lib')
 supertest = require('supertest')
 
 
-describe 'Schema validation:', ->
+# describe 'Schema validation:', ->
 
 
       # db.addModels('node-mongo-proxy', models);

@@ -1,0 +1,39 @@
+A list to keep track of what we are testing
+
+Testing
+- init.js (before each in server.js)
+
+Not testing
+- instance.js (integtation tests)
+- schema.js
+  - schema validation
+  - schema defaults
+  - schema normalization
+  - entry point (applySchema) - integration test
+- transform
+  - set default values
+  - transform values (string)
+  - transform values w/i array
+  - transform values w/i an object in an array
+  - transform values w/i an array in an array
+- validate
+  - date Validation
+    - unix
+    - iso8601
+    - custom
+- utils
+- static methods
+- integration tests
+  - insert array of objects
+  - insert object
+  - find document
+  - find and itterate document (cursor)
+  - update operations
+    - field update operations
+    - array update operations
+  - save operations
+    - insert
+    - update
+  - novalidate
+  - regular mongo operation (non insert/save/update operation)
+- errors.js

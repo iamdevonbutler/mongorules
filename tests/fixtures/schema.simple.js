@@ -38,7 +38,7 @@ module.exports = {
 
   "users.created": {
     type: 'date',
-    dateFormat: '8601'
+    dateFormat: 'iso8601'
   },
 
 }

@@ -6,13 +6,18 @@ A small but fierce wrapper (not a ORM) around the native mongodb driver leveragi
 
 Abiding by the the LOTR philosophy (one API to rule them all), node-mongo-proxy adds a little extra sauce on top of the node-mongodb-native driver. Using the same syntax that you would w/ the native driver, all collection methods (find, insert...) are wrapped in promises, and thus become yieldable (check out [Koa](https://github.com/koajs/koa) to take advantage of this awesomeness)! Cursor methods, resulting from a find operation, by default, return a yieldable symbol iterator. Custom schemas enforce consistency to `insert()`, `update()`, and `save()` operations, and static methods can be attached to collection models.
 
+## Legend
+- Requirements
+- Supported operations
+- Getting started
+- Schemas
+- Static methods
+- Error handling
+
 ## Requirements
 - ES6
 - ES6 proxies (enabled via [Harmony Reflect](https://github.com/tvcutsem/harmony-reflect) and the `--harmony_proxies` flag)
 - Mongo DB (version 3)
-
-## Readme Legend
-@todo
 
 ## Supported operations
 
@@ -26,12 +31,19 @@ The following operations will enforce schema validation:
 
 ## Getting started
 
-First, init mongodb:
+First, install mongoproxy:
+
+```
+npm install --save mongoproxy
+
+```
+
+Second, init mongodb:
 
 ```
 const mongoproxy = require('mongoproxy');
 
-// The initDatabase method is a optional convience that returns a promise.
+// The initDatabase method is a convenience method that returns a promise.
 // You can init mongodb any way you choose as long as you pass the instance to the `addDatabase()` method.
 const db = yield mongoproxy.initDatabase(process.env.MONGO_URL);
 
@@ -39,23 +51,27 @@ mongoproxy.addDatabase('api-development', db);
 
 ```
 
-Second, add models:
+Third, add models:
 
 ```
 const mongoproxy = require('mongoproxy');
+const schema = require('./schemas/users.js');
+const methods = require('./methods/users.js');
 
 mongoproxy.addModels('api-development', {
+  users: {
     schema: schema,
     methods: methods,
     // Global error handler
     onError: function(collection, action, errors) {
       throw '';
     }
+  }
 });
 
 ```
 
-Note: when models are added, schema validation will occur to ensure formatting is up to snuff. Validation errors will throw. If you are wrapping your init code with [co](https://github.com/tj/co) to allow yieldables, be sure use manually catch and rethrow all errors using the `co` catch method; otherwise, your code will fail w/o any errors in the console.
+*Note: when models are added, schema validation will occur to ensure formatting is up to snuff. Validation errors will throw. If you are wrapping your init code with [co](https://github.com/tj/co) to allow yieldables, be sure use manually catch and rethrow all errors using the `co` catch method; otherwise, your code will fail w/o any errors logged in the console.*
 
 Third, write queries:
 

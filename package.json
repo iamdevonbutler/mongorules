@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "NODE_ENV=test DEBUG=*,-babel ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --harmony --harmony_proxies --reporter spec --ui bdd --bail --colors ./tests/*.test.coffee"
+    "test": "NODE_ENV=test DEBUG=*,-babel,-mocha ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --harmony --harmony_proxies --reporter spec --ui bdd --bail --colors ./tests/*.test.coffee"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,9 @@
     "url": "https://github.com/iamdevonbutler/node-mongo-proxy/issues"
   },
   "homepage": "https://github.com/iamdevonbutler/node-mongo-proxy#readme",
+  "peerDependencies": {
+    "mongodb": "^2.0.42"
+  },
   "devDependencies": {
     "babel": "^5.8.23",
     "chai": "^3.2.0",
@@ -28,7 +31,6 @@
     "koa": "^1.0.0",
     "koa-router": "^5.1.2",
     "mocha": "^2.3.0",
-    "mongodb": "^2.0.42",
     "supertest": "^1.1.0"
   },
   "dependencies": {
