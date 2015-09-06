@@ -1,13 +1,15 @@
 A list to keep track of what we are testing
 
 Testing
-- init.js (before each in server.js)
-
+- init.js (before each in setup.js)
+- utils
+- schema.js
+  - schema defaults
+  
 Not testing
 - instance.js (integtation tests)
 - schema.js
   - schema validation
-  - schema defaults
   - schema normalization
   - entry point (applySchema) - integration test
 - transform
@@ -21,7 +23,6 @@ Not testing
     - unix
     - iso8601
     - custom
-- utils
 - static methods
 - integration tests
   - insert array of objects

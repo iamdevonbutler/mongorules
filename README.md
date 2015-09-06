@@ -91,67 +91,69 @@ Schemas are optional, and are not required for each collection.
 
 ### Supported data structures
 
-Use the dot notation to delineate the collection name from the field names.
+Use the dot notation to create nested objects. The dot syntax is intended to be less verbose than nesting objects in objects in ...
 
-e.g. "users.account.name" will query the name field, nested inside the account object, inside the users collection.
+e.g. "account.name" resolves to { account: { name: '' } }
+
+The following illustrates how you go about creating schemas for different data structures:
 
 - simple values
 
 ```
-"users.name": { type: 'string', required: true };
+"name": { type: 'string', required: true };
 ```
 
 - nested values
 
 ```
-"users.account.name": { type: 'string',  required: true },
-"users.account.email": { type: 'string',  required: true  }
+"account.name": { type: 'string',  required: true },
+"account.email": { type: 'string',  required: true  }
 ```
-
-
 
 - arrays of values
 
 ```
 // Note square brackets.
-"users.friends": [{ type: 'string' }];
+"friends": [{ type: 'string' }];
 ```
 
 - arrays of objects
 
 ```
 // Note property type:'object' and square brackets.
-"users.account.friends": [{ type: 'object', required: true, default: {} }];
-"users.account.friends.name": { type: 'string' };
-"users.account.friends.email": { type: 'string' };
+"account.friends": [{ type: 'object', required: true, default: [{}] }];
+"account.friends.name": { type: 'string' };
+"account.friends.email": { type: 'string' };
 ```
 
 - arrays of arrays of values
 
 ```
 // Note the double square brackets.
-"users.friends": [[{ type: 'string', required: true, default: [[]] }]];
+"friends": [[{ type: 'string', required: true, default: [[]] }]];
 ```
 
 - arrays of arrays of objects
 
 ```
 // Note property type: 'object' and double square brackets.
-"users.friends": [[{ required: true, default: [[{}]] }]];
-"users.friends.name": { type: 'string' };
+"friends": [[{ required: true, default: [[{}]] }]];
+"friends.name": { type: 'string' };
 ```
 
+Check out [/tests/fixtures](https://github.com/iamdevonbutler/node-mongo-proxy/tree/master/tests/fixtures) to see how to create the different types of schemas.
+
 ### Schema properties
-- `required` (Boolean)
-- `default` (String|Number|Object|Boolean|Array)
-- `type` (String|Number|Boolean|Object - if inside array)
-- `trim` (Boolean)
-- `lowercase` (Boolean)
-- `denyXSS` (Boolean)
-- `sanitize` (Boolean)
-- `validate` (Function)
-- `transform` (Function)
-- `dateFormat` (String - used in conjunction w/ type: 'date')
+- `required` {Boolean} default `false`
+- `default` {String|Number|Object|Boolean|Array} default `null`
+- `type` {String|Number|Boolean|Object - if inside array} default `null`
+- `trim` {Boolean} default `false`
+- `lowercase` {Boolean} default `false`
+- `denyXSS` {Boolean} default `false`
+- `sanitize` {Boolean} default `false`
+- `validate` {Function} default `null`
+- `transform` {Function} default `null`
+- `dateFormat` {String - used in conjunction w/ type: 'date'} default `null`
 
 #### The 'required' property
 - If required is `true`, `null` and `undefined` values will fail validation.
@@ -212,12 +214,6 @@ In instances where you want to run a query w/o schema validation you may prefix 
 var result = db.users.novalidate.insert({});
 ```
 
-## Schema Examples
-### Normal schema
-### Nested schema
-### Mixed schema
-### Array of arrays schema
-### Array of objects schema
 
 ## Static methods
 @todo have `this` eql mongoproxy

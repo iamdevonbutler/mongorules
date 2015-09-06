@@ -16,7 +16,9 @@ assert = require('chai').assert
 
   # describe 'insert():', ->
   #
-  #   it 'should work insert a document if a schema for collection does not exist.', (done) ->
+  #   it 'should insert documents into multiple databases.', (done) ->
+  #   it 'should insert an array of documents.', (done) ->
+  #   it 'should insert a document if a schema for collection does not exist.', (done) ->
   #     db.users.insert({ a:1 }).then (result) ->
   #       console.log();
   #       expect(result.insertedCount).to.be.eql(1)
