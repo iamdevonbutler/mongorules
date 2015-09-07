@@ -7,6 +7,8 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
+SchemaValidationError = require('../lib/errors').SchemaValidationError
+
 schema = require('../lib/schema')
 schemaSimple = require('./fixtures/schema.simple')
 schemaArrayOfValues = require('./fixtures/schema.arrayofvalues')
@@ -52,7 +54,6 @@ describe 'Schema:', ->
 
     it 'should process a schema of objects in arrays in arrays', ->
       result = schema._normalizeSchema(schemaArrayOfArrayOfObjects)
-      console.log(result);
       result.arrayArrayObjects.should.be.ok
       Object.keys(result.values).length.should.eql(0)
       Object.keys(result.arrayValues).length.should.eql(0)
@@ -81,3 +82,26 @@ describe 'Schema:', ->
       Object.keys(defaults).length.should.eql(2)
 
   describe '_validateSchema():', ->
+    it 'should throw if `array` is a type value', ->
+      expect(-> schema._validateSchema(schema._setSchemaDefaults({type: 'array'}), 'users')).to.throw()
+
+    it 'should throw if given an invalid value for a schema property', ->
+      expect(->schema._validateSchema( schema._setSchemaDefaults({required: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({type: Boolean}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({trim: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({lowercase: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({denyXSS: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({validate: true}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({transform: true}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({dateFormat: true}) , 'users')).to.throw()
+
+    it 'should throw if given both sanitize and denyXSS', ->
+      expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: true, denyXSS: true}) , 'users')).to.throw()
+
+    it 'should throw if type is date and dateFormat is not specified', ->
+      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'date'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'string', dateFormat: 'unix'}) , 'users')).to.throw()
+
+    it 'should throw if type is not a string and the string transformation methods are true', ->
+      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'boolean', trim: true}) , 'users')).to.not.throw()
