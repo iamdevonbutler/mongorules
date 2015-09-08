@@ -21,6 +21,7 @@ Custom schemas enforce consistency to `insert()`, `update()`, and `save()` opera
 - [API](#api)
 
 ## Requirements
+- node (versions 0.12, 4.0.0)
 - ES6
 - ES6 proxies (enabled via [Harmony Reflect](https://github.com/tvcutsem/harmony-reflect) and the `--harmony_proxies` flag)
 - Mongodb (version 3)
@@ -201,6 +202,7 @@ Resolves to:
 - `notNull` {Boolean} default `false`
 - `default` {Mixed} default `null`
 - `type` {string|number|boolean|date} default `null` (Array and Object types are implicit)
+- `dateFormat` {String - used in conjunction w/ type: 'date'} default `null`
 - `trim` {Boolean} default `false` (Strings only)
 - `lowercase` {Boolean} default `false` (String only)
 - `denyXSS` {Boolean} default `false` (Strings only)
@@ -209,7 +211,6 @@ Resolves to:
 - `maxLength` {Number} default `null` (Arrays only)
 - `validate` {Function - params: value, schema} default `null`
 - `transform` {Function- params: value, schema} default `null`
-- `dateFormat` {String - used in conjunction w/ type: 'date'} default `null`
 
 *Note: if setting properties on an array of objects or array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'trim', 'lowercase', 'sanitize', 'denyXSS', and 'dateFormat'.*
 
