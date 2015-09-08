@@ -1,20 +1,24 @@
-# node-mongo-proxy (beta)
+# mongoproxy (beta)
 
 A small but fierce wrapper (not a ORM) around the native mongodb driver leveraging ES6 proxy black magic.
 
 # Intro
 
-Abiding by the the LOTR philosophy (one API to rule them all), node-mongo-proxy adds a little extra sauce on top of the node-mongodb-native driver. Using the same syntax that you would w/ the native driver, all collection methods (find, insert...) are wrapped in promises, and thus become yieldable (check out [Koa](https://github.com/koajs/koa) to take advantage of this awesomeness)! Cursor methods, resulting from a find operation, by default, return a yieldable symbol iterator. Custom schemas enforce consistency to `insert()`, `update()`, and `save()` operations, and static methods can be attached to collection models.
+Abiding by the the LOTR philosophy (one API to rule them all), node-mongo-proxy adds a little extra sauce on top of the node-mongodb-native driver.
+
+Using the same syntax that you would w/ the native driver, all collection methods (find, insert...) are wrapped in promises, and thus become yieldable (check out [Koa](https://github.com/koajs/koa) to take advantage of this awesomeness)! Cursor methods, resulting from a find operation, by default, return a yieldable symbol iterator.
+
+Custom schemas enforce consistency to `insert()`, `update()`, and `save()` operations, and static methods can be attached to collection models.
 
 ## Legend
-- Requirements
-- Supported operations
-- Getting started
-- Schemas
-- Field Validation
-- Static methods
-- Error handling
-- Public API
+- [Requirements](#requirements)
+- [Supported operations](#supported-operations)
+- [Getting started](#getting-started)
+- [Schemas](#schemas)
+- [Field Validation](#field-validation)
+- [Static methods](#static-methods)
+- [Error handling](#error-handling)
+- [API](#api)
 
 ## Requirements
 - ES6
@@ -87,7 +91,7 @@ catch (err) {
 ```
 
 ## Schemas
-A schema can validate and transform data for `insert`, `update`, and `save` operations.
+A schema can validate and transform data for `insert()`, `update()`, and `save()` operations.
 
 Schemas are optional, and are not required for each collection.
 
@@ -212,7 +216,7 @@ Resolves to:
 ## Field validation
 Field validation will occur on `insert()`, `update()`, and `save()` operations and enforce the rules declared in your schemas. As w/ mongodb query errors, field validation failures will throw field validation errors.
 
-*See the [Error handling](#) section to learn more about handling field validation errors.*
+*See the [Error handling](#error-handling) section to learn more about handling field validation errors.*
 
 ### novalidate
 
@@ -361,7 +365,7 @@ catch (err) {
 }
 ```
 
-## Public API
+## API
 ### initDatabase
 ### addDatabase
 ### addErrorHandler
