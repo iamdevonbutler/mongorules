@@ -79,7 +79,9 @@ describe 'Schema:', ->
       defaults = schema._setArraySchemaDefaults({})
       expect(defaults.required).to.not.be.undefined
       expect(defaults.default).to.not.be.undefined
-      Object.keys(defaults).length.should.eql(2)
+      expect(defaults.minLength).to.not.be.undefined
+      expect(defaults.maxLength).to.not.be.undefined
+      Object.keys(defaults).length.should.eql(4)
 
   describe '_validateSchema():', ->
     it 'should throw if `array` is a type value', ->
@@ -98,6 +100,9 @@ describe 'Schema:', ->
 
     it 'should throw if given both sanitize and denyXSS', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: true, denyXSS: true}) , 'users')).to.throw()
+
+    it 'should throw if given both default and required', ->
+      expect(->schema._validateSchema( schema._setSchemaDefaults({default: true, required: true}) , 'users')).to.throw()
 
     it 'should throw if type is date and dateFormat is not specified', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'date'}) , 'users')).to.throw()

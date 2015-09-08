@@ -34,7 +34,7 @@ describe 'Utils:', ->
       utils._validateDate('11-12-15', 'MM-DD-YYYY').should.be.false
 
 
-  describe '_itterateData():', ->
+  describe '_itterateDocument():', ->
     # @todo
 
   describe '_isType():', ->

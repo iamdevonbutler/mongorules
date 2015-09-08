@@ -80,7 +80,7 @@ try {
   var users = yield result.toArray();  
 }
 catch (err) {
-
+  // Log.
 }
 ```
 
@@ -91,33 +91,51 @@ Schemas are optional, and are not required for each collection.
 
 ### Supported data structures
 
-Use the dot notation to create nested objects. The dot syntax is intended to be less verbose than nesting objects in objects in ...
-
-e.g. "account.name" resolves to { account: { name: '' } }
-
 The following illustrates how you go about creating schemas for different data structures:
 
-- simple values
+#### Simple values
 
 ```
 "name": { type: 'string', required: true };
 ```
 
-- nested values
+#### Nested values
+
+Use the dot notation to create nested objects. The dot syntax is intended to be less verbose than nesting objects in objects.
 
 ```
 "account.name": { type: 'string',  required: true },
 "account.email": { type: 'string',  required: true  }
 ```
 
-- arrays of values
+Resolves to:
+
+```
+{
+  account: {
+    name: 'value',
+    email: 'value'
+  }
+}
+
+```
+
+#### Array of values
 
 ```
 // Note the square brackets.
 "friends": [{ type: 'string' }];
 ```
 
-- arrays of objects
+Resolves to:
+
+```
+{
+  friends: ['value']
+}
+```
+
+#### Array of objects
 
 ```
 // Note the square brackets.
@@ -126,22 +144,49 @@ The following illustrates how you go about creating schemas for different data s
 "account.friends.email": { type: 'string' };
 ```
 
-- arrays of arrays of values
+Resolves to:
+
+```
+{
+  account: {
+    friends: [{ name: 'value', email: 'value' }]
+  }
+}
+```
+
+#### Array of arrays of values
 
 ```
 // Note the double square brackets.
 "friends": [[{ type: 'string', required: true, default: [[]] }]];
 ```
 
-- arrays of arrays of objects
+Resolves to:
+
+```
+{
+  friends: [ ['value'] ]
+}
+```
+
+#### Array of arrays of objects
 
 ```
 // Note the double square brackets.
 "friends": [[{ required: true, default: [[{}]] }]];
 "friends.name": { type: 'string' };
+"friends.email": { type: 'string' };
 ```
 
-Check out [/tests/fixtures](https://github.com/iamdevonbutler/node-mongo-proxy/tree/master/tests/fixtures) to see how to create the different types of schemas.
+Resolves to:
+
+```
+{
+  friends: [ [{name: 'value', 'email: 'value'}] ]
+}
+```
+
+*Check out [/tests/fixtures](https://github.com/iamdevonbutler/node-mongo-proxy/tree/master/tests/fixtures) to see how to create the different types of schemas.*
 
 ### Schema properties
 - `required` {Boolean} default `false`
@@ -151,25 +196,46 @@ Check out [/tests/fixtures](https://github.com/iamdevonbutler/node-mongo-proxy/t
 - `lowercase` {Boolean} default `false`
 - `denyXSS` {Boolean} default `false`
 - `sanitize` {Boolean} default `false`
+- `minLength` {Number} default `null`
+- `maxLength` {Number} default `null`
 - `validate` {Function} default `null`
 - `transform` {Function} default `null`
 - `dateFormat` {String - used in conjunction w/ type: 'date'} default `null`
 
-#### The 'required' property
+## Field validation
+Field validation will occur on `insert()`, `update()`, and `save()` operations and enforce the rules declared in your schemas. As w/ mongodb query errors, field validation failures will throw field validation errors.
+
+*See the [Error handling](#) section to learn more about handling field validation errors.*
+
+### novalidate
+
+In instances where you want to run a query w/o schema validation you may prefix your query w/ the `novalidate` property:
+
+```
+var result = db.users.novalidate.insert({...});
+```
+
+### The 'required' property
 - If required is `true`, `null` and `undefined` values will fail validation.
 - If required is `true`, an array of values must have a length > 1.
 - If required is `true`, an array of objects must have a length > 1.
 - If required is `true`, an array of arrays of values must have a outer array with length > 1 and an inner array w/ a length > 1.
 - If required is `true`, an array of arrays of objects must have a outer array with length > 1 and an inner array w/ a length > 1.
 
-#### The 'default' property
+### The 'default' property
 If `required` is false, the `default` property may be set.
 
-For arrays, the defaults are set on the outermost array. e.g. a default value for an array of values can be '[]' or '['value']'.
+- Arrays of values: the default value will be set if the array is empty or undefined. The default should include the array and its value. e.g. default: `['value']` and NOT `'value'`.
 
-Note: custom default value behavior can be accomplished using the `transform()` property.
+- Arrays of objects: the default value will be set if the array is empty or undefined. If the contained object is missing require fields, a validation error will be thrown. The default should be include the array and its value. e.g. default `[{name: 'value'}]` and NOT `{name:'value'}`.
 
-#### The 'type' and `dateFormat` properties
+- Array of arrays of values: same as *arrays of values*; however, the default value should include both arrays. e.g. `[ ['value'] ]` and NOT `['value']`
+
+- Array of arrays of objects: same as *arrays of objects*; however, the default value should include both arrays. e.g. `[ [{name:'value'}] ]` and NOT `[{name: 'value'}]`.
+
+*Note: custom default value behavior can be accomplished using the `transform()` property.*
+
+### The 'type' and `dateFormat` properties
 
 Allowed types include:
 
@@ -184,41 +250,43 @@ If `type` is set to 'date', the `dateFormat` property must be set to enforce dat
 - 'unix' (timestamp)
 - custom: e.g. 'MM-DD-YYYY' ([moment.js](http://momentjs.com/docs/#/parsing/string-format/) custom date format in strict mode)
 
+Mongoproxy also supports arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type. See [supported data structures](#).
 
-#### The 'sanitize' and 'denyXSS' properties
+### The 'sanitize' and 'denyXSS' properties
 
-The 'sanitize' property passes values through Yahoo's [XSS Filters](https://github.com/yahoo/xss-filters)
+The `sanitize` property passes values through Yahoo's [XSS Filters](https://github.com/yahoo/xss-filters)
 
-The 'denyXSS' property will fail validation if given a string contains XSS.
+The `denyXSS` property will fail validation if given a string contains XSS.
 
-#### The 'validation' property
-Custom validation handler to return `true` or `false`.
+These properties, along with `trim`, and `lowercase`, can only be set on Strings.
 
-Accepts one param, the field value. For arrays of values, arrays of objects, arrays of arrays of values, and arrays of arrays of objects, the passed param will be the full array, not the individual values.
+### The 'minLength' and 'maxLength' properties
 
-Executed after other validation.
+Enforces min and max length values on arrays.
 
-#### The 'transform' property
-Custom transform handler to return the transformed value.
+- Array of values: checks number of values.
+- Array of objects: checks number of objects.
+- Array of arrays of values: checks number of nested arrays.
+- Array of arrays of object: checks number of nested arrays.
 
-Accepts one param, the field value. For arrays of values, arrays of objects, arrays of arrays of values, and arrays of arrays of objects, the passed param will be the full array, not the individual values.
+*Note: to validate the number of values in the inner arrays, use the custom `validate` function.*
 
-Executed after other transformations.
+### The 'validation' property
+The custom validation handler accepts one parameter, the field value, and should return either `true` or `false`. The function is executed after the standard validation properties.
 
+- Array of values: passes each value to the validation function.
+- Array of objects: passes each object to the validation function.
+- Array of arrays of values: passes each inner array to the validation function.
+- Array of arrays of objects: passes each inner array to the validation function.
 
-### novalidate
+*Note: for arrays containing objects, the `validate` function can be set on each object property.*
 
-In instances where you want to run a query w/o schema validation you may prefix your query w/ the `novalidate` property:
+### The 'transform' property
+The custom transform handler accepts one parameter, the field value, and should return the manupliated value. The function is executed after the standard transformation properties.
 
-```
-var result = db.users.novalidate.insert({});
-```
+The values passed to the `transform` function for each data structure mimic the values passed to the `validation` function.
 
-## Field validation
-Field validation will occur on `insert()`, `update()`, and `save()` operations and enforce the rules declared in your schemas. Simple values, values in arrays, objects and their values in arrays, values in arrays in arrays, and  objects and their values in arrays in arrays, will be validated according to their schemas. As w/ mongodb query errors, field validation failures will throw field validation errors.
-
-See the 'Error handling' section to learn more about handling field validation errors.
-
+*Note: for arrays containing objects, the `transform` function can be set on each object property.*
 
 ## Static methods
 @todo have `this` eql mongoproxy (this.users.find({}))
@@ -246,11 +314,11 @@ var result = yield db.users.getByEmail('jay@example.com');
 
 
 ## Error handling
-There are two types of errors here: 1) schema validation errors (developer errors), and 2) field validation errors (bad data errors).
+There are two types of errors here: 1) schema validation errors (developer errors), and 2) field validation errors (bad data errors). Both types of errors will throw.
 
-Both types of errors will throw.
+Custom error handlers can be provided to modify the behavior of field validation errors. All field validation errors will prevent a query from executing regardless of the return value from your custom error handler. To run a query in the presence of errors, prepend your query with novalidate property (see docs).
 
-Error handling is both local to each collection, via the `onError()` property passed to the `addModels()` method, and global using the following syntax.
+Error handling is both local to each collection, via the `onError()` property set on your model, and global using the following syntax.
 
 ```
 mongoproxy.addErrorHandler('api-development', (collectionName, action, errors) => {
@@ -258,7 +326,7 @@ mongoproxy.addErrorHandler('api-development', (collectionName, action, errors) =
 });
 ```
 
-The global error handler will be called only if there is not a collection specific error handler.
+If a global error handler is provided, it will be called in the absence of a collection specific error handler.
 
 You may, and probably should, catch all errors on a query level, and to prevent them from propagating:
 
@@ -272,9 +340,7 @@ catch (err) {
 }
 ```
 
-## Phase II
-- add custom schema properties
-
 #todos
 - what to do if inserting/updating and the value is empty? right now we are running the query. probably shouldn't but what to return.
 - Custom properties
+- multiple databases
