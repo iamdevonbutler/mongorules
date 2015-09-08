@@ -207,8 +207,8 @@ Resolves to:
 - `sanitize` {Boolean} default `false` (Strings only)
 - `minLength` {Number} default `null` (Arrays only)
 - `maxLength` {Number} default `null` (Arrays only)
-- `validate` {Function} default `null`
-- `transform` {Function} default `null`
+- `validate` {Function - params: value, schema} default `null`
+- `transform` {Function- params: value, schema} default `null`
 - `dateFormat` {String - used in conjunction w/ type: 'date'} default `null`
 
 *Note: if setting properties on an array of objects or array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'trim', 'lowercase', 'sanitize', 'denyXSS', and 'dateFormat'.*
@@ -290,7 +290,7 @@ Enforces min and max length values on arrays.
 *Note: to validate the number of values in the inner arrays, use the custom `validate` function.*
 
 ### The 'validation' property
-The custom validation handler accepts one parameter, the field value, and should return either `true` or `false`. The function is executed after the standard validation properties.
+The custom validation handler accepts two parameters, the field value, and field schema, and should return either `true` or `false`. The function is executed after the standard validation properties.
 
 **For arrays:**
 
@@ -307,7 +307,7 @@ The custom validation handler accepts one parameter, the field value, and should
 The 'trim' and 'lowercase' properties accept a Boolean and can only be set on Strings.
 
 ### The 'transform' property
-The custom transform handler accepts one parameter, the field value, and should return the manupliated value. The function is executed after the standard transformation properties.
+The custom transform handler accepts two parameters, the field value, and the field schema, and should return the manupliated value. The function is executed after the standard transformation properties.
 
 The values passed to the `transform` function for each data structure mimic the values passed to the `validation` function.
 
