@@ -33,10 +33,6 @@ describe 'Utils:', ->
     it 'should return false given a non matching moment format', ->
       utils._validateDate('11-12-15', 'MM-DD-YYYY').should.be.false
 
-
-  describe '_itterateDocument():', ->
-    # @todo
-
   describe '_isType():', ->
     it 'should return true given a string', ->
       utils._isType('string', 'string').should.be.true
