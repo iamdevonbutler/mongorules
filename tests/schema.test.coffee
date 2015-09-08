@@ -64,6 +64,7 @@ describe 'Schema:', ->
     it 'should set default values for all schema properties', ->
       defaults = schema._setSchemaDefaults({})
       expect(defaults.required).to.not.be.undefined
+      expect(defaults.notNull).to.not.be.undefined
       expect(defaults.default).to.not.be.undefined
       expect(defaults.type).to.not.be.undefined
       expect(defaults.trim).to.not.be.undefined
@@ -73,15 +74,16 @@ describe 'Schema:', ->
       expect(defaults.transform).to.not.be.undefined
       expect(defaults.validate).to.not.be.undefined
       expect(defaults.dateFormat).to.not.be.undefined
-      Object.keys(defaults).length.should.eql(10)
+      Object.keys(defaults).length.should.eql(11)
 
     describe '_setArraySchemaDefaults()', ->
       defaults = schema._setArraySchemaDefaults({})
       expect(defaults.required).to.not.be.undefined
+      expect(defaults.notNull).to.not.be.undefined
       expect(defaults.default).to.not.be.undefined
       expect(defaults.minLength).to.not.be.undefined
       expect(defaults.maxLength).to.not.be.undefined
-      Object.keys(defaults).length.should.eql(4)
+      Object.keys(defaults).length.should.eql(5)
 
   describe '_validateSchema():', ->
     it 'should throw if `array` is a type value', ->

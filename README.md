@@ -11,23 +11,25 @@ Abiding by the the LOTR philosophy (one API to rule them all), node-mongo-proxy 
 - Supported operations
 - Getting started
 - Schemas
+- Field Validation
 - Static methods
 - Error handling
+- Public API
 
 ## Requirements
 - ES6
 - ES6 proxies (enabled via [Harmony Reflect](https://github.com/tvcutsem/harmony-reflect) and the `--harmony_proxies` flag)
-- Mongo DB (version 3)
+- Mongodb (version 3)
 
 ## Supported operations
 
-All mongoodb native operations are supported. Collection methods will be wrapped in promises.
+All mongoodb native operations are supported. All [collection methods](http://docs.mongodb.org/manual/reference/method/js-collection/) will be wrapped in promises.
 
 The following operations will enforce schema validation:
 
-- update()
-- insert()
-- save()
+- `update()`
+- `insert()`
+- `save()`
 
 ## Getting started
 
@@ -68,7 +70,7 @@ mongoproxy.addModels('api-development', {
 });
 ```
 
-*Note: when models are added, schema validation will occur to ensure formatting is up to snuff. Validation errors will throw. If you are wrapping your init code with [co](https://github.com/tj/co) to allow yieldables, be sure use manually catch and rethrow all errors using the `co` catch method; otherwise, your code will fail w/o any errors logged in the console.*
+*Note: when models are added, schema validation will occur to ensure formatting is up to snuff. Schema validation errors will throw. If you are wrapping your init code with [co](https://github.com/tj/co) to allow yieldables, be sure use manually catch and rethrow all errors using the `co` catch method; otherwise, your code will fail w/o any errors logged in the console.*
 
 Third, write queries:
 
@@ -88,6 +90,8 @@ catch (err) {
 A schema can validate and transform data for `insert`, `update`, and `save` operations.
 
 Schemas are optional, and are not required for each collection.
+
+*Note: there will be much talk about array types, arrays in arrays and whatnot; admittedly, this can become overwhelming, and in most cases these data structures are not needed. If that's the case, your best bet is to ignore them altogether.*
 
 ### Supported data structures
 
@@ -190,17 +194,20 @@ Resolves to:
 
 ### Schema properties
 - `required` {Boolean} default `false`
-- `default` {String|Number|Object|Boolean|Array} default `null`
-- `type` {String|Number|Boolean|Object - if inside array} default `null`
-- `trim` {Boolean} default `false`
-- `lowercase` {Boolean} default `false`
-- `denyXSS` {Boolean} default `false`
-- `sanitize` {Boolean} default `false`
-- `minLength` {Number} default `null`
-- `maxLength` {Number} default `null`
+- `notNull` {Boolean} default `false`
+- `default` {Mixed} default `null`
+- `type` {string|number|boolean|date} default `null` (Array and Object types are implicit)
+- `trim` {Boolean} default `false` (Strings only)
+- `lowercase` {Boolean} default `false` (String only)
+- `denyXSS` {Boolean} default `false` (Strings only)
+- `sanitize` {Boolean} default `false` (Strings only)
+- `minLength` {Number} default `null` (Arrays only)
+- `maxLength` {Number} default `null` (Arrays only)
 - `validate` {Function} default `null`
 - `transform` {Function} default `null`
 - `dateFormat` {String - used in conjunction w/ type: 'date'} default `null`
+
+*Note: if setting properties on an array of objects or array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'trim', 'lowercase', 'sanitize', 'denyXSS', and 'dateFormat'.*
 
 ## Field validation
 Field validation will occur on `insert()`, `update()`, and `save()` operations and enforce the rules declared in your schemas. As w/ mongodb query errors, field validation failures will throw field validation errors.
@@ -209,33 +216,42 @@ Field validation will occur on `insert()`, `update()`, and `save()` operations a
 
 ### novalidate
 
-In instances where you want to run a query w/o schema validation you may prefix your query w/ the `novalidate` property:
+In instances where you want to run a query w/o schema validation you may prefix your query w/ the 'novalidate' property:
 
 ```
 var result = db.users.novalidate.insert({...});
 ```
 
-### The 'required' property
-- If required is `true`, `null` and `undefined` values will fail validation.
-- If required is `true`, an array of values must have a length > 1.
-- If required is `true`, an array of objects must have a length > 1.
-- If required is `true`, an array of arrays of values must have a outer array with length > 1 and an inner array w/ a length > 1.
-- If required is `true`, an array of arrays of objects must have a outer array with length > 1 and an inner array w/ a length > 1.
+### The 'required' and 'notNull' properties
+
+If 'required' is `true` and 'notNull' is `false`, ONLY `undefined` values will fail validation.
+
+If 'required' is `true` and 'notNull' is `true`, `undefined` AND `null` values will fail validation.
+
+*By default, 'required' and 'notNull' are `false`*
+
+**For arrays:**
+
+- Array of values: if 'required' is `true`, array must contain at least one value. If 'notNull' is also `true`, the values must not be `null`.
+- Array of objects: if required is `true`, array must contain at least one object.
+- Array of arrays of values: if 'required' is `true`, the outer array must contain at least one array, and the inner array must contain at least one value. If 'notNull' is also `true`, the values in the inner array must not be `null`.
+- Array of arrays of objects: if 'required' is `true`, the outer array must contain at least one array, and the inner array must contain at least one object.
 
 ### The 'default' property
-If `required` is false, the `default` property may be set.
+If 'required' is false, the 'default' property may be set. The default value will be set if a document property is `undefined`.
+
+**For arrays:**
 
 - Arrays of values: the default value will be set if the array is empty or undefined. The default should include the array and its value. e.g. default: `['value']` and NOT `'value'`.
 
-- Arrays of objects: the default value will be set if the array is empty or undefined. If the contained object is missing require fields, a validation error will be thrown. The default should be include the array and its value. e.g. default `[{name: 'value'}]` and NOT `{name:'value'}`.
+- Arrays of objects: the default value will be set if the array is empty or undefined. The default should include the array and its value. e.g. default `[{name: 'value'}]` and NOT `{name:'value'}`.
 
-- Array of arrays of values: same as *arrays of values*; however, the default value should include both arrays. e.g. `[ ['value'] ]` and NOT `['value']`
+- Array of arrays of values: same as *array of values*; however, the default value should include both arrays. e.g. `[ ['value'] ]` and NOT `['value']`
 
-- Array of arrays of objects: same as *arrays of objects*; however, the default value should include both arrays. e.g. `[ [{name:'value'}] ]` and NOT `[{name: 'value'}]`.
+- Array of arrays of objects: same as *array of objects*; however, the default value should include both arrays. e.g. `[ [{name:'value'}] ]` and NOT `[{name: 'value'}]`.
 
-*Note: custom default value behavior can be accomplished using the `transform()` property.*
 
-### The 'type' and `dateFormat` properties
+### The 'type' and 'dateFormat' properties
 
 Allowed types include:
 
@@ -248,45 +264,50 @@ If `type` is set to 'date', the `dateFormat` property must be set to enforce dat
 
 - 'iso8601'
 - 'unix' (timestamp)
-- custom: e.g. 'MM-DD-YYYY' ([moment.js](http://momentjs.com/docs/#/parsing/string-format/) custom date format in strict mode)
+- custom: e.g. 'MM-DD-YYYY' ([moment.js custom date formats](http://momentjs.com/docs/#/parsing/string-format/) in strict mode)
 
-Mongoproxy also supports arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type. See [supported data structures](#).
+*Mongoproxy also supports types for arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type. See [supported data structures](#).*
 
 ### The 'sanitize' and 'denyXSS' properties
 
-The `sanitize` property passes values through Yahoo's [XSS Filters](https://github.com/yahoo/xss-filters)
+The 'sanitize' property passes values through Yahoo's [XSS Filters](https://github.com/yahoo/xss-filters) module.
 
-The `denyXSS` property will fail validation if given a string contains XSS.
-
-These properties, along with `trim`, and `lowercase`, can only be set on Strings.
+The 'denyXSS' property will fail validation if given a string containing XSS.
 
 ### The 'minLength' and 'maxLength' properties
 
 Enforces min and max length values on arrays.
 
-- Array of values: checks number of values.
-- Array of objects: checks number of objects.
-- Array of arrays of values: checks number of nested arrays.
-- Array of arrays of object: checks number of nested arrays.
+- Array of values: validates number of values.
+- Array of objects: validates number of objects.
+- Array of arrays of values: validates number of nested arrays.
+- Array of arrays of object: validates number of nested arrays.
 
 *Note: to validate the number of values in the inner arrays, use the custom `validate` function.*
 
 ### The 'validation' property
 The custom validation handler accepts one parameter, the field value, and should return either `true` or `false`. The function is executed after the standard validation properties.
 
+**For arrays:**
+
 - Array of values: passes each value to the validation function.
 - Array of objects: passes each object to the validation function.
 - Array of arrays of values: passes each inner array to the validation function.
 - Array of arrays of objects: passes each inner array to the validation function.
 
-*Note: for arrays containing objects, the `validate` function can be set on each object property.*
+*Note: for arrays containing objects, the `validate` function can be set on each object property in addition to the field property.*
+
+## Field transformations
+
+### 'trim' and 'lowercase' properties
+The 'trim' and 'lowercase' properties accept a Boolean and can only be set on Strings.
 
 ### The 'transform' property
 The custom transform handler accepts one parameter, the field value, and should return the manupliated value. The function is executed after the standard transformation properties.
 
 The values passed to the `transform` function for each data structure mimic the values passed to the `validation` function.
 
-*Note: for arrays containing objects, the `transform` function can be set on each object property.*
+*Note: for arrays containing objects, the `transform` function can be set on each object property in addition to the field property.*
 
 ## Static methods
 @todo have `this` eql mongoproxy (this.users.find({}))
@@ -340,7 +361,20 @@ catch (err) {
 }
 ```
 
+## Public API
+### initDatabase
+### addDatabase
+### addErrorHandler
+### use
+### addModels
+### \_addModel
+
 #todos
+- run maxLength minLength validation after required, notNull validation becasue we dont want to be counting null values in array if notnull is true.
+- addModel should be public
 - what to do if inserting/updating and the value is empty? right now we are running the query. probably shouldn't but what to return.
 - Custom properties
 - multiple databases
+- performance test
+  - vs native vs mongoose
+  - w/o transforming and validating at the same time w/ 50% validation failures.
