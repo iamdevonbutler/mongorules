@@ -41,13 +41,13 @@ describe 'Schema:', ->
       expect(result).to.eql(null)
 
   describe '_normalizeSchema():', ->
-    # it 'should process a schema consisting of non-array values', ->
-    #   result = schema._normalizeSchema(schemaSimple)
-    #   Object.keys(result.values).length.should.be.ok
-    #   Object.keys(result.arrays).length.should.not.be.ok
-    #   result = schema._normalizeSchema(schemaNested)
-    #   Object.keys(result.values).length.should.be.ok
-    #   Object.keys(result.arrays).length.should.not.be.ok
+    it 'should process a schema consisting of non-array values', ->
+      result = schema._normalizeSchema(schemaSimple)
+      Object.keys(result.values).length.should.be.ok
+      Object.keys(result.arrays).length.should.not.be.ok
+      result = schema._normalizeSchema(schemaNested)
+      Object.keys(result.values).length.should.be.ok
+      Object.keys(result.arrays).length.should.not.be.ok
 
     # it 'should process a schema of values in arrays', ->
     #   result = schema._normalizeSchema(schemaArrayOfValues)
