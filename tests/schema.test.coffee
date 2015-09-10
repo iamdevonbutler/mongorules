@@ -9,6 +9,7 @@ assert = require('chai').assert
 
 schema = require('../lib/schema')
 schemaSimple = require('./fixtures/schema.simple')
+schemaNested = require('./fixtures/schema.nested')
 schemaArrayOfValues = require('./fixtures/schema.arrayofvalues')
 schemaArrayOfObjects = require('./fixtures/schema.arrayofobjects')
 schemaArrayOfArrayOfValues= require('./fixtures/schema.arrayofarraysofvalues')
@@ -17,31 +18,64 @@ schemaArrayOfArrayOfObjects = require('./fixtures/schema.arrayofarraysofobjects'
 
 describe 'Schema:', ->
 
-  describe '_normalizeSchema():', ->
-    it 'should process a schema consisting of non-array values', ->
-      result = schema._normalizeSchema(schemaSimple)
-      Object.keys(result.values).length.should.be.ok
-      Object.keys(result.arrays).length.should.not.be.ok
+  describe '_sortByFieldKey():', ->
+    it 'should reorder an object by key by splitting on `.`.', ->
+      obj =
+        'a.a': 1
+        'a.b': 1
+        'a': 1
+      result = schema._sortByFieldKey(obj)
+      keys = Object.keys(result)
+      keys[0].should.eql('a')
+      keys[1].should.eql('a.a')
+      keys[2].should.eql('a.b')
 
-    it 'should process a schema of values in arrays', ->
-      result = schema._normalizeSchema(schemaArrayOfValues)
-      Object.keys(result.values).length.should.not.be.ok
-      Object.keys(result.arrays).length.should.be.ok
+  describe '_getArrayObjectChildren():', ->
+    it 'should return a nested child object given a schema field key w/ a shortened field key.', ->
+      result = schema._getArrayObjectChildren(schemaArrayOfObjects, 'account.friends.nicknames');
+      result.name.should.be.ok
+      result.giver.should.be.ok
+
+    it 'should return null if no child objects exist.', ->
+      result = schema._getArrayObjectChildren(schemaArrayOfObjects, 'account.friends.eggs');
+      expect(result).to.eql(null)
+
+  describe '_normalizeSchema():', ->
+    # it 'should process a schema consisting of non-array values', ->
+    #   result = schema._normalizeSchema(schemaSimple)
+    #   Object.keys(result.values).length.should.be.ok
+    #   Object.keys(result.arrays).length.should.not.be.ok
+    #   result = schema._normalizeSchema(schemaNested)
+    #   Object.keys(result.values).length.should.be.ok
+    #   Object.keys(result.arrays).length.should.not.be.ok
+
+    # it 'should process a schema of values in arrays', ->
+    #   result = schema._normalizeSchema(schemaArrayOfValues)
+    #   Object.keys(result.values).length.should.not.be.ok
+    #   Object.keys(result.arrayObjects).length.should.not.be.ok
+    #   Object.keys(result.arrayArrayObjects).length.should.not.be.ok
+    #   Object.keys(result.arrayArrayValues).length.should.not.be.ok
+    #   Object.keys(result.arrayValues).length.should.be.ok
 
     it 'should process a schema of objects in arrays', ->
       result = schema._normalizeSchema(schemaArrayOfObjects)
-      Object.keys(result.values).length.should.eql(3)
-      Object.keys(result.arrays).length.should.eql(2)
-
-    it 'should process a schema of array of arrays of values', ->
-      result = schema._normalizeSchema(schemaArrayOfArrayOfValues)
-      Object.keys(result.values).length.should.eql(0)
-      Object.keys(result.arrays).length.should.eql(1)
-
-    it 'should process a schema of array of arrays of objects', ->
-      result = schema._normalizeSchema(schemaArrayOfArrayOfObjects)
-      Object.keys(result.values).length.should.eql(2)
-      Object.keys(result.arrays).length.should.eql(1)
+      result.arrayObjects['account.friends'].should.be.ok
+      result.arrayObjects['account.friends']._schema.values.name.should.be.ok
+      result.arrayObjects['account.friends']._schema.arrayObjects.nicknames.should.be.ok
+      result.arrayObjects['account.friends']._schema.arrayObjects.nicknames._schema.values.name.should.be.ok
+      result.arrayObjects['account.friends']._schema.arrayObjects.nicknames._schema.arrayObjects.giver.should.be.ok
+      result.arrayObjects['account.friends']._schema.arrayObjects.nicknames._schema.arrayObjects.giver._schema.values.name.should.be.ok
+      result.arrayObjects['account.friends']._schema.arrayObjects.nicknames._schema.arrayObjects.giver._schema.values.school.should.be.ok
+    #
+    # it 'should process a schema of array of arrays of values', ->
+    #   result = schema._normalizeSchema(schemaArrayOfArrayOfValues)
+    #   Object.keys(result.values).length.should.eql(0)
+    #   Object.keys(result.arrays).length.should.eql(1)
+    #
+    # it 'should process a schema of array of arrays of objects', ->
+    #   result = schema._normalizeSchema(schemaArrayOfArrayOfObjects)
+    #   Object.keys(result.values).length.should.eql(2)
+    #   Object.keys(result.arrays).length.should.eql(1)
 
   describe '_setSchemaDefaults():', ->
     it 'should set default values for all schema properties', ->

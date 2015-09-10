@@ -1,5 +1,6 @@
 module.exports = {
 
+  // Array item w/ an array of objects as it's value.
   "account.friends": [{
     default: [{}],
     minLength: 2,
@@ -9,23 +10,34 @@ module.exports = {
   "account.friends.name": {
     type: 'string',
     required: true,
-    lowercase: true,
+    lowercase: true
   },
 
   // Array item w/ an array of objects as it's value.
-  "account.friends.age": [{
+  "account.friends.nicknames": [{
     default: [{}],
-    minLength: 2,
-    maxLength: 4
   }],
 
-  "account.friends.age.thing": {
+  "account.friends.nicknames.name": {
     type: 'string',
     required: true,
     lowercase: true
   },
 
-  "account.friends.age.anothething": {
+  // Array item w/ an array of objects as it's value.
+  "account.friends.nicknames.giver": [{
+    type: 'string',
+    required: true,
+    lowercase: true
+  }],
+
+  "account.friends.nicknames.giver.name": {
+    type: 'string',
+    required: true,
+    lowercase: true
+  },
+
+  "account.friends.nicknames.giver.school": {
     type: 'string',
     required: true,
     lowercase: true
