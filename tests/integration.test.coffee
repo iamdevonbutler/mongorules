@@ -18,14 +18,14 @@ describe 'Integration tests:', ->
         users: {
           schema: {
             name: { required: true, type: 'string' },
-            # friends: [{ required: true }],
-            # "friends.name": { required: true, type: 'string' }
+            friends: [{ required: true }],
+            "friends.nickname": { lowercase: true, required: true, type: 'string' }
           }
         }
       }
 
       db.addModels('mongoproxy', models)
-      db.users.insert({ name: 'name', friends: {name:'name'} }).then (result) ->
+      db.users.insert({ name: 'name', friends: [{ nickname:'NAME' }] }).then (result) ->
         console.log(result);
 
   #   it 'should insert documents into multiple databases.', (done) ->
