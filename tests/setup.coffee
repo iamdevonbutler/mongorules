@@ -14,8 +14,8 @@ dbInstance = null
 
 beforeEach (done) ->
   if !app
-    db.initDatabase(MongoClient, 'mongodb://localhost/node-mongo-proxy').then (_db) =>
-      db.addDatabase('node-mongo-proxy', _db);
+    db.initDatabase(MongoClient, 'mongodb://localhost/mongoproxy').then (_db) =>
+      db.addDatabase('mongoproxy', _db);
       dbInstance = _db
       app = koa()
       router = new Router()
@@ -28,5 +28,8 @@ beforeEach (done) ->
 
 
 afterEach (done) ->
-  db.users.drop().then ->
+  if db._getModel 'users'
+    db.users.drop().then ->
+      done()
+  else
     done()

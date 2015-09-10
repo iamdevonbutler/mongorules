@@ -1,6 +1,6 @@
 'use strict'
 
-# require('./setup')
+require('./setup')
 
 #Module dependencies.
 should = require('chai').should()
@@ -9,23 +9,25 @@ assert = require('chai').assert
 
 db = require('../lib')
 
-# supertest = require('supertest')
-
-
 describe 'Integration tests:', ->
-  # 
-  # describe 'insert():', ->
-  #   it 'should validate a document and successfully insert', ->
-  #     users = {
-  #       schema: {
-  #         name: { required: true, type: 'string' },
-  #         friends: [{ required: true }],
-  #         "friends.name": { required: true, type: 'string' }
-  #       }
-  #     }
-  #     db.addModels('mongoproxy-api', users)
-  #
-  #     db.users.insert({ name: 'name', friends: {name:'name'} }).then (result) ->
+
+
+  describe 'insert():', ->
+    it 'should validate a document and successfully insert', ->
+      models = {
+        users: {
+          schema: {
+            name: { required: true, type: 'string' },
+            # friends: [{ required: true }],
+            # "friends.name": { required: true, type: 'string' }
+          }
+        }
+      }
+
+      db.addModels('mongoproxy', models)
+      db.users.insert({ name: 'name', friends: {name:'name'} }).then (result) ->
+        console.log(result);
+
   #   it 'should insert documents into multiple databases.', (done) ->
   #   it 'should insert an array of documents.', (done) ->
   #   it 'should insert a document if a schema for collection does not exist.', (done) ->
