@@ -20,42 +20,28 @@ describe 'Schema:', ->
   describe '_normalizeSchema():', ->
     it 'should process a schema consisting of non-array values', ->
       result = schema._normalizeSchema(schemaSimple)
-      result.values.should.be.ok
+      Object.keys(result.values).length.should.be.ok
+      Object.keys(result.arrays).length.should.not.be.ok
 
-    # it 'should process a schema of values in arrays', ->
-    #   result = schema._normalizeSchema(schemaArrayOfValues)
-    #   result.arrayValues.should.be.ok
-    #   Object.keys(result.values).length.should.eql(0)
-    #   Object.keys(result.arrayObjects).length.should.eql(0)
-    #   Object.keys(result.arrayArrayValues).length.should.eql(0)
-    #   Object.keys(result.arrayArrayObjects).length.should.eql(0)
-    #
-    # it 'should process a schema of objects in arrays', ->
-    #   result = schema._normalizeSchema(schemaArrayOfObjects)
-    #   console.log(result);
-    #   result.arrayObjects.should.be.ok
-    #   result.arrayObjects['account.friends']._schema.values['account.friends.name'].should.be.ok
-    #   result.arrayObjects['account.friends']._schema.values['account.friends.age'].should.be.ok
-    #   Object.keys(result.values).length.should.eql(0)
-    #   Object.keys(result.arrayValues).length.should.eql(0)
-    #   Object.keys(result.arrayArrayValues).length.should.eql(0)
-    #   Object.keys(result.arrayArrayObjects).length.should.eql(0)
-    #
-    # it 'should process a schema of values in arrays in arrays', ->
-    #   result = schema._normalizeSchema(schemaArrayOfArrayOfValues)
-    #   result.arrayArrayValues.should.be.ok
-    #   Object.keys(result.values).length.should.eql(0)
-    #   Object.keys(result.arrayValues).length.should.eql(0)
-    #   Object.keys(result.arrayObjects).length.should.eql(0)
-    #   Object.keys(result.arrayArrayObjects).length.should.eql(0)
-    #
-    # it 'should process a schema of objects in arrays in arrays', ->
-    #   result = schema._normalizeSchema(schemaArrayOfArrayOfObjects)
-    #   result.arrayArrayObjects.should.be.ok
-    #   Object.keys(result.values).length.should.eql(0)
-    #   Object.keys(result.arrayValues).length.should.eql(0)
-    #   Object.keys(result.arrayObjects).length.should.eql(0)
-    #   Object.keys(result.arrayArrayValues).length.should.eql(0)
+    it 'should process a schema of values in arrays', ->
+      result = schema._normalizeSchema(schemaArrayOfValues)
+      Object.keys(result.values).length.should.not.be.ok
+      Object.keys(result.arrays).length.should.be.ok
+
+    it 'should process a schema of objects in arrays', ->
+      result = schema._normalizeSchema(schemaArrayOfObjects)
+      Object.keys(result.values).length.should.eql(3)
+      Object.keys(result.arrays).length.should.eql(2)
+
+    it 'should process a schema of array of arrays of values', ->
+      result = schema._normalizeSchema(schemaArrayOfArrayOfValues)
+      Object.keys(result.values).length.should.eql(0)
+      Object.keys(result.arrays).length.should.eql(1)
+
+    it 'should process a schema of array of arrays of objects', ->
+      result = schema._normalizeSchema(schemaArrayOfArrayOfObjects)
+      Object.keys(result.values).length.should.eql(2)
+      Object.keys(result.arrays).length.should.eql(1)
 
   describe '_setSchemaDefaults():', ->
     it 'should set default values for all schema properties', ->
@@ -71,17 +57,15 @@ describe 'Schema:', ->
       expect(defaults.transform).to.not.be.undefined
       expect(defaults.validate).to.not.be.undefined
       expect(defaults.dateFormat).to.not.be.undefined
-      Object.keys(defaults).length.should.eql(11)
+      expect(defaults.minLength).to.not.be.undefined
+      expect(defaults.maxLength).to.not.be.undefined
+      Object.keys(defaults).length.should.eql(13)
 
   describe '_validateSchema():', ->
 
-    it 'should throw if a non array field has a type of `object` or `array`', ->
-      expect(-> schema._validateSchema(schema._setSchemaDefaults({type: 'array'}), 'users', false)).to.throw()
-      expect(-> schema._validateSchema(schema._setSchemaDefaults({type: 'object'}), 'users', false)).to.throw()
-
-    it 'should not not throw if a array field has a type of `object` or `array`', ->
-      expect(-> schema._validateSchema(schema._setSchemaDefaults({type: 'array'}), 'users', true)).to.not.throw()
-      expect(-> schema._validateSchema(schema._setSchemaDefaults({type: 'object'}), 'users', true)).to.not.throw()
+    it 'should throw if a field has a type of `object` or `array`', ->
+      expect(-> schema._validateSchema(schema._setSchemaDefaults({type: 'array'}), 'users')).to.throw()
+      expect(-> schema._validateSchema(schema._setSchemaDefaults({type: 'object'}), 'users')).to.throw()
 
     it 'should throw if given an invalid value for a schema property', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({required: 'true'}) , 'users')).to.throw()
@@ -93,12 +77,17 @@ describe 'Schema:', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({validate: true}) , 'users')).to.throw()
       expect(->schema._validateSchema( schema._setSchemaDefaults({transform: true}) , 'users')).to.throw()
       expect(->schema._validateSchema( schema._setSchemaDefaults({dateFormat: true}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: true}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: true}) , 'users')).to.throw()
 
     it 'should throw if given both sanitize and denyXSS', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: true, denyXSS: true}) , 'users')).to.throw()
 
     it 'should throw if given both default and required', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({default: true, required: true}) , 'users')).to.throw()
+
+    it 'should throw if notNull is true and required is false', ->
+      expect(->schema._validateSchema( schema._setSchemaDefaults({required: false, notNull: true}) , 'users')).to.throw()
 
     it 'should throw if type is date and dateFormat is not specified', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'date'}) , 'users')).to.throw()
