@@ -14,7 +14,7 @@ module.exports = {
   },
 
   "account.friends.age": {
-    type: 'nuber',
+    type: 'number',
     required: true
   }
 

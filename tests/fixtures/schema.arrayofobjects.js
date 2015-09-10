@@ -12,9 +12,17 @@ module.exports = {
     lowercase: true,
   },
 
-  "account.friends.age": {
-    type: 'number',
-    required: true
-  }
+  // Array item w/ an array of objects as it's value.
+  "account.friends.age": [{
+    default: [{}],
+    minLength: 2,
+    maxLength: 4
+  }],
+
+  "account.friends.age.thing": {
+    type: 'string',
+    required: true,
+    lowercase: true,
+  },
 
 };

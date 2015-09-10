@@ -7,8 +7,6 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-SchemaValidationError = require('../lib/errors').SchemaValidationError
-
 schema = require('../lib/schema')
 schemaSimple = require('./fixtures/schema.simple')
 schemaArrayOfValues = require('./fixtures/schema.arrayofvalues')
@@ -38,7 +36,10 @@ describe 'Schema:', ->
 
     it 'should process a schema of objects in arrays', ->
       result = schema._normalizeSchema(schemaArrayOfObjects)
+      console.log(result.arrayObjects['account.friends']);
       result.arrayObjects.should.be.ok
+      result.arrayObjects['account.friends']._schema.values['account.friends.name'].should.be.ok
+      result.arrayObjects['account.friends']._schema.values['account.friends.age'].should.be.ok
       Object.keys(result.values).length.should.eql(0)
       Object.keys(result.arrayValues).length.should.eql(0)
       Object.keys(result.arrayArrayValues).length.should.eql(0)
@@ -83,7 +84,7 @@ describe 'Schema:', ->
       expect(defaults.default).to.not.be.undefined
       expect(defaults.minLength).to.not.be.undefined
       expect(defaults.maxLength).to.not.be.undefined
-      Object.keys(defaults).length.should.eql(5)
+      Object.keys(defaults).length.should.eql(7)
 
   describe '_validateSchema():', ->
     it 'should throw if `array` is a type value', ->
@@ -111,4 +112,4 @@ describe 'Schema:', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'string', dateFormat: 'unix'}) , 'users')).to.throw()
 
     it 'should throw if type is not a string and the string transformation methods are true', ->
-      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'boolean', trim: true}) , 'users')).to.not.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'boolean', trim: true}) , 'users')).to.throw()

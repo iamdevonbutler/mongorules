@@ -9,6 +9,5 @@ assert = require('chai').assert
 
 utils = require('../lib/preprocess')
 
-  // describe '_itterateDocument():', ->
-  //   # @todo
- 
+  # // describe '_itterateDocument():', ->
+  # //   # @todo

@@ -1,4 +1,4 @@
-# mongoproxy (beta)
+# mongoproxy (beta) DO NOT USE RIGHT MEOW
 
 A small but fierce wrapper (not a ORM) around the native mongodb driver leveraging ES6 proxy black magic.
 
