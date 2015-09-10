@@ -44,18 +44,12 @@ describe 'Schema:', ->
     it 'should process a schema consisting of non-array values', ->
       result = schema._normalizeSchema(schemaSimple)
       Object.keys(result.values).length.should.be.ok
-      Object.keys(result.arrays).length.should.not.be.ok
       result = schema._normalizeSchema(schemaNested)
       Object.keys(result.values).length.should.be.ok
-      Object.keys(result.arrays).length.should.not.be.ok
 
-    # it 'should process a schema of values in arrays', ->
-    #   result = schema._normalizeSchema(schemaArrayOfValues)
-    #   Object.keys(result.values).length.should.not.be.ok
-    #   Object.keys(result.arrayObjects).length.should.not.be.ok
-    #   Object.keys(result.arrayArrayObjects).length.should.not.be.ok
-    #   Object.keys(result.arrayArrayValues).length.should.not.be.ok
-    #   Object.keys(result.arrayValues).length.should.be.ok
+    it 'should process a schema of values in arrays', ->
+      result = schema._normalizeSchema(schemaArrayOfValues)
+      result.arrayValues.should.be.ok
 
     it 'should process a schema of objects in arrays', ->
       result = schema._normalizeSchema(schemaArrayOfObjects)
@@ -66,16 +60,14 @@ describe 'Schema:', ->
       result.arrayObjects['account.friends']._schema.arrayObjects.nicknames._schema.arrayObjects.giver.should.be.ok
       result.arrayObjects['account.friends']._schema.arrayObjects.nicknames._schema.arrayObjects.giver._schema.values.name.should.be.ok
       result.arrayObjects['account.friends']._schema.arrayObjects.nicknames._schema.arrayObjects.giver._schema.values.school.should.be.ok
-    #
-    # it 'should process a schema of array of arrays of values', ->
-    #   result = schema._normalizeSchema(schemaArrayOfArrayOfValues)
-    #   Object.keys(result.values).length.should.eql(0)
-    #   Object.keys(result.arrays).length.should.eql(1)
-    #
-    # it 'should process a schema of array of arrays of objects', ->
-    #   result = schema._normalizeSchema(schemaArrayOfArrayOfObjects)
-    #   Object.keys(result.values).length.should.eql(2)
-    #   Object.keys(result.arrays).length.should.eql(1)
+
+    it 'should process a schema of array of arrays of values', ->
+      result = schema._normalizeSchema(schemaArrayOfArrayOfValues)
+      result.arrayArrayValues.should.be.ok
+
+    it 'should process a schema of array of arrays of objects', ->
+      result = schema._normalizeSchema(schemaArrayOfArrayOfObjects)
+      result.arrayArrayObjects.should.be.ok
 
   describe '_setSchemaDefaults():', ->
     it 'should set default values for all schema properties', ->
