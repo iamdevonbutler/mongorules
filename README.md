@@ -264,6 +264,8 @@ Allowed types include:
 - 'number'
 - 'boolean'
 - 'date'
+- 'array' (only on array fields)
+- 'object' (only on array fields)
 
 If `type` is set to 'date', the `dateFormat` property must be set to enforce date specific validation. Allowed `dateFormat` values include:
 

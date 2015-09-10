@@ -22,7 +22,13 @@ module.exports = {
   "account.friends.age.thing": {
     type: 'string',
     required: true,
-    lowercase: true,
+    lowercase: true
+  },
+
+  "account.friends.age.anothething": {
+    type: 'string',
+    required: true,
+    lowercase: true
   },
 
 };
