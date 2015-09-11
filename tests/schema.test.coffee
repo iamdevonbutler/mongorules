@@ -31,10 +31,12 @@ describe 'Schema:', ->
       keys[2].should.eql('a.b')
 
   describe '_getArrayObjectChildren():', ->
-    it 'should return a nested child object given a schema field key w/ a shortened field key.', ->
+    it 'should return a nested child object given a parent schema field key.', ->
       result = schema._getArrayObjectChildren(schemaArrayOfObjects, 'account.friends.nicknames');
-      result.name.should.be.ok
-      result.giver.should.be.ok
+      result['account.friends.nicknames.name'].should.be.ok
+      result['account.friends.nicknames.giver'].should.be.ok
+      result['account.friends.nicknames.giver.name'].should.be.ok
+      result['account.friends.nicknames.giver.school'].should.be.ok
 
     it 'should return null if no child objects exist.', ->
       result = schema._getArrayObjectChildren(schemaArrayOfObjects, 'account.friends.eggs');
@@ -54,12 +56,36 @@ describe 'Schema:', ->
     it 'should process a schema of objects in arrays', ->
       result = schema._normalizeSchema(schemaArrayOfObjects)
       result.arrayObjects['account.friends'].should.be.ok
-      result.arrayObjects['account.friends']._schema.values.name.should.be.ok
-      result.arrayObjects['account.friends']._schema.arrayObjects.nicknames.should.be.ok
-      result.arrayObjects['account.friends']._schema.arrayObjects.nicknames._schema.values.name.should.be.ok
-      result.arrayObjects['account.friends']._schema.arrayObjects.nicknames._schema.arrayObjects.giver.should.be.ok
-      result.arrayObjects['account.friends']._schema.arrayObjects.nicknames._schema.arrayObjects.giver._schema.values.name.should.be.ok
-      result.arrayObjects['account.friends']._schema.arrayObjects.nicknames._schema.arrayObjects.giver._schema.values.school.should.be.ok
+
+      result.arrayObjects['account.friends']._schema
+        .values['account.friends.name']
+        .should.be.ok
+
+      result.arrayObjects['account.friends']._schema
+        .arrayObjects['account.friends.nicknames']
+        .should.be.ok
+
+      result.arrayObjects['account.friends']._schema
+        .arrayObjects['account.friends.nicknames']._schema
+        .values['account.friends.nicknames.name']
+        .should.be.ok
+
+      result.arrayObjects['account.friends']._schema
+        .arrayObjects['account.friends.nicknames']._schema
+        .arrayObjects['account.friends.nicknames.giver']
+        .should.be.ok
+
+      result.arrayObjects['account.friends']._schema
+        .arrayObjects['account.friends.nicknames']._schema
+        .arrayObjects['account.friends.nicknames.giver']._schema
+        .values['account.friends.nicknames.giver.name']
+        .should.be.ok
+
+      result.arrayObjects['account.friends']._schema
+        .arrayObjects['account.friends.nicknames']._schema
+        .arrayObjects['account.friends.nicknames.giver']._schema
+        .values['account.friends.nicknames.giver.school']
+        .should.be.ok
 
     it 'should process a schema of array of arrays of values', ->
       result = schema._normalizeSchema(schemaArrayOfArrayOfValues)

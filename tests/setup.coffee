@@ -16,7 +16,7 @@ beforeEach (done) ->
   if !app
     db.initDatabase(MongoClient, 'mongodb://localhost/mongoproxy').then (_db) =>
       db.addDatabase('mongoproxy', _db);
-      dbInstance = _db
+      dbInstance = db
       app = koa()
       router = new Router()
       router.get('/users/get', handlers.add)
@@ -27,9 +27,14 @@ beforeEach (done) ->
     done()
 
 
+# Remove collection users if it exists.
 afterEach (done) ->
-  if db._getModel 'users'
-    db.users.drop().then ->
+  if dbInstance._getModel('users')
+    dbInstance.users.drop().then(->
       done()
+    , ->
+      # catch error thrown if collection does not exist.
+      done()
+    )
   else
     done()

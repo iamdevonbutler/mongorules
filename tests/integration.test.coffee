@@ -15,35 +15,40 @@ describe 'Integration tests:', ->
 
 
   describe 'insert():', ->
-    it 'should validate a document and successfully insert', ->
-      # models =
-      #   users:
-      #     schema: schemaArrayOfObjects
-      # doc =
-      #   account:
-      #     friends: [{
-      #       name: 'jay',
-      #       nicknames: [
-      #         {
-      #           name: 'el pesh',
-      #           giver: [{
-      #             name: 'flip',
-      #             school: 'bu'
-      #           }]
-      #         }
-      #       ],
-      #     }]
-
+    it 'should insert an array of values', (done) ->
       models =
         users:
           schema: schemaArrayOfValues
       doc =
         account:
-          friends: ['a', 'b', 'c', 1]
+          friends: ['a', 'b', 'c']
 
       db.addModels('mongoproxy', models)
       db.users.insert(doc).then (result) ->
-        console.log(result);
+        done()
+
+    it 'should insert an array of objects', (done) ->
+      models =
+        users:
+          schema: schemaArrayOfObjects
+      doc =
+        account:
+          friends: [{
+            name: 'jay',
+            nicknames: [
+              {
+                name: 'el pesh',
+                giver: [{
+                  name: 'flip',
+                  school: 'bu'
+                }]
+              }
+            ],
+          }]
+      db.addModels('mongoproxy', models)
+      console.log(99999999);
+      db.users.insert(doc).then (result) ->
+        done()
 
   #   it 'should insert documents into multiple databases.', (done) ->
   #   it 'should insert an array of documents.', (done) ->
