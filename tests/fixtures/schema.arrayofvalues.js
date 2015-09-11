@@ -5,7 +5,7 @@ module.exports = {
     required: true,
     lowercase: true,
     trim: true,
-    minLength: 2,
+    minLength: 1,
     maxLength: 10,
     validate: null,
     transform: null
