@@ -6,7 +6,7 @@ A small but fierce wrapper (not a ORM) around the native mongodb driver leveragi
 
 Abiding by the the LOTR philosophy (one API to rule them all), node-mongo-proxy adds a little extra sauce on top of the node-mongodb-native driver.
 
-Using the same syntax that you would w/ the native driver, all collection methods (find, insert...) are wrapped in promises, and thus become yieldable (check out [Koa](https://github.com/koajs/koa) to take advantage of this awesomeness)! Cursor methods, resulting from a find operation, by default, return a yieldable symbol iterator.
+Using the same syntax that you would w/ the native driver, all collection methods (find, insert...) are wrapped in promises, and thus become yieldable (check out [Koa](https://github.com/koajs/koa) to take advantage of this awesomeness)! Cursor methods, resulting from a find operation, return a yieldable symbol iterator.
 
 Custom schemas enforce consistency to `insert()`, `update()`, and `save()` operations, and static methods can be attached to collection models.
 
@@ -244,7 +244,7 @@ If 'required' is `true` and 'notNull' is `true`, `undefined` AND `null` values w
 
 **For arrays:**
 
-- Array of values/objects: if 'required' is `true`, `undefined` values will fail validation; BUT, empty arrays will pass validation (set minLength = 1 to prevent this behavior). Property 'notNull' wont have an effect (type checking for `array` prevents null values by default).
+- Array of values/objects: if 'required' is `true`, `undefined` values will fail validation; BUT, empty arrays will pass validation (set minLength = 1 to change this behavior).
 
 - Array of arrays of values/objects: Inherits behavior of *array of values/objects*, but also ensures the inner array is not `undefined`.
 
@@ -297,7 +297,7 @@ Enforces min and max length values on arrays and strings.
 - Array of arrays of values: evaluates the number of nested arrays.
 - Array of arrays of object: evaluates the number of nested arrays.
 
-*Note: to validate the string length for an array or values, and to validate the values in nested arrays, use the custom `validate` function.*
+*Note: to validate the string length for an array or values, and to validate the number of values/objects in nested arrays, use the custom `validate` function.*
 
 ### The 'validation' property
 The custom validation handler accepts two parameters, the field value, and field schema, and should return either `true` or `false`. The function is executed after the standard validation properties.
@@ -305,7 +305,7 @@ The custom validation handler accepts two parameters, the field value, and field
 **For arrays:**
 
 - Array of values: passes each value to the validation function.
-- Array of objects: passes each object to the validation function.
+- Array of objects: passes each object to the validation function (not incredibly useful).
 - Array of arrays of values: passes each inner array to the validation function.
 - Array of arrays of objects: passes each inner array to the validation function.
 
@@ -320,7 +320,7 @@ Removes `null` values from arrays, both inner and outer, prior to validation.
 The 'trim' and 'lowercase' properties accept a Boolean and can only be set on values of type `string`.
 
 **For arrays:**
-For an *array of values* & an array of *arrays of values*: each value, if of type `string`, will be evaluated.
+For an *array of values* & an *array of arrays of values*: each value, if of type `string`, will be evaluated.
 
 ### The 'transform' property
 The custom transform handler accepts two parameters, the field value, and the field schema, and should return the manipulated value. The function is executed after the standard transformation properties.
