@@ -9,30 +9,37 @@ assert = require('chai').assert
 
 db = require('../lib')
 schemaArrayOfObjects = require('./fixtures/schema.arrayofobjects')
+schemaArrayOfValues = require('./fixtures/schema.arrayofvalues')
 
 describe 'Integration tests:', ->
 
 
   describe 'insert():', ->
     it 'should validate a document and successfully insert', ->
+      # models =
+      #   users:
+      #     schema: schemaArrayOfObjects
+      # doc =
+      #   account:
+      #     friends: [{
+      #       name: 'jay',
+      #       nicknames: [
+      #         {
+      #           name: 'el pesh',
+      #           giver: [{
+      #             name: 'flip',
+      #             school: 'bu'
+      #           }]
+      #         }
+      #       ],
+      #     }]
+
       models =
         users:
-          schema: schemaArrayOfObjects
+          schema: schemaArrayOfValues
       doc =
         account:
-          friends: [{
-            name: 'jay',
-            nicknames: [
-              {
-                name: 'el pesh',
-                giver: [{
-                  name: 'flip',
-                  school: 'bu'
-                }]
-              }
-            ],
-          }]
-
+          friends: ['a', 'b', 'c', 1]
 
       db.addModels('mongoproxy', models)
       db.users.insert(doc).then (result) ->
