@@ -11,7 +11,7 @@ db = require('../lib')
 
 supertest = require('supertest')
 
-### @todo
+## @todo
 # describe 'Schema validation:', ->
 
 

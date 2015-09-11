@@ -105,13 +105,14 @@ describe 'Schema:', ->
       expect(defaults.trim).to.not.be.undefined
       expect(defaults.lowercase).to.not.be.undefined
       expect(defaults.denyXSS).to.not.be.undefined
+      expect(defaults.filterNulls).to.not.be.undefined
       expect(defaults.sanitize).to.not.be.undefined
       expect(defaults.transform).to.not.be.undefined
       expect(defaults.validate).to.not.be.undefined
       expect(defaults.dateFormat).to.not.be.undefined
       expect(defaults.minLength).to.not.be.undefined
       expect(defaults.maxLength).to.not.be.undefined
-      Object.keys(defaults).length.should.eql(13)
+      Object.keys(defaults).length.should.eql(14)
 
   describe '_validateSchema():', ->
 

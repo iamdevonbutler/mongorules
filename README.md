@@ -206,6 +206,7 @@ Resolves to:
 - `trim` {Boolean} default `false` (Strings only)
 - `lowercase` {Boolean} default `false` (String only)
 - `denyXSS` {Boolean} default `false` (Strings only)
+- `filterNulls` {Boolean} default `false` (Arrays only)
 - `sanitize` {Boolean} default `false` (Strings only)
 - `minLength` {Number} default `null` (Arrays only)
 - `maxLength` {Number} default `null` (Arrays only)
@@ -307,7 +308,10 @@ The custom validation handler accepts two parameters, the field value, and field
 
 ## Field transformations
 
-### 'trim' and 'lowercase' properties
+### The 'filterNulls' property
+Removes `null` values from arrays, both inner and outer, prior to validation.
+
+### The 'trim' and 'lowercase' properties
 The 'trim' and 'lowercase' properties accept a Boolean and can only be set on Strings.
 
 **For arrays:**
