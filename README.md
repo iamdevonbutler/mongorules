@@ -237,19 +237,18 @@ If 'required' is `true` and 'notNull' is `true`, `undefined` AND `null` values w
 
 **For arrays:**
 
-- Array of values: if 'required' is `true`, array must contain at least one value. If 'notNull' is also `true`, the values must not be `null`.
-- Array of objects: if required is `true`, array must contain at least one object.
-- Array of arrays of values: if 'required' is `true`, the outer array must contain at least one array, and the inner array must contain at least one value. If 'notNull' is also `true`, the values in the inner array must not be `null`.
-- Array of arrays of objects: if 'required' is `true`, the outer array must contain at least one array, and the inner array must contain at least one object.
+- Array of values/objects: if 'required' is `true`, array must have a length > 1. If 'notNull' is also `true`, `null` values will be filtered from the array before the validation for 'required' is executed.
+
+- Array of arrays of values/objects: if 'required' is `true`, the outer array and inner array must have a length > 1. If 'notNull' is also `true`, `null` values will be filtered from the outer array and inner array before the validation for 'required' is executed.
 
 ### The 'default' property
 If 'required' is false, the 'default' property may be set. The default value will be set if a document property is `undefined`.
 
 **For arrays:**
 
-- Arrays of values: the default value will be set if the array is empty or undefined. The default should include the array and its value. e.g. default: `['value']` and NOT `'value'`.
+- Arrays of values: the default value will be set if the array has a length < 1. The default should include the array and its value. e.g. default: `['value']` or `[]`, and NOT `'value'`.
 
-- Arrays of objects: the default value will be set if the array is empty or undefined. The default should include the array and its value. e.g. default `[{name: 'value'}]` and NOT `{name:'value'}`.
+- Arrays of objects: the default value will be set if the array has a length < 1. The default should include the array and its value. e.g. default `[{name: 'value'}]` or `[]`, and NOT `{name:'value'}`.
 
 - Array of arrays of values: same as *array of values*; however, the default value should include both arrays. e.g. `[ ['value'] ]` and NOT `['value']`
 
@@ -264,8 +263,6 @@ Allowed types include:
 - 'number'
 - 'boolean'
 - 'date'
-- 'array' (only on array fields)
-- 'object' (only on array fields)
 
 If `type` is set to 'date', the `dateFormat` property must be set to enforce date specific validation. Allowed `dateFormat` values include:
 
@@ -273,7 +270,7 @@ If `type` is set to 'date', the `dateFormat` property must be set to enforce dat
 - 'unix' (timestamp)
 - custom: e.g. 'MM-DD-YYYY' ([moment.js custom date formats](http://momentjs.com/docs/#/parsing/string-format/) in strict mode)
 
-*Mongoproxy also supports types for arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type. See [supported data structures](#).*
+*Mongoproxy also supports types for arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type - the type is implied from your schema. See [supported data structures](#).*
 
 ### The 'sanitize' and 'denyXSS' properties
 
@@ -281,16 +278,19 @@ The 'sanitize' property passes values through Yahoo's [XSS Filters](https://gith
 
 The 'denyXSS' property will fail validation if given a string containing XSS.
 
+**For arrays:**
+For an array of values & an array of arrays of values: each value, if of type `string`, will be evaluated.
+
 ### The 'minLength' and 'maxLength' properties
 
-Enforces min and max length values on arrays.
+Enforces min and max length values on arrays and strings.
 
-- Array of values: validates number of values.
-- Array of objects: validates number of objects.
+- Array of values: validates number of values in array.
+- Array of objects: validates number of objects in array.
 - Array of arrays of values: validates number of nested arrays.
 - Array of arrays of object: validates number of nested arrays.
 
-*Note: to validate the number of values in the inner arrays, use the custom `validate` function.*
+*Note: to validate the string length for an array or values, and to validate the values in nested arrays, use the custom `validate` function.*
 
 ### The 'validation' property
 The custom validation handler accepts two parameters, the field value, and field schema, and should return either `true` or `false`. The function is executed after the standard validation properties.
@@ -309,12 +309,15 @@ The custom validation handler accepts two parameters, the field value, and field
 ### 'trim' and 'lowercase' properties
 The 'trim' and 'lowercase' properties accept a Boolean and can only be set on Strings.
 
+**For arrays:**
+For an array of values & an array of arrays of values: each value, if of type `string`, will be evaluated.
+
 ### The 'transform' property
 The custom transform handler accepts two parameters, the field value, and the field schema, and should return the manupliated value. The function is executed after the standard transformation properties.
 
-The values passed to the `transform` function for each data structure mimic the values passed to the `validation` function.
+The values passed to the `transform` function, for each data structure, mimic the values passed to the `validation` function.
 
-*Note: for arrays containing objects, the `transform` function can be set on each object property in addition to the field property.*
+*Note: to evaluate object properties nested in, the `transform` function can be set on each object property in addition to the parent array field.*
 
 ## Static methods
 @todo have `this` eql mongoproxy (this.users.find({}))
