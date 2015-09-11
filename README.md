@@ -272,6 +272,9 @@ If `type` is set to 'date', the `dateFormat` property must be set to enforce dat
 - 'unix' (timestamp)
 - custom: e.g. 'MM-DD-YYYY' ([moment.js custom date formats](http://momentjs.com/docs/#/parsing/string-format/) in strict mode)
 
+**For arrays:**
+Types checking will be enforced for arrays of values and arrays of arrays of values.
+
 *Mongoproxy also supports types for arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type - the type is implied from your schema. See [supported data structures](#).*
 
 ### The 'sanitize' and 'denyXSS' properties
