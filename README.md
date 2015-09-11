@@ -233,13 +233,14 @@ If 'required' is `true` and 'notNull' is `false`, ONLY `undefined` values will f
 
 If 'required' is `true` and 'notNull' is `true`, `undefined` AND `null` values will fail validation.
 
-*By default, 'required' and 'notNull' are `false`*
+*An empty string or empty array that is 'required' will pass validation. If this is not the intended behavior, set a minLength value.*
 
 **For arrays:**
 
 - Array of values/objects: if 'required' is `true`, array must have a length > 1. If 'notNull' is also `true`, `null` values will be filtered from the array before the validation for 'required' is executed.
 
 - Array of arrays of values/objects: if 'required' is `true`, the outer array and inner array must have a length > 1. If 'notNull' is also `true`, `null` values will be filtered from the outer array and inner array before the validation for 'required' is executed.
+
 
 ### The 'default' property
 If 'required' is false, the 'default' property may be set. The default value will be set if a document property is `undefined`.
