@@ -12,6 +12,11 @@ func = (x) -> x * x
 
 describe 'Utils:', ->
 
+  describe '_filterNullValues', ->
+    it 'should filter null values from an array'
+      result = utils._filterNullValues([1, null, 'a'])
+      result.length.should.eql(2)
+
   describe '_validateDate():', ->
     it 'should return true given a valid ISO 8601', ->
       utils._validateDate('2015-09-05T14:48:30Z', 'iso8601').should.be.true

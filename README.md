@@ -237,9 +237,9 @@ If 'required' is `true` and 'notNull' is `true`, `undefined` AND `null` values w
 
 **For arrays:**
 
-- Array of values/objects: if 'required' is `true`, array must have a length > 1. If 'notNull' is also `true`, `null` values will be filtered from the array before the validation for 'required' is executed.
+- Array of values/objects: if 'required' is `true`, array must have a length > 1. If 'notNull' is also `true`, arrays w/ `null` values will fail validation.
 
-- Array of arrays of values/objects: if 'required' is `true`, the outer array and inner array must have a length > 1. If 'notNull' is also `true`, `null` values will be filtered from the outer array and inner array before the validation for 'required' is executed.
+- Array of arrays of values/objects: if 'required' is `true`, the outer array and inner array must have a length > 1. If 'notNull' is also `true`, arrays, both inner and outer, w/ `null` values will fail validation.
 
 
 ### The 'default' property
