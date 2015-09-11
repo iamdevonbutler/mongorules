@@ -48,13 +48,13 @@ Second, init mongodb:
 
 ```
 const mongoproxy = require('mongoproxy');
+const MongoClient = require('mongodb').MongoCLient;
 
-// The initDatabase method is a convenience method that returns a promise.
-// You can init mongodb any way you choose as long as you pass the instance to the `addDatabase()` method.
-const db = yield mongoproxy.initDatabase(process.env.MONGO_URL);
+const db = yield mongoproxy.initDatabase(MongoClient, process.env.MONGO_URL);
 
 mongoproxy.addDatabase('api-development', db);
 ```
+*The initDatabase method is a convenience method that returns a promise. You can init mongodb any way you choose as long as you pass the instance to the `addDatabase()` method.*
 
 Third, add models:
 
@@ -87,7 +87,7 @@ try {
   var users = yield result.toArray();  
 }
 catch (err) {
-  // Log.
+  // @todo log.
 }
 ```
 
@@ -102,17 +102,12 @@ Schemas are optional, and are not required for each collection.
 
 The following illustrates how you go about creating schemas for different data structures:
 
-#### Simple values
-
-```
-"name": { type: 'string', required: true };
-```
-
-#### Nested values
+#### Values
 
 Use the dot notation to create nested objects. The dot syntax is intended to be less verbose than nesting objects in objects.
 
 ```
+"created": { type: 'date', dateFormat: 'iso8601' required: true };
 "account.name": { type: 'string',  required: true },
 "account.email": { type: 'string',  required: true  }
 ```
@@ -121,6 +116,7 @@ Resolves to:
 
 ```
 {
+  created: 'value',
   account: {
     name: 'value',
     email: 'value'
@@ -208,9 +204,9 @@ Resolves to:
 - `minLength` {Number} default `null` (Arrays & Strings)
 - `maxLength` {Number} default `null` (Arrays & Strings)
 - `validate` {Function} default `null`
-  - @param {Mixed} value
-  - @param {Object} schema
-  - @return {Boolean} - you should return a `Boolean`.
+  - *@param {Mixed} value*
+  - *@param {Object} schema*
+  - *@return {Boolean} - you should return a `Boolean`.*
 
 *Transformation properties*
 - `trim` {Boolean} default `false` (Strings only)
@@ -218,9 +214,9 @@ Resolves to:
 - `filterNulls` {Boolean} default `false` (Arrays only)
 - `sanitize` {Boolean} default `false` (Strings only)
 - `transform` {Function} default `null`
-  - @param {Mixed} value
-  - @param {Object} schema
-  - @return {Mixed} - you should return the transformed value.
+  - *@param {Mixed} value*
+  - *@param {Object} schema*
+  - *@return {Mixed} - you should return the transformed value.*
 
 *Note: if setting properties on an array of objects or array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'trim', 'lowercase', 'sanitize', 'denyXSS', and 'dateFormat'.*
 
