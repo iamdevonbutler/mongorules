@@ -198,22 +198,25 @@ Resolves to:
 *Check out [/tests/fixtures](https://github.com/iamdevonbutler/node-mongo-proxy/tree/master/tests/fixtures) to see how to create the different types of schemas.*
 
 ### Schema properties
+*Validation properties*
 - `required` {Boolean} default `false`
 - `notNull` {Boolean} default `false`
 - `default` {Mixed} default `null`
 - `type` {string|number|boolean|date} default `null` (Array and Object types are implicit)
 - `dateFormat` {String - used in conjunction w/ type: 'date'} default `null`
-- `trim` {Boolean} default `false` (Strings only)
-- `lowercase` {Boolean} default `false` (String only)
 - `denyXSS` {Boolean} default `false` (Strings only)
-- `filterNulls` {Boolean} default `false` (Arrays only)
-- `sanitize` {Boolean} default `false` (Strings only)
-- `minLength` {Number} default `null` (Arrays only)
-- `maxLength` {Number} default `null` (Arrays only)
+- `minLength` {Number} default `null` (Arrays & Strings)
+- `maxLength` {Number} default `null` (Arrays & Strings)
 - `validate` {Function} default `null`
   - @param {Mixed} value
   - @param {Object} schema
   - @return {Boolean} - you should return a `Boolean`.
+
+*Transformation properties*
+- `trim` {Boolean} default `false` (Strings only)
+- `lowercase` {Boolean} default `false` (String only)
+- `filterNulls` {Boolean} default `false` (Arrays only)
+- `sanitize` {Boolean} default `false` (Strings only)
 - `transform` {Function} default `null`
   - @param {Mixed} value
   - @param {Object} schema
@@ -267,7 +270,7 @@ Allowed types include:
 - 'boolean'
 - 'date'
 
-If `type` is set to 'date', the `dateFormat` property must be set to enforce date specific validation. Allowed `dateFormat` values include:
+If `type` is set to **'date'**, the `dateFormat` property must be set to enforce date specific validation. Allowed `dateFormat` values include:
 
 - 'iso8601'
 - 'unix' (timestamp)
@@ -278,11 +281,9 @@ Types checking will be enforced on each value in *arrays of values* and *arrays 
 
 *Mongoproxy also supports types for arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type - the type is implied from your schema. See [supported data structures](#).*
 
-### The 'sanitize' and 'denyXSS' properties
+### The 'denyXSS' property
 
-The 'sanitize' property passes values through Yahoo's [XSS Filters](https://github.com/yahoo/xss-filters) module.
-
-The 'denyXSS' property will fail validation if given a string containing XSS.
+The 'denyXSS' property will fail validation if given a string containing XSS as identified by Yahoo's [XSS Filters](https://github.com/yahoo/xss-filters) module.
 
 **For arrays:**
 For an *array of values* & an *array of arrays of values*: each value, if of type `string`, will be evaluated.
@@ -315,6 +316,10 @@ The custom validation handler accepts two parameters, the field value, and field
 
 ### The 'filterNulls' property
 Removes `null` values from arrays, both inner and outer, prior to validation.
+
+### The 'sanitize' property
+
+The 'sanitize' property passes values through Yahoo's [XSS Filters](https://github.com/yahoo/xss-filters) module.
 
 ### The 'trim' and 'lowercase' properties
 The 'trim' and 'lowercase' properties accept a Boolean and can only be set on values of type `string`.
