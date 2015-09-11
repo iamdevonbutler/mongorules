@@ -210,8 +210,14 @@ Resolves to:
 - `sanitize` {Boolean} default `false` (Strings only)
 - `minLength` {Number} default `null` (Arrays only)
 - `maxLength` {Number} default `null` (Arrays only)
-- `validate` {Function - params: value, schema} default `null`
-- `transform` {Function- params: value, schema} default `null`
+- `validate` {Function} default `null`
+  - @param {Mixed} value
+  - @param {Object} schema
+  - @return {Boolean} - you should return a `Boolean`.
+- `transform` {Function} default `null`
+  - @param {Mixed} value
+  - @param {Object} schema
+  - @return {Mixed} - you should return the transformed value.
 
 *Note: if setting properties on an array of objects or array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'trim', 'lowercase', 'sanitize', 'denyXSS', and 'dateFormat'.*
 
@@ -238,23 +244,18 @@ If 'required' is `true` and 'notNull' is `true`, `undefined` AND `null` values w
 
 **For arrays:**
 
-- Array of values/objects: if 'required' is `true`, array must have a length > 1. If 'notNull' is also `true`, arrays w/ `null` values will fail validation.
+- Array of values/objects: if 'required' is `true`, `undefined` values will fail validation; BUT, empty arrays will pass validation (set minLength = 1 to prevent this behavior). Property 'notNull' wont have an effect (type checking for `array` prevents null values by default).
 
-- Array of arrays of values/objects: if 'required' is `true`, the outer array and inner array must have a length > 1. If 'notNull' is also `true`, arrays, both inner and outer, w/ `null` values will fail validation.
-
+- Array of arrays of values/objects: Inherits behavior of *array of values/objects*, but also ensures the inner array is not `undefined`.
 
 ### The 'default' property
-If 'required' is false, the 'default' property may be set. The default value will be set if a document property is `undefined`.
+If 'required' is false, the 'default' property may be set. The default value will take effect if a value would fail 'required' validation for its respective data structure (see above).
 
 **For arrays:**
 
-- Arrays of values: the default value will be set if the array has a length < 1. The default should include the array and its value. e.g. default: `['value']` or `[]`, and NOT `'value'`.
+- Arrays of values/objects: the default should include the array and its value. e.g. default: "['value']", "[{name: 'value'}]" or "[]".
 
-- Arrays of objects: the default value will be set if the array has a length < 1. The default should include the array and its value. e.g. default `[{name: 'value'}]` or `[]`, and NOT `{name:'value'}`.
-
-- Array of arrays of values: same as *array of values*; however, the default value should include both arrays. e.g. `[ ['value'] ]` and NOT `['value']`
-
-- Array of arrays of objects: same as *array of objects*; however, the default value should include both arrays. e.g. `[ [{name:'value'}] ]` and NOT `[{name: 'value'}]`.
+- Array of arrays of values/objects: same as *array of values*; however, the default value should include both arrays. e.g. "[ ['value'] ]",  "[ [{name:'value'}] ]", or "[ [] ]"
 
 
 ### The 'type' and 'dateFormat' properties
@@ -273,7 +274,7 @@ If `type` is set to 'date', the `dateFormat` property must be set to enforce dat
 - custom: e.g. 'MM-DD-YYYY' ([moment.js custom date formats](http://momentjs.com/docs/#/parsing/string-format/) in strict mode)
 
 **For arrays:**
-Types checking will be enforced for arrays of values and arrays of arrays of values.
+Types checking will be enforced on each value in *arrays of values* and *arrays of arrays of values*.
 
 *Mongoproxy also supports types for arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type - the type is implied from your schema. See [supported data structures](#).*
 
@@ -284,16 +285,17 @@ The 'sanitize' property passes values through Yahoo's [XSS Filters](https://gith
 The 'denyXSS' property will fail validation if given a string containing XSS.
 
 **For arrays:**
-For an array of values & an array of arrays of values: each value, if of type `string`, will be evaluated.
+For an *array of values* & an *array of arrays of values*: each value, if of type `string`, will be evaluated.
 
 ### The 'minLength' and 'maxLength' properties
 
 Enforces min and max length values on arrays and strings.
 
-- Array of values: validates number of values in array.
-- Array of objects: validates number of objects in array.
-- Array of arrays of values: validates number of nested arrays.
-- Array of arrays of object: validates number of nested arrays.
+**For arrays:**
+- Array of values: evaluates the number of values in array.
+- Array of objects: evaluates the number of objects in array.
+- Array of arrays of values: evaluates the number of nested arrays.
+- Array of arrays of object: evaluates the number of nested arrays.
 
 *Note: to validate the string length for an array or values, and to validate the values in nested arrays, use the custom `validate` function.*
 
@@ -315,15 +317,15 @@ The custom validation handler accepts two parameters, the field value, and field
 Removes `null` values from arrays, both inner and outer, prior to validation.
 
 ### The 'trim' and 'lowercase' properties
-The 'trim' and 'lowercase' properties accept a Boolean and can only be set on Strings.
+The 'trim' and 'lowercase' properties accept a Boolean and can only be set on values of type `string`.
 
 **For arrays:**
-For an array of values & an array of arrays of values: each value, if of type `string`, will be evaluated.
+For an *array of values* & an array of *arrays of values*: each value, if of type `string`, will be evaluated.
 
 ### The 'transform' property
-The custom transform handler accepts two parameters, the field value, and the field schema, and should return the manupliated value. The function is executed after the standard transformation properties.
+The custom transform handler accepts two parameters, the field value, and the field schema, and should return the manipulated value. The function is executed after the standard transformation properties.
 
-The values passed to the `transform` function, for each data structure, mimic the values passed to the `validation` function.
+The values passed to the 'transform' function, for each data structure, mimic the values passed to the 'validation' function.
 
 *Note: to evaluate object properties nested in, the `transform` function can be set on each object property in addition to the parent array field.*
 
