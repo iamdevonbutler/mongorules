@@ -4,7 +4,7 @@ require('babel/register')
 
 #Module dependencies.
 MongoClient = require('mongodb').MongoClient
-db = require('../lib')
+db = require('../../lib')
 Router = require('koa-router')
 handlers = require('./handlers')
 koa = require('koa')

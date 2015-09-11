@@ -1,6 +1,6 @@
 'use strict'
 
-# require('./setup')
+# require('./helpers/setup')
 
 #Module dependencies.
 should = require('chai').should()
