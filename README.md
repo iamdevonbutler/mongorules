@@ -425,6 +425,8 @@ catch (err) {
 ### \_addModel
 
 #todos
+- uppercase
+- multiple types array.
 - run maxLength minLength validation after required, notNull validation becasue we dont want to be counting null values in array if notnull is true.
 - addModel should be public
 - what to do if inserting/updating and the value is empty? right now we are running the query. probably shouldn't but what to return.
