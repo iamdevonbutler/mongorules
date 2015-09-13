@@ -333,19 +333,7 @@ If the validation value is an `array`:
 ## Field transformations
 
 ### The 'filterNulls' property
-Removes `null` values from arrays prior to validation.
-
-A value of `true` will remove nulls from an outer and inner array, should such data structure exist. For different behavior, pass an `array`...
-
-The following will filter nulls from the outer array but not the inner arrays.
-
-```
-{
-  fieldName: [[{
-    filterNulls: [true, false]  
-  }]]
-}
-```
+Removes `null` values from arrays, both inner and outer, prior to validation.
 
 ### The 'sanitize' property
 

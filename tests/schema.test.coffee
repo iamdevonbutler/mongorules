@@ -171,8 +171,8 @@ describe 'Schema:', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: [1]}) , 'users')).to.not.throw()
       expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: ['1']}) , 'users')).to.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: [1]}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: [true]}) , 'users')).to.not.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: 1}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: true}) , 'users')).to.not.throw()
 
     it 'should throw if given both sanitize and denyXSS', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: true, denyXSS: true}) , 'users')).to.throw()
