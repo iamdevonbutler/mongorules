@@ -18,6 +18,20 @@ schemaArrayOfArrayOfObjects = require('./fixtures/schema.arrayofarraysofobjects'
 
 describe 'Schema:', ->
 
+  describe '_makeSchemaValuesArrays()', ->
+    func = (x) -> x * x
+    it 'should transform a validate/transform function into an array containing a function', ->
+      result = schema._makeSchemaValuesArrays({ transform: func, validate: func })
+      result.transform[0].should.eql(func)
+      result.validate[0].should.eql(func)
+    it 'should transform a minLength/maxLength value into an array containing a minLength/maxLength value', ->
+      result = schema._makeSchemaValuesArrays({ minLength: 1, maxLength: 1 })
+      result[0].minLength.should.eql(1)
+      result[0].maxLength.should.eql(1)
+    it 'should transform a notNull value into an array containing a notNull value', ->
+      result = schema._makeSchemaValuesArrays({ notNull: true })
+      result[0].notNull.should.eql(true)
+
   describe '_sortByFieldKey():', ->
     it 'should reorder an object by key by splitting on `.`.', ->
       obj =
