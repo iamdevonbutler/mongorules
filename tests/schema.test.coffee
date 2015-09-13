@@ -15,11 +15,11 @@ schemaArrayOfObjects = require('./fixtures/schema.arrayofobjects')
 schemaArrayOfArrayOfValues= require('./fixtures/schema.arrayofarraysofvalues')
 schemaArrayOfArrayOfObjects = require('./fixtures/schema.arrayofarraysofobjects')
 
+func = (x) -> x * x
 
 describe 'Schema:', ->
 
   describe '_makeSchemaValuesArrays()', ->
-    func = (x) -> x * x
     it 'should transform a validate/transform function into an array containing a function', ->
       result = schema._makeSchemaValuesArrays({ transform: func, validate: func })
       result.transform[0].should.eql(func)
@@ -136,16 +136,43 @@ describe 'Schema:', ->
 
     it 'should throw if given an invalid value for a schema property', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({required: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({required: true}) , 'users')).to.not.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({notNull: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({notNull: true}) , 'users')).to.not.throw()
+
       expect(->schema._validateSchema( schema._setSchemaDefaults({type: Boolean}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({trim: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({lowercase: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({denyXSS: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({validate: true}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({transform: true}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'Boolean'}) , 'users')).to.not.throw()
+
       expect(->schema._validateSchema( schema._setSchemaDefaults({dateFormat: true}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: true}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: true}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({dateFormat: 'unix'}) , 'users')).to.not.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({trim: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({trim: true}) , 'users')).to.not.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({lowercase: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({lowercase: true}) , 'users')).to.not.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: true}) , 'users')).to.not.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({denyXSS: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({denyXSS: true}) , 'users')).to.not.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({validate: [true]}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({validate: func}) , 'users')).to.not.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({transform: [true]}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({transform: func}) , 'users')).to.not.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: [1]}) , 'users')).to.not.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: ['1']}) , 'users')).to.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: [1]}) , 'users')).to.not.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: ['1']}) , 'users')).to.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: [1]}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: [true]}) , 'users')).to.not.throw()
 
     it 'should throw if given both sanitize and denyXSS', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: true, denyXSS: true}) , 'users')).to.throw()
