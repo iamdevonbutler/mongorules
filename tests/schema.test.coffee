@@ -26,11 +26,9 @@ describe 'Schema:', ->
       result.validate[0].should.eql(func)
     it 'should transform a minLength/maxLength value into an array containing a minLength/maxLength value', ->
       result = schema._makeSchemaValuesArrays({ minLength: 1, maxLength: 1 })
-      result[0].minLength.should.eql(1)
-      result[0].maxLength.should.eql(1)
-    it 'should transform a notNull value into an array containing a notNull value', ->
-      result = schema._makeSchemaValuesArrays({ notNull: true })
-      result[0].notNull.should.eql(true)
+      console.log(result);
+      result.minLength[0].should.eql(1)
+      result.maxLength[0].should.eql(1)
 
   describe '_sortByFieldKey():', ->
     it 'should reorder an object by key by splitting on `.`.', ->
@@ -139,10 +137,10 @@ describe 'Schema:', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({required: true}) , 'users')).to.not.throw()
 
       expect(->schema._validateSchema( schema._setSchemaDefaults({notNull: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({notNull: true}) , 'users')).to.not.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({notNull: true, required: true}) , 'users')).to.not.throw()
 
       expect(->schema._validateSchema( schema._setSchemaDefaults({type: Boolean}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'Boolean'}) , 'users')).to.not.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'boolean'}) , 'users')).to.not.throw()
 
       expect(->schema._validateSchema( schema._setSchemaDefaults({dateFormat: true}) , 'users')).to.throw()
       expect(->schema._validateSchema( schema._setSchemaDefaults({dateFormat: 'unix'}) , 'users')).to.not.throw()

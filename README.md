@@ -310,7 +310,7 @@ The custom validation handler accepts two parameters, the field value, and field
 
 **For arrays:**
 
-- Array of values/objects: passes each item to the validation function.
+- Array of values/objects: passes each item to the validation function (not particularly useful for objects).
 - Array of arrays of values/objects: passes each inner array to the validation function.
 
 If the validation value is an `array`:
@@ -325,8 +325,8 @@ If the validation value is an `array`:
   }]]
 }
 ```
-- Array of values/objects: passes each item to the validation function (the second fuction is ignored).
-- Array of arrays of objects: execute the validation method on each inner array (the fist function), and the items w/i each inner array (the second function).
+- Array of values/objects: passes each item to the validation function (the second function is ignored).
+- Array of arrays of values/objects: executes the validation method on each inner array (the fist function), and the items w/i each inner array (the second function).
 
 *Note: for arrays containing objects, the `validate` function can be set on each object property in addition to the field property.*
 
