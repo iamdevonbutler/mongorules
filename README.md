@@ -201,9 +201,9 @@ Resolves to:
 - `type` {string|number|boolean|date} default `null` (Array and Object types are implicit)
 - `dateFormat` {String - used in conjunction w/ type: 'date'} default `null`
 - `denyXSS` {Boolean} default `false` (Strings only)
-- `minLength` {Number} default `null` (Arrays & Strings)
-- `maxLength` {Number} default `null` (Arrays & Strings)
-- `validate` {Function} default `null`
+- `minLength` {Number|Array} default `null` (Arrays & Strings)
+- `maxLength` {Number|Array} default `null` (Arrays & Strings)
+- `validate` {Function|Array} default `null`
   - *@param {Mixed} value*
   - *@param {Object} schema*
   - *@return {Boolean} - you should return a `Boolean`.*
@@ -213,7 +213,7 @@ Resolves to:
 - `lowercase` {Boolean} default `false` (String only)
 - `filterNulls` {Boolean} default `false` (Arrays only)
 - `sanitize` {Boolean} default `false` (Strings only)
-- `transform` {Function} default `null`
+- `transform` {Function|Array} default `null`
   - *@param {Mixed} value*
   - *@param {Object} schema*
   - *@return {Mixed} - you should return the transformed value.*
@@ -243,9 +243,7 @@ If 'required' is `true` and 'notNull' is `true`, `undefined` AND `null` values w
 
 **For arrays:**
 
-- Array of values/objects: if 'required' is `true`, `undefined` values will fail validation; BUT, empty arrays will pass validation (set minLength = 1 to change this behavior).
-
-- Array of arrays of values/objects: Inherits behavior of *array of values/objects*, but also ensures the inner array is not `undefined`.
+If 'required' is `true`, `undefined` values will fail validation; BUT, empty arrays will pass validation (set minLength = 1 to change this behavior).
 
 ### The 'default' property
 If 'required' is false, the 'default' property may be set. The default value will take effect if a value would fail 'required' validation for its respective data structure (see above).
@@ -289,29 +287,65 @@ For an *array of values* & an *array of arrays of values*: each value, if of typ
 Enforces min and max length values on arrays and strings.
 
 **For arrays:**
-- Array of values: evaluates the number of values in array.
-- Array of objects: evaluates the number of objects in array.
-- Array of arrays of values: evaluates the number of nested arrays.
-- Array of arrays of object: evaluates the number of nested arrays.
+- Array of values/objects: evaluates the number of items in array.
+- Array of arrays of values/objects: evaluates the number of inner arrays.
 
-*Note: to validate the string length for an array or values, and to validate the number of values/objects in nested arrays, use the custom `validate` function.*
+If the minLength/maxLength value is an `array`:
+
+```
+{
+  fieldName: [[{
+    minLength: [1, 3]  
+  }]]
+}
+```
+
+- Array of values/objects: ensures the array contains at least item (the second value is ignored).
+  - *If the values are of type `string`*: ensures the array contains at least item, and that the item has a length >= 3 (uses second value).
+- Array of arrays of values/objects: ensures the outer array contains at least one array, and that the inner array contains at least three items.
+  - *If the values are of type `string`*: prepend a third value to the minLength array to enforce a inner array string length.
 
 ### The 'validation' property
 The custom validation handler accepts two parameters, the field value, and field schema, and should return either `true` or `false`. The function is executed after the standard validation properties.
 
 **For arrays:**
 
-- Array of values: passes each value to the validation function.
-- Array of objects: passes each object to the validation function (not incredibly useful).
-- Array of arrays of values: passes each inner array to the validation function.
-- Array of arrays of objects: passes each inner array to the validation function.
+- Array of values/objects: passes each item to the validation function.
+- Array of arrays of values/objects: passes each inner array to the validation function.
+
+If the validation value is an `array`:
+
+```
+{
+  fieldName: [[{
+    validate: [
+      function() { ... },
+      function() { ... }
+    ]
+  }]]
+}
+```
+- Array of values/objects: passes each item to the validation function (the second fuction is ignored).
+- Array of arrays of objects: execute the validation method on each inner array (the fist function), and the items w/i each inner array (the second function).
 
 *Note: for arrays containing objects, the `validate` function can be set on each object property in addition to the field property.*
 
 ## Field transformations
 
 ### The 'filterNulls' property
-Removes `null` values from arrays, both inner and outer, prior to validation.
+Removes `null` values from arrays prior to validation.
+
+A value of `true` will remove nulls from an outer and inner array, should such data structure exist. For different behavior, pass an `array`...
+
+The following will filter nulls from the outer array but not the inner arrays.
+
+```
+{
+  fieldName: [[{
+    filterNulls: [true, false]  
+  }]]
+}
+```
 
 ### The 'sanitize' property
 
@@ -326,7 +360,7 @@ For an *array of values* & an *array of arrays of values*: each value, if of typ
 ### The 'transform' property
 The custom transform handler accepts two parameters, the field value, and the field schema, and should return the manipulated value. The function is executed after the standard transformation properties.
 
-The values passed to the 'transform' function, for each data structure, mimic the values passed to the 'validation' function.
+The functionality of the 'transform' function, for each data structure, mimics the functionality of the ['validation' function](#).
 
 *Note: to evaluate object properties nested in, the `transform` function can be set on each object property in addition to the parent array field.*
 
