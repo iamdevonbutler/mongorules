@@ -305,6 +305,8 @@ If the minLength/maxLength value is an `array`:
 - Array of arrays of values/objects: ensures the outer array contains at least one array, and that the inner array contains at least three items.
   - *If the values are of type `string`*: prepend a third value to the minLength array to enforce a inner array string length.
 
+*Note: if using the array syntax, pass `null` to skip a particular validation*
+
 ### The 'validation' property
 The custom validation handler accepts two parameters, the field value, and field schema, and should return either `true` or `false`. The function is executed after the standard validation properties.
 
@@ -326,9 +328,9 @@ If the validation value is an `array`:
 }
 ```
 - Array of values/objects: passes each item to the validation function (the second function is ignored).
-- Array of arrays of values/objects: executes the validation method on each inner array (the fist function), and the items w/i each inner array (the second function).
+- Array of arrays of values/objects: executes the validation method on each inner array (the first function), and the items w/i each inner array (the second function).
 
-*Note: for arrays containing objects, the `validate` function can be set on each object property in addition to the field property.*
+*Note: if using the array syntax, pass `null` to skip a particular validation*
 
 ## Field transformations
 
@@ -349,8 +351,6 @@ For an *array of values* & an *array of arrays of values*: each value, if of typ
 The custom transform handler accepts two parameters, the field value, and the field schema, and should return the manipulated value. The function is executed after the standard transformation properties.
 
 The functionality of the 'transform' function, for each data structure, mimics the functionality of the ['validation' function](#).
-
-*Note: to evaluate object properties nested in, the `transform` function can be set on each object property in addition to the parent array field.*
 
 ## Static methods
 @todo have `this` eql mongoproxy (this.users.find({}))
