@@ -2,24 +2,9 @@ A list to keep track of what we are testing
 
 Testing
 - init.js (before each in setup.js)
-- utils (all of utils)
-- schema.js (all of schema)
-
-Not testing
-- transform
-  - set default values
-  - transform values (string)
-  - transform values w/i array
-  - transform values w/i an object in an array
-  - transform values w/i an array in an array
-
-- validate
-  - Insert
-  - update
-
 - static methods
-
-- integration tests
+- validation
+- integration tests (updates and inserts, and saves)
   - instance.js (integtation tests)
   - entry point (applySchema) - integration test
   - insert array of objects
