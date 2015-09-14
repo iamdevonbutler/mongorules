@@ -23,7 +23,7 @@ describe 'Integration tests:', ->
           schema: schemaArrayOfValues
       doc =
         account:
-          friends: ['a', 'b', 'c']
+          friends: ['jay', 'bag', 'gus']
 
       db.addModels('mongoproxy', models)
       db.users.insert(doc).then (result) ->
