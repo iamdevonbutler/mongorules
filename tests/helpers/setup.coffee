@@ -29,12 +29,9 @@ beforeEach (done) ->
 
 # Remove collection users if it exists.
 afterEach (done) ->
-  if dbInstance._getModel('users')
-    dbInstance.users.drop().then(->
-      done()
-    , ->
-      # catch error thrown if collection does not exist.
-      done()
-    )
-  else
+  dbInstance.users.remove({}).then((res)->
     done()
+  , (err) ->
+    # catch error thrown if collection does not exist.
+    done(err)
+  )
