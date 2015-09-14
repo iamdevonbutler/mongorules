@@ -15,7 +15,8 @@ Custom schemas enforce consistency to `insert()`, `update()`, and `save()` opera
 - [Supported operations](#supported-operations)
 - [Getting started](#getting-started)
 - [Schemas](#schemas)
-- [Field Validation](#field-validation)
+- [Document Validation](#document-validation)
+- [Document Transformation](#document-transformation)
 - [Static methods](#static-methods)
 - [Error handling](#error-handling)
 - [API](#api)
@@ -50,6 +51,7 @@ Second, init mongodb:
 const mongoproxy = require('mongoproxy');
 const MongoClient = require('mongodb').MongoCLient;
 
+// Wrap init code in `co` for yield to work.
 const db = yield mongoproxy.initDatabase(MongoClient, process.env.MONGO_URL);
 
 mongoproxy.addDatabase('api-development', db);
@@ -74,8 +76,6 @@ mongoproxy.addModels('api-development', {
   }
 });
 ```
-
-*Note: when models are added, schema validation will occur to ensure formatting is up to snuff. Schema validation errors will throw. If you are wrapping your init code with [co](https://github.com/tj/co) to allow yieldables, be sure use manually catch and rethrow all errors using the `co` catch method; otherwise, your code will fail w/o any errors logged in the console.*
 
 Third, write queries:
 
@@ -220,10 +220,10 @@ Resolves to:
 
 *Note: if setting properties on an array of objects or array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'trim', 'lowercase', 'sanitize', 'denyXSS', and 'dateFormat'.*
 
-## Field validation
-Field validation will occur on `insert()`, `update()`, and `save()` operations and enforce the rules declared in your schemas. As w/ mongodb query errors, field validation failures will throw field validation errors if custom error handlers are not provided.
+## Document validation
+Document validation will occur on `insert()`, `update()`, and `save()` operations and enforce the rules declared in your schemas. As w/ mongodb query errors, document validation failures will throw document validation errors if custom error handlers are not provided.
 
-*See the [Error handling](#error-handling) section to learn more about handling field validation errors.*
+*See the [Error handling](#error-handling) section to learn more about handling document validation errors.*
 
 ### novalidate
 
@@ -331,7 +331,7 @@ If the validation value is an `array`:
 
 *Note: if using the array syntax, pass `null` to skip a particular validation*
 
-## Field transformations
+## Document transformation
 
 ### The 'filterNulls' property
 Removes `null` values from arrays, both inner and outer, prior to validation.
@@ -377,30 +377,36 @@ var result = yield db.users.getByEmail('jay@example.com');
 
 
 ## Error handling
-There are two types of errors here: 1) schema validation errors (developer errors), and 2) field validation errors (bad data errors). Both types of errors will throw.
+There are three types of errors:
+- schema validation errors
+- document validation errors
+- mongodb errors
 
-Custom error handlers can be provided to modify the behavior of field validation errors. All field validation errors will prevent a query from executing regardless of the return value from your custom error handler. To run a query in the presence of errors, prepend your query with novalidate property (see docs).
+Schema validation errors are always thrown to ensure that the schemas you create are up to snuff.
 
-Error handling is both local to each collection, via the `onError()` property set on your model, and global using the following syntax.
+Mongodb errors (errors that occur, for instance, when inserting a document w/ a duplicate \_\id field), and document validation errors, are throw by default. You may modify this behavior by creating custom error handlers.
+
+*Note: all document validation errors will prevent a query from executing. To skip validation altogether, despite potential errors, prepend your query with [novalidate](#) property.*
+
+*Note: If you are wrapping your mongoproxy initialization code with [co](https://github.com/tj/co) to allow yieldables, be sure use manually catch and rethrow all errors using the `co` catch method; otherwise, your code will fail w/o any errors logged in the console.*
+
+### Custom error handling
+Custom error handling can be established locally to each collection, via the `onError()` property set on your model, and globally using the `addErrorHandler()` added w/ your initialization code. If either a local error handler or a global error handler is provided, the default behavior of throwing an error will not occur.
+
+The execution order of custom error handlers begins w/ the local error handler (if provided), after which, the global error handler is called (if provided). The local error handler and global error handler receive the same arguments w/ the exception of the additional "localHandler" Boolean - passed to the global handler to indicate if a local handler has already been executed. After your handlers executed, if no errors are manually thrown, the promises's reject callback will be executed.
 
 ```
-mongoproxy.addErrorHandler('api-development', (collectionName, action, errors) => {
-   throw '';
+/**
+ * @param {String} collectionName
+ * @param {String} action - e.g. 'insert', 'find'...
+ * @param {Array} errors
+ * @param {Boolean} localHandler - will be 'true' a local error handler has been called.
+ */
+mongoproxy.addErrorHandler('api-development', (collectionName, action, errors, localHandler) => {
+   // log to database
+   // throw '';
+   // return 'something to be passed to promise reject callback'
 });
-```
-
-If a global error handler is provided, it will be called in the absence of a collection specific error handler.
-
-You may, and probably should, catch all errors on a query level, and to prevent them from propagating:
-
-```
-try {
-  var result = yield users.insert({});
-}
-catch (err) {
-  // log
-  // ...
-}
 ```
 
 ## API
