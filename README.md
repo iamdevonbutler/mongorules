@@ -412,12 +412,13 @@ mongoproxy.addGlobalErrorHandler('api-development', (collectionName, action, err
 ## API
 ### initDatabase
 ### addDatabase
-###
+### addGlobalErrorHandler
 ### use
 ### addModels
 ### \_addModel
 
 #todos
+- support more mongodb methods in addition to collection methods.
 - uppercase
 - multiple types array.
 - run maxLength minLength validation after required, notNull validation becasue we dont want to be counting null values in array if notnull is true.
