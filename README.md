@@ -290,7 +290,7 @@ Enforces min and max length values on arrays and strings.
 - Array of values/objects: evaluates the number of items in array.
 - Array of arrays of values/objects: evaluates the number of inner arrays.
 
-If the minLength/maxLength value is an `array`:
+Example: if the minLength/maxLength value is an `array`:
 
 ```
 {
@@ -300,10 +300,9 @@ If the minLength/maxLength value is an `array`:
 }
 ```
 
-- Array of values/objects: ensures the array contains at least item (the second value is ignored).
-  - *If the values are of type `string`*: ensures the array contains at least item, and that the item has a length >= 3 (uses second value).
-- Array of arrays of values/objects: ensures the outer array contains at least one array, and that the inner array contains at least three items.
-  - *If the values are of type `string`*: prepend a third value to the minLength array to enforce a inner array string length.
+- Array of values/objects: ensures the array has a length of at least one. If the array items are of type `string`, the second value in the minLength property array ensures that each string has a length of at least three.
+
+- Array of arrays of values/objects: ensures the outer array has a length of at least one and that the inner array has a length of at least three. If the inner array values are of type `string`, you may prepend a third value to the minLength array to enforce a string length on those values.
 
 *Note: if using the array syntax, pass `null` to skip a particular validation*
 
