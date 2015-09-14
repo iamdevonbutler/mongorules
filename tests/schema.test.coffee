@@ -26,7 +26,6 @@ describe 'Schema:', ->
       result.validate[0].should.eql(func)
     it 'should transform a minLength/maxLength value into an array containing a minLength/maxLength value', ->
       result = schema._arrayifySchema({ minLength: 1, maxLength: 1 })
-      console.log(result);
       result.minLength[0].should.eql(1)
       result.maxLength[0].should.eql(1)
 
