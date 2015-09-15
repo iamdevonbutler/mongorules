@@ -26,7 +26,7 @@ describe 'Insert integration tests:', ->
           friends: ['jay', 'bag', 'aasasas']
           # friends: ['jay', 'bag']
 
-      db.addModels('mongoproxy', models)
+      db.addModels(models)
       db.users.insert(doc).then (result) ->
         db.users.findOne({}).then (result) ->
           result.account.friends.length.should.eql(3)
@@ -51,7 +51,7 @@ describe 'Insert integration tests:', ->
             ],
           }]
 
-      db.addModels('mongoproxy', models)
+      db.addModels(models)
       db.users.insert(doc).then (result) ->
         db.users.findOne({}).then (result) ->
           result.account.friends[0].name.should.eql('jay')
@@ -61,14 +61,13 @@ describe 'Insert integration tests:', ->
           done()
 
     it 'should insert an array of arrays of values', (done) ->
-      models =
-        users:
-          schema: schemaArrayOfArraysOfValues
+      model =
+        schema: schemaArrayOfArraysOfValues
       doc =
         account:
           locations: [ ['sf', 'bos'], ['nyc', 'mia'] ]
 
-      db.addModels('mongoproxy', models)
+      db.addModel('users', model)
       db.users.insert(doc).then (result) ->
         db.users.findOne({}).then (result) ->
           result.account.locations.length.should.eql(2)

@@ -142,7 +142,7 @@ describe 'Schema:', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'boolean'}) , 'users')).to.not.throw()
 
       expect(->schema._validateSchema( schema._setSchemaDefaults({dateFormat: true}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({dateFormat: 'unix'}) , 'users')).to.not.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({dateFormat: 'timestamp'}) , 'users')).to.not.throw()
 
       expect(->schema._validateSchema( schema._setSchemaDefaults({trim: 'true'}) , 'users')).to.throw()
       expect(->schema._validateSchema( schema._setSchemaDefaults({trim: true}) , 'users')).to.not.throw()

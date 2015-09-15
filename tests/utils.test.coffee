@@ -28,10 +28,10 @@ describe 'Utils:', ->
       utils._validateDate('15-09-05T14:48:30Z', 'iso8601').should.be.false
 
     it 'should return true given a valid unix timestamp', ->
-      utils._validateDate('12345', 'unix').should.be.true
+      utils._validateDate('12345', 'timestamp').should.be.true
 
     it 'should return false given a invalid unix timestamp', ->
-      utils._validateDate('11-12-2015', 'unix').should.be.false
+      utils._validateDate('11-12-2015', 'timestamp').should.be.false
 
     it 'should return true given a matching moment format', ->
       utils._validateDate('11-12-2015', 'MM-DD-YYYY').should.be.true

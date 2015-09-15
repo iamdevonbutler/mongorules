@@ -101,7 +101,7 @@ describe 'Validate:', ->
       expect(errors).to.be.null
 
     it 'should not return an error given a date when expecting a date', ->
-      errors = new Validator('1111', '', { type: 'date', dateFormat: 'unix' })
+      errors = new Validator('1111', '', { type: 'date', dateFormat: 'timestamp' })
         .validateType()
         .getErrors()
       expect(errors).to.be.null
@@ -125,7 +125,7 @@ describe 'Validate:', ->
         .length.should.eql(1)
 
     it 'should return an error given a boolean when expecting a date', ->
-      new Validator(false, '', { type: 'date' })
+      new Validator(false, '', { type: 'date', dateFormat: 'timestamp' })
         .validateType()
         .getErrors()
         .length.should.eql(1)

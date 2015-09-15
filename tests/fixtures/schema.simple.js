@@ -33,7 +33,7 @@ module.exports = {
 
   "updated": {
     type: 'date',
-    dateFormat: 'unix'
+    dateFormat: 'timestamp'
   },
 
   "created": {

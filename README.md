@@ -17,9 +17,12 @@ Custom schemas enforce consistency to `insert()`, `update()`, and `save()` opera
 - [Schemas](#schemas)
 - [Document Validation](#document-validation)
 - [Document Transformation](#document-transformation)
+- [Indexes](#indexes)
 - [Static methods](#static-methods)
 - [Error handling](#error-handling)
 - [API](#api)
+- [Misc](#misc)
+- [Todos](#todos)
 
 ## Requirements
 - node (versions 0.12, 4.0.0)
@@ -65,14 +68,11 @@ const mongoproxy = require('mongoproxy');
 const schema = require('./schemas/users.js');
 const methods = require('./methods/users.js');
 
-mongoproxy.addModels('api-development', {
+mongoproxy.addModels({
   users: {
     schema: schema,
     methods: methods,
-    // Global error handler
-    onError: function(collection, action, errors) {
-      throw '';
-    }
+    onError: function(collection, action, errors) {}
   }
 });
 ```
@@ -267,7 +267,7 @@ Allowed types include:
 If `type` is set to **'date'**, the `dateFormat` property must be set to enforce date specific validation. Allowed `dateFormat` values include:
 
 - 'iso8601'
-- 'unix' (timestamp)
+- 'timestmap' (unix timestmap)
 - custom: e.g. 'MM-DD-YYYY' ([moment.js custom date formats](http://momentjs.com/docs/#/parsing/string-format/) in strict mode)
 
 **For arrays:**
@@ -352,6 +352,9 @@ The custom transform handler accepts two parameters, the field value, and the fi
 
 The functionality of the 'transform' function, for each data structure, mimics the functionality of the ['validation' function](#).
 
+
+## Indexes
+
 ## Static methods
 @todo have `this` eql mongoproxy (this.users.find({}))
 @todo return promise always?
@@ -363,13 +366,13 @@ const mongoproxy = require('mongoproxy');
 const db = yield mongoproxy.initDatabase(process.env.MONGO_URL);
 mongoproxy.addDatabase('api-development', db);
 
-mongoproxy.addModels('api-development', {
+mongoproxy.addModels({
+  users: {
     schema: schema,
     methods: {
-      users: {
-        getByEmail: function() {}
-      }
+      getByEmail: function() {}
     }
+  }
 });
 
 var db = mongoproxy;
@@ -418,10 +421,15 @@ mongoproxy.addGlobalErrorHandler('api-development', (collectionName, action, err
 ### addModels
 ### \_addModel
 
-#todos
+## Misc
+
+### Inserting undefined values
+In an insert, if a value is `undefined`, and required = false, and there isn't a default value declared in your schema, the `undefined` value will be converted into a `null` value prior to insert.
+
+## Todos
+- expand date support
 - support more mongodb methods in addition to collection methods.
 - uppercase
-- multiple types array.
 - run maxLength minLength validation after required, notNull validation becasue we dont want to be counting null values in array if notnull is true.
 - addModel should be public
 - what to do if inserting/updating and the value is empty? right now we are running the query. probably shouldn't but what to return.
