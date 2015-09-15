@@ -26,10 +26,12 @@ describe 'Insert integration tests:', ->
           friends: ['jay', 'gus', 'gab']
 
       db.addModels(models)
-      db.users.insert(doc).then (result) ->
-        db.users.findOne({}).then (result) ->
-          result.account.friends.length.should.eql(3)
-          done()
+      db.users.insert([doc, doc]).then (result) ->
+        db.users.find({}).then (result) ->
+          result.toArray().then (val) ->
+            console.log(result);
+            val.account.friends.length.should.eql(3)
+            done()
 
     it 'should insert an array of objects', (done) ->
       models =
