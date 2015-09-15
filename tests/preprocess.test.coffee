@@ -36,4 +36,3 @@ describe 'Preprocess:', ->
         'friendCount.$.relatives':
           $each: [1,2,3]
       result = preprocess._getDocumentFromPayload(obj)
-      console.log(result);

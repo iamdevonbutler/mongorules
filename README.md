@@ -36,9 +36,12 @@ All mongoodb native operations are supported. All [collection methods](http://do
 
 The following operations will enforce schema validation:
 
-- `update()`
 - `insert()`
+- `update()`
+- `findAndModify()`
 - `save()`
+
+*Note: the mongodb node native driver [findAndModify()](http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#findandmodify) implementation is different from the mongodb shell implementation.*
 
 ## Getting started
 
@@ -92,7 +95,7 @@ catch (err) {
 ```
 
 ## Schemas
-A schema can validate and transform data for `insert()`, `update()`, and `save()` operations.
+A schema can validate and transform data for `insert()`, `update()`, `findAndModify()`, and `save()` operations.
 
 Schemas are optional, and are not required for each collection.
 
