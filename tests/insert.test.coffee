@@ -13,17 +13,18 @@ schemaArrayOfValues = require('./fixtures/schema.arrayofvalues')
 schemaArrayOfArraysOfValues = require('./fixtures/schema.arrayofarraysofvalues')
 schemaArrayOfArraysOfObjects = require('./fixtures/schema.arrayofarraysofobjects')
 
-describe 'Integration tests:', ->
+describe 'Insert integration tests:', ->
 
 
-  describe 'insert():', ->
+  describe 'insert() successes:', ->
     it 'should insert an array of values', (done) ->
       models =
         users:
           schema: schemaArrayOfValues
       doc =
         account:
-          friends: ['jay', 'bag', 'gus']
+          friends: ['jay', 'bag', 'aasasas']
+          # friends: ['jay', 'bag']
 
       db.addModels('mongoproxy', models)
       db.users.insert(doc).then (result) ->
@@ -78,6 +79,15 @@ describe 'Integration tests:', ->
           result.account.locations[1][0].should.eql('nyc')
           result.account.locations[1][1].should.eql('mia')
           done()
+
+    # it 'should insert an array of arrays of objects'
+    #   models =
+    #     users:
+    #       schema: schemaArrayOfArraysOfObjects
+    #
+    #   doc =
+    #     account:
+    #       friends: [[  ]]
 
   #   it 'should insert documents into multiple databases.', (done) ->
   #   it 'should insert an array of documents.', (done) ->

@@ -3,8 +3,8 @@ module.exports = {
   "account.friends": [[{
     default: [[{}]],
     required: false,
-    minLength: 2,
-    maxLength: 4
+    minLength: 1,
+    maxLength: 2
   }]],
 
   "account.friends.name": {

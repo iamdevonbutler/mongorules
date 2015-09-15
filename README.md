@@ -201,9 +201,9 @@ Resolves to:
 - `type` {string|number|boolean|date} default `null` (Array and Object types are implicit)
 - `dateFormat` {String - used in conjunction w/ type: 'date'} default `null`
 - `denyXSS` {Boolean} default `false` (Strings only)
-- `minLength` {Number|Array} default `null` (Arrays & Strings)
-- `maxLength` {Number|Array} default `null` (Arrays & Strings)
-- `validate` {Function|Array} default `null`
+- `minLength` {Number | Array} default `null` (Arrays & Strings)
+- `maxLength` {Number | Array} default `null` (Arrays & Strings)
+- `validate` {Function | Array} default `null`
   - *@param {Mixed} value*
   - *@param {Object} schema*
   - *@return {Boolean} - you should return a `Boolean`.*
@@ -213,12 +213,12 @@ Resolves to:
 - `lowercase` {Boolean} default `false` (String only)
 - `filterNulls` {Boolean} default `false` (Arrays only)
 - `sanitize` {Boolean} default `false` (Strings only)
-- `transform` {Function|Array} default `null`
+- `transform` {Function | Array} default `null`
   - *@param {Mixed} value*
   - *@param {Object} schema*
   - *@return {Mixed} - you should return the transformed value.*
 
-*Note: if setting properties on an array of objects or array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'trim', 'lowercase', 'sanitize', 'denyXSS', and 'dateFormat'.*
+*Note: if setting properties on an array of objects or an array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'trim', 'lowercase', 'sanitize', 'denyXSS', and 'dateFormat'.*
 
 ## Document validation
 Document validation will occur on `insert()`, `update()`, and `save()` operations and enforce the rules declared in your schemas. As w/ mongodb query errors, document validation failures will throw document validation errors if custom error handlers are not provided.
@@ -271,7 +271,8 @@ If `type` is set to **'date'**, the `dateFormat` property must be set to enforce
 - custom: e.g. 'MM-DD-YYYY' ([moment.js custom date formats](http://momentjs.com/docs/#/parsing/string-format/) in strict mode)
 
 **For arrays:**
-Types checking will be enforced on each value in *arrays of values* and *arrays of arrays of values*.
+
+Type checking will be enforced on each value in *arrays of values* and *arrays of arrays of values*.
 
 *Mongoproxy also supports types for arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type - the type is implied from your schema. See [supported data structures](#).*
 

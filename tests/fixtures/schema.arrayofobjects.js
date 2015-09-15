@@ -4,7 +4,7 @@ module.exports = {
   "account.friends": [{
     default: [{}],
     minLength: 1,
-    maxLength: 4
+    maxLength: 2
   }],
 
   "account.friends.name": {
