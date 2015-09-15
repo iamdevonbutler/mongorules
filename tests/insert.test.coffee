@@ -23,8 +23,7 @@ describe 'Insert integration tests:', ->
           schema: schemaArrayOfValues
       doc =
         account:
-          friends: ['jay', 'bag', 'aasasas']
-          # friends: ['jay', 'bag']
+          friends: ['jay', 'gus', 'gab']
 
       db.addModels(models)
       db.users.insert(doc).then (result) ->
