@@ -1,8 +1,8 @@
 module.exports = {
 
   "name": {
-    type: 'string',
     required: true,
+    type: 'string',
     trim: true,
     lowercase: true,
     denyXSS: true
@@ -39,6 +39,6 @@ module.exports = {
   "created": {
     type: 'date',
     dateFormat: 'iso8601'
-  },
+  }
 
 }

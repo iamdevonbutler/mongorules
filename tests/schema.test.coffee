@@ -111,7 +111,7 @@ describe 'Schema:', ->
       defaults = schema._setSchemaDefaults({})
       expect(defaults.required).to.not.be.undefined
       expect(defaults.notNull).to.not.be.undefined
-      expect(defaults.default).to.not.be.undefined
+      expect(defaults.default).to.be.undefined
       expect(defaults.type).to.not.be.undefined
       expect(defaults.trim).to.not.be.undefined
       expect(defaults.lowercase).to.not.be.undefined
@@ -171,14 +171,15 @@ describe 'Schema:', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: 1}) , 'users')).to.throw()
       expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: true}) , 'users')).to.not.throw()
 
+    it 'should throw if default is null and notNull is true', ->
+      expect(->schema._validateSchema( schema._setSchemaDefaults({default: null, notNull: true}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({default: null, notNull: false}) , 'users')).to.not.throw()
+
     it 'should throw if given both sanitize and denyXSS', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: true, denyXSS: true}) , 'users')).to.throw()
 
     it 'should throw if given both default and required', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({default: true, required: true}) , 'users')).to.throw()
-
-    it 'should throw if notNull is true and required is false', ->
-      expect(->schema._validateSchema( schema._setSchemaDefaults({required: false, notNull: true}) , 'users')).to.throw()
 
     it 'should throw if type is date and dateFormat is not specified', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'date'}) , 'users')).to.throw()

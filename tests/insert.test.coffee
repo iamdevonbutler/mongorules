@@ -16,7 +16,7 @@ schemaArrayOfArraysOfObjects = require('./fixtures/schema.arrayofarraysofobjects
 describe 'Insert integration tests:', ->
 
 
-  describe 'insert() successes:', ->
+  describe 'insert():', ->
     it 'should insert an array of values', (done) ->
       models =
         users:
@@ -28,9 +28,9 @@ describe 'Insert integration tests:', ->
       db.addModels(models)
       db.users.insert([doc, doc]).then (result) ->
         db.users.find({}).then (result) ->
-          result.toArray().then (val) ->
-            console.log(result);
-            val.account.friends.length.should.eql(3)
+          result.toArray().then (documents) ->
+            documents[0].account.friends.length.should.eql(3)
+            documents[1].account.friends.length.should.eql(3)
             done()
 
     it 'should insert an array of objects', (done) ->

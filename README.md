@@ -6,7 +6,7 @@ A small but fierce wrapper (not a ORM) around the native mongodb driver leveragi
 
 Abiding by the the LOTR philosophy (one API to rule them all), node-mongo-proxy adds a little extra sauce on top of the node-mongodb-native driver.
 
-Using the same syntax that you would w/ the native driver, all collection methods (find, insert...) are wrapped in promises, and thus become yieldable (check out [Koa](https://github.com/koajs/koa) to take advantage of this awesomeness)! Cursor methods, resulting from a find operation, return a yieldable symbol iterator.
+Using the same syntax that you would w/ the native driver, all collection methods (find, insert...) are wrapped in promises, and thus become yieldable (check out [Koa](https://github.com/koajs/koa) to take advantage of this awesomeness)! Cursor methods, resulting from a find operation, return a promise, and can be yielded as well.
 
 Custom schemas enforce consistency to `insert()`, `update()`, and `save()` operations, and static methods can be attached to collection models.
 
@@ -246,7 +246,7 @@ If 'required' is `true` and 'notNull' is `true`, `undefined` AND `null` values w
 If 'required' is `true`, `undefined` values will fail validation; BUT, empty arrays will pass validation (set minLength = 1 to change this behavior).
 
 ### The 'default' property
-If 'required' is false, the 'default' property may be set. The default value will take effect if a value would fail 'required' validation for its respective data structure (see above).
+If 'required' is `false`, the 'default' property may be set. The default value will take effect if a value would fail 'required' validation for its respective data structure (see above).
 
 **For arrays:**
 
@@ -254,6 +254,7 @@ If 'required' is false, the 'default' property may be set. The default value wil
 
 - Array of arrays of values/objects: same as *array of values*; however, the default value should include both arrays. e.g. "[ ['value'] ]",  "[ [{name:'value'}] ]", or "[ [] ]"
 
+*Edge case example: if the value = null, required = false, notNull = true - the default value will be set.*
 
 ### The 'type' and 'dateFormat' properties
 
