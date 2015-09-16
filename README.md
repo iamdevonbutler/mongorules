@@ -59,12 +59,11 @@ Second, init mongodb:
 const mongoproxy = require('mongoproxy');
 const MongoClient = require('mongodb').MongoCLient;
 
-// Wrap init code in `co` for yield to work.
 const db = yield mongoproxy.initDatabase(MongoClient, process.env.MONGO_URL);
 
 mongoproxy.addDatabase('api-development', db);
 ```
-*The initDatabase method is a convenience method that returns a promise. You can init mongodb any way you choose as long as you pass the instance to the `addDatabase()` method.*
+*The initDatabase method is a convenience method that returns a promise (wrap code in `co` to yield). You can init mongodb any way you choose as long as you pass the instance to the `addDatabase()` method.*
 
 Third, add models:
 
@@ -97,15 +96,15 @@ catch (err) {
 ```
 
 ## Schemas
-A schema can validate and transform data for `insert()`, `update()`, `findAndModify()`, and `save()` operations.
+A schema can validate and transform data for `insert()`, `update()`, and `findAndModify()` operations.
 
 Schemas are optional, and are not required for each collection.
-
-*Note: there will be much talk about array types, arrays in arrays and whatnot; admittedly, this can become overwhelming, and in most cases these data structures are not needed. If that's the case, your best bet is to ignore them altogether.*
 
 ### Supported data structures
 
 The following illustrates how you go about creating schemas for different data structures:
+
+*Note: there will be much talk about array types, arrays in arrays and whatnot; admittedly, this can become overwhelming, and in most cases these data structures are not needed. If that's the case, your best bet is to ignore them altogether.*
 
 #### Values
 
@@ -223,12 +222,10 @@ Resolves to:
   - *@param {Object} schema*
   - *@return {Mixed} - you should return the transformed value.*
 
-*Note: if setting properties on an array of objects or an array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'trim', 'lowercase', 'sanitize', 'denyXSS', and 'dateFormat'.*
+*Note: if setting properties on an array of objects or an array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'dateFormat', 'trim', 'lowercase', 'sanitize', and 'denyXSS'.*
 
 ## Document validation
-Document validation will occur on `insert()`, `update()`, and `findAndModify()` operations and enforce the rules declared in your schemas. As w/ mongodb query errors, document validation failures will throw document validation errors if custom error handlers are not provided.
-
-*See the [Error handling](#error-handling) section to learn more about handling document validation errors.*
+Document validation will occur on `insert()`, `update()`, and `findAndModify()` operations and enforce the rules declared in your schemas. As w/ mongodb query errors, document validation failures will throw document validation errors if custom error handlers are not provided (see [Error handling](#error-handling)).
 
 ### novalidate
 
@@ -246,12 +243,8 @@ If 'required' is `true` and 'notNull' is `true`, `undefined` AND `null` values w
 
 *An empty string or empty array that is 'required' will pass validation. If this is not the intended behavior, set a minLength value.*
 
-**For arrays:**
-
-If 'required' is `true`, `undefined` values will fail validation; BUT, empty arrays will pass validation (set minLength = 1 to change this behavior).
-
 ### The 'default' property
-If 'required' is `false`, the 'default' property may be set. The default value will take effect if a value would fail 'required' validation for its respective data structure (see above).
+If 'required' is `false`, the 'default' property may be set. The default value will take effect if a value would fail 'required' validation for its respective data structure.
 
 **For arrays:**
 
@@ -270,7 +263,7 @@ Allowed types include:
 - 'boolean'
 - 'date'
 
-If `type` is set to **'date'**, the `dateFormat` property must be set to enforce date specific validation. Allowed `dateFormat` values include:
+If 'type' is set to 'date', the 'dateFormat' property must be set to enforce date specific validation. Allowed 'dateFormat' values include:
 
 - 'iso8601'
 - 'timestmap' (unix timestmap)
@@ -294,10 +287,12 @@ For an *array of values* & an *array of arrays of values*: each value, if of typ
 Enforces min and max length values on arrays and strings.
 
 **For arrays:**
+If a single value is provided:
+
 - Array of values/objects: evaluates the number of items in array.
 - Array of arrays of values/objects: evaluates the number of inner arrays.
 
-Example: if the minLength/maxLength value is an `array`:
+If an array of values is provided:
 
 ```
 {
@@ -318,10 +313,12 @@ The custom validation handler accepts two parameters, the field value, and field
 
 **For arrays:**
 
+If a single function is provided:
+
 - Array of values/objects: passes each item to the validation function (not particularly useful for objects).
 - Array of arrays of values/objects: passes each inner array to the validation function.
 
-If the validation value is an `array`:
+If an array of functions is provided:
 
 ```
 {
@@ -362,7 +359,6 @@ The functionality of the 'transform' function, for each data structure, mimics t
 ## Indexes
 
 ## Static methods
-@todo have `this` eql mongoproxy (this.users.find({}))
 @todo return promise always?
 
 You can attach static methods to the collection object like so:
