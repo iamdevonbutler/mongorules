@@ -1,10 +1,10 @@
-# mongoproxy (beta) DO NOT USE RIGHT MEOW
+# Mongorules (beta) - DO NOT USE RIGHT MEOW
 
-A small but fierce wrapper (not a ORM) around the native mongodb driver leveraging ES6 proxy black magic.
+A small but fierce wrapper around the native mongodb driver leveraging ES6 proxy black magic.
 
 # Intro
 
-Abiding by the the LOTR philosophy (one API to rule them all), node-mongo-proxy adds a little extra sauce on top of the node-mongodb-native driver.
+Abiding by the the LOTR philosophy (one API to rule them all), node-mongorules adds a little extra sauce on top of the node-mongodb-native driver.
 
 Using the same syntax that you would w/ the native driver, all collection methods (find, insert...) are wrapped in promises, and thus become yieldable (check out [Koa](https://github.com/koajs/koa) to take advantage of this awesomeness)! Cursor methods, resulting from a find operation, return a promise, and can be yielded as well.
 
@@ -47,32 +47,32 @@ All mongodb operations are supported; however, not all of operations are validat
 
 ## Getting started
 
-First, install mongoproxy:
+First, install mongorules:
 
 ```
-npm install --save mongoproxy
+npm install --save mongorules
 ```
 
 Second, init mongodb:
 
 ```
-const mongoproxy = require('mongoproxy');
+const mongorules = require('mongorules');
 const MongoClient = require('mongodb').MongoCLient;
 
-const db = yield mongoproxy.initDatabase(MongoClient, process.env.MONGO_URL);
+const db = yield mongorules.initDatabase(MongoClient, process.env.MONGO_URL);
 
-mongoproxy.addDatabase('api-development', db);
+mongorules.addDatabase('api-development', db);
 ```
 *The initDatabase method is a convenience method that returns a promise (wrap code in `co` to yield). You can init mongodb any way you choose as long as you pass the instance to the `addDatabase()` method.*
 
 Third, add models:
 
 ```
-const mongoproxy = require('mongoproxy');
+const mongorules = require('mongorules');
 const schema = require('./schemas/users.js');
 const methods = require('./methods/users.js');
 
-mongoproxy.addModels({
+mongorules.addModels({
   users: {
     schema: schema,
     methods: methods,
@@ -84,7 +84,7 @@ mongoproxy.addModels({
 Third, write queries:
 
 ```
-const db = require('mongoproxy');
+const db = require('mongorules');
 
 try {
   var result = yield db.users.find({});
@@ -195,7 +195,7 @@ Resolves to:
 }
 ```
 
-*Check out [/tests/fixtures](https://github.com/iamdevonbutler/node-mongo-proxy/tree/master/tests/fixtures) to see how to create the different types of schemas.*
+*Check out [/tests/fixtures](https://github.com/iamdevonbutler/node-mongorules/tree/master/tests/fixtures) to see how to create the different types of schemas.*
 
 ### Schema properties
 *Validation properties*
@@ -273,7 +273,7 @@ If 'type' is set to 'date', the 'dateFormat' property must be set to enforce dat
 
 Type checking will be enforced on each value in *arrays of values* and *arrays of arrays of values*.
 
-*Mongoproxy also supports types for arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type - the type is implied from your schema. See [supported data structures](#).*
+*Mongorules also supports types for arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type - the type is implied from your schema. See [supported data structures](#).*
 
 ### The 'denyXSS' property
 
@@ -364,11 +364,11 @@ The functionality of the 'transform' function, for each data structure, mimics t
 You can attach static methods to the collection object like so:
 
 ```
-const mongoproxy = require('mongoproxy');
-const db = yield mongoproxy.initDatabase(process.env.MONGO_URL);
-mongoproxy.addDatabase('api-development', db);
+const mongorules = require('mongorules');
+const db = yield mongorules.initDatabase(process.env.MONGO_URL);
+mongorules.addDatabase('api-development', db);
 
-mongoproxy.addModels({
+mongorules.addModels({
   users: {
     schema: schema,
     methods: {
@@ -377,7 +377,7 @@ mongoproxy.addModels({
   }
 });
 
-var db = mongoproxy;
+var db = mongorules;
 var result = yield db.users.getByEmail('jay@example.com');
 ```
 
@@ -394,7 +394,7 @@ Mongodb errors (errors that occur, for instance, when inserting a document w/ a 
 
 *Note: all document validation errors will prevent a query from executing. To skip validation altogether, despite potential errors, prepend your query with [novalidate](#) property.*
 
-*Note: If you are wrapping your mongoproxy initialization code with [co](https://github.com/tj/co) to allow yieldables, be sure use manually catch and rethrow all errors using the `co` catch method; otherwise, your code will fail w/o any errors logged in the console.*
+*Note: If you are wrapping your mongorules initialization code with [co](https://github.com/tj/co) to allow yieldables, be sure use manually catch and rethrow all errors using the `co` catch method; otherwise, your code will fail w/o any errors logged in the console.*
 
 ### Custom error handling
 Custom error handling can be established locally to each collection, via the `onError()` property set on your model, and globally using the `()` added w/ your initialization code. If either a local error handler or a global error handler is provided, the default behavior of throwing an error will not occur.
@@ -408,7 +408,7 @@ The execution order of custom error handlers begins w/ the local error handler (
  * @param {Array} errors
  * @param {Boolean} localHandler - will be 'true' a local error handler has been called.
  */
-mongoproxy.addGlobalErrorHandler('api-development', (collectionName, action, errors, localHandler) => {
+mongorules.addGlobalErrorHandler('api-development', (collectionName, action, errors, localHandler) => {
    // log to database
    // throw '';
    // return 'something to be passed to promise reject callback'
@@ -419,9 +419,10 @@ mongoproxy.addGlobalErrorHandler('api-development', (collectionName, action, err
 ### initDatabase
 ### addDatabase
 ### addGlobalErrorHandler
-### use
 ### addModels
 ### \_addModel
+### Validate insert
+### Validate update
 
 ## Misc
 

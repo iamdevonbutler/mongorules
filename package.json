@@ -1,5 +1,5 @@
 {
-  "name": "mongoproxy",
+  "name": "mongorules",
   "version": "0.1.0",
   "description": "A proxied mongodb wrapper w/ schemas",
   "main": "lib/index.js",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iamdevonbutler/node-mongo-proxy.git"
+    "url": "git+https://github.com/iamdevonbutler/node-mongorules.git"
   },
   "author": "Jay Pescione <jpescione@gmail.com> (https://github.com/iamdevonbutler)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/iamdevonbutler/node-mongo-proxy/issues"
+    "url": "https://github.com/iamdevonbutler/node-mongorules/issues"
   },
-  "homepage": "https://github.com/iamdevonbutler/node-mongo-proxy#readme",
+  "homepage": "https://github.com/iamdevonbutler/node-mongorules#readme",
   "peerDependencies": {
     "mongodb": "^2.0.42"
   },

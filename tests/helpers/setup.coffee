@@ -14,8 +14,8 @@ dbInstance = null
 
 beforeEach (done) ->
   if !app
-    db.initDatabase(MongoClient, 'mongodb://localhost/mongoproxy').then (_db) =>
-      db.addDatabase('mongoproxy', _db);
+    db.initDatabase(MongoClient, 'mongodb://localhost/mongorules').then (_db) =>
+      db.addDatabase('mongorules', _db);
       dbInstance = db
       app = koa()
       router = new Router()
