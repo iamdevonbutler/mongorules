@@ -8,7 +8,7 @@ Abiding by the the LOTR philosophy (one API to rule them all), node-mongo-proxy 
 
 Using the same syntax that you would w/ the native driver, all collection methods (find, insert...) are wrapped in promises, and thus become yieldable (check out [Koa](https://github.com/koajs/koa) to take advantage of this awesomeness)! Cursor methods, resulting from a find operation, return a promise, and can be yielded as well.
 
-Custom schemas enforce consistency to `insert()`, `update()`, and `save()` operations, and static methods can be attached to collection models.
+Custom schemas enforce consistency to `insert()`, `update()`, and `findAndModify()` operations, and static methods can be attached to collection models.
 
 ## Legend
 - [Requirements](#requirements)
@@ -39,7 +39,9 @@ The following operations will enforce schema validation:
 - `insert()`
 - `update()`
 - `findAndModify()`
-- `save()`
+
+### Other operations
+All mongodb operations are supported; however, not all of operations are validated prior to execution. The `upsert: true` option, available on `update()` operations, cannot be supported - update validation does not ensure the presence of all fields required for an insert. For this same reason we cannot validate `save()` operations.
 
 *Note: the mongodb node native driver [findAndModify()](http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#findandmodify) implementation is different from the mongodb shell implementation.*
 
@@ -224,7 +226,7 @@ Resolves to:
 *Note: if setting properties on an array of objects or an array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'trim', 'lowercase', 'sanitize', 'denyXSS', and 'dateFormat'.*
 
 ## Document validation
-Document validation will occur on `insert()`, `update()`, and `save()` operations and enforce the rules declared in your schemas. As w/ mongodb query errors, document validation failures will throw document validation errors if custom error handlers are not provided.
+Document validation will occur on `insert()`, `update()`, and `findAndModify()` operations and enforce the rules declared in your schemas. As w/ mongodb query errors, document validation failures will throw document validation errors if custom error handlers are not provided.
 
 *See the [Error handling](#error-handling) section to learn more about handling document validation errors.*
 
