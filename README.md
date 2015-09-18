@@ -430,6 +430,7 @@ mongorules.addGlobalErrorHandler('api-development', (collectionName, action, err
 In an insert, if a value is `undefined`, and required = false, and there isn't a default value declared in your schema, the `undefined` value will be converted into a `null` value prior to insert.
 
 ## Todos
+- currentDate
 - more preprocess tests
 - upsert and save
 - expand date support

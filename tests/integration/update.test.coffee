@@ -8,7 +8,7 @@ expect = require('chai').expect
 assert = require('chai').assert
 
 db = require('../../lib')
-schema = require('../fixtures/schema.simple')
+schema = require('../fixtures/schema.values')
 
 
 
@@ -16,10 +16,7 @@ describe 'Insert integration tests:', ->
 
   beforeEach (done) ->
     db.addModel('users', { schema: schema })
-    doc =
-      name: 'jay'
-      newsletter: true
-      age: 1
+    doc = { account: { name: 'jay' }, newsletter: true, age: 1 }
     db.users.insert(doc).then (result) ->
       done()
 
@@ -27,13 +24,7 @@ describe 'Insert integration tests:', ->
     # it 'should update a nested value', (done) ->
     # it 'should update a paticular element in an', (done) ->
     it 'should update a top level value', (done) ->
-      db.addModel('users', { schema: schema })
-      payload =
-        "$set":
-          name: 'jayy'
-          newsletter: false
-      db.users.findAndModify({}, [], payload, {new: true}).then (result) ->
+      payload = { '$set': { newsletter: false } }
+      db.users.findAndModify({}, [], payload, { new: true }).then (result) ->
+        expect(result.value.newsletter).to.eql(false)
         done()
-
-
-  # describe 'update() failures:', ->

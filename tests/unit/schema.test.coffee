@@ -8,8 +8,7 @@ expect = require('chai').expect
 assert = require('chai').assert
 
 schema = require('../../lib/schema')
-schemaSimple = require('../fixtures/schema.simple')
-schemaNested = require('../fixtures/schema.nested')
+schemaValues = require('../fixtures/schema.values')
 schemaArrayOfValues = require('../fixtures/schema.arrayofvalues')
 schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects')
 schemaArrayOfArrayOfValues= require('../fixtures/schema.arrayofarraysofvalues')
@@ -55,9 +54,7 @@ describe 'Schema:', ->
 
   describe '_normalizeSchema():', ->
     it 'should process a schema consisting of non-array values', ->
-      result = schema._normalizeSchema(schemaSimple)
-      Object.keys(result.values).length.should.be.ok
-      result = schema._normalizeSchema(schemaNested)
+      result = schema._normalizeSchema(schemaValues)
       Object.keys(result.values).length.should.be.ok
 
     it 'should process a schema of values in arrays', ->

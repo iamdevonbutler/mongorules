@@ -1,11 +1,16 @@
 module.exports = {
 
-  "name": {
+  "account.name": {
     required: true,
     type: 'string',
     trim: true,
     lowercase: true,
     denyXSS: true
+  },
+
+  "birthday": {
+    type: 'date',
+    dateFormat: 'MM-DD-YYYY'
   },
 
   "newsletter": {
@@ -24,11 +29,6 @@ module.exports = {
     transform: function(value) {
       return 'good ' + value;
     }
-  },
-
-  "birthday": {
-    type: 'date',
-    dateFormat: 'MM-DD-YYYY'
   },
 
   "updated": {
