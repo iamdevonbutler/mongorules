@@ -17,35 +17,41 @@ describe 'insert(): array of values:', ->
     db.addModels(models)
     done()
 
-  it 'should throw an error when violating the minLength constraint', ->
+  it 'should throw an error when violating the minLength constraint', (done) ->
     doc = { account: { friends: ['jay'] } }
     try
-      db.users.insert([doc])
+      db.users.insert([doc]).then (result) ->
+        done(result)
     catch e
       e.errors.length.should.eql(1)
       e.errors[0].property.should.eql('minLength')
 
     doc = { account: { friends: ['jay', ''] } }
     try
-      db.users.insert([doc])
+      db.users.insert([doc]).then (result) ->
+        done(result)
     catch e
       e.errors.length.should.eql(1)
       e.errors[0].property.should.eql('minLength')
+      done()
 
-  it 'should throw an error when violating the maxLength constraint', ->
+  it 'should throw an error when violating the maxLength constraint', (done) ->
     doc = { account: { friends: ['gab', 'gus', 'jay', 'tim'] } }
     try
-      db.users.insert([doc])
+      db.users.insert([doc]).then (result) ->
+        done(result)
     catch e
       e.errors.length.should.eql(1)
       e.errors[0].property.should.eql('maxLength')
 
     doc = { account: { friends: ['gab', 'gus', 'jayy'] } }
     try
-      db.users.insert([doc])
+      db.users.insert([doc]).then (result) ->
+        done(result)
     catch e
       e.errors.length.should.eql(1)
       e.errors[0].property.should.eql('maxLength')
+      done()
 
   it 'should filter null values, transform, lowercase & trim', (done) ->
     doc = { account: { friends: ['GAB', 'el ', null] } }
@@ -56,27 +62,33 @@ describe 'insert(): array of values:', ->
         res.account.friends[1].should.eql('hey el')
         done()
 
-  it 'should validate using the custom validate function', ->
+  it 'should validate using the custom validate function', (done) ->
     doc = { account: { friends: ['aaa', 'gus', 'jay'] } }
     try
-      db.users.insert([doc])
+      db.users.insert([doc]).then (result) ->
+        done(result)
     catch e
       e.errors.length.should.eql(1)
       e.errors[0].property.should.eql('validate')
+      done()
 
-  it 'should enforce required field validation', ->
+  it 'should throw an error when violating the required field constraint', (done) ->
     doc = { account: { friends: null } }
     try
-      db.users.insert([doc])
+      db.users.insert([doc]).then (result) ->
+        done(result)
     catch e
       e.errors.length.should.eql(1)
       e.errors[0].property.should.eql('required')
+      done()
 
-  it 'should ensure all values are of type `string`', ->
+  it 'should ensure all values are of type `string`', (done) ->
     doc = { account: { friends: [['a'], 'gus', 'jay'] } }
     try
-      db.users.insert(doc)
+      db.users.insert(doc).then (result) ->
+        done(result)
     catch e
       console.log(e);
       e.errors.length.should.eql(1)
       e.errors[0].property.should.eql('type')
+      done()

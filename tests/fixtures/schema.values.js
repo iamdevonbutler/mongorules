@@ -5,23 +5,29 @@ module.exports = {
     type: 'string',
     trim: true,
     lowercase: true,
-    denyXSS: true
+    denyXSS: true,
+    minLength: 1,
+    maxLength: 20,
+    transform: function(value) {
+      return 'hey ' + value;
+    },
+    validate: function(value) {
+      return value !== 'tim';
+    }
+  },
+
+  "newsletter": {
+    type: 'boolean',
+    default: true
+  },
+
+  "age": {
+    type: 'number'
   },
 
   "birthday": {
     type: 'date',
     dateFormat: 'MM-DD-YYYY'
-  },
-
-  "newsletter": {
-    type: 'boolean'
-  },
-
-  "age": {
-    type: 'number',
-    validate: function(value) {
-      return value > 0
-    }
   },
 
   "updated": {
