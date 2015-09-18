@@ -1,49 +1,106 @@
-    # describe 'array of objects', ->
-    #   it 'should insert an array of objects', (done) ->
-    #     models =
-    #       users:
-    #         schema: schemaArrayOfObjects
-    #     doc =
-    #       account:
-    #         friends: [{
-    #           name: 'jay',
-    #           nicknames: [
-    #             {
-    #               name: 'el pesh',
-    #               giver: [{
-    #                 name: 'flip',
-    #                 school: 'bu'
-    #               }]
-    #             }
-    #           ],
-    #         }]
-    #
-    #     db.addModels(models)
-    #     db.users.insert(doc).then (result) ->
-    #       db.users.findOne({}).then (result) ->
-    #         result.account.friends[0].name.should.eql('jay')
-    #         result.account.friends[0].nicknames[0].name.should.eql('el pesh')
-    #         result.account.friends[0].nicknames[0].giver[0].name.should.eql('flip')
-    #         result.account.friends[0].nicknames[0].giver[0].school.should.eql('bu')
-    #         done()
-    #
-    # # describe 'array of arrays of objects', ->
-    # describe 'array of arrays of values', ->
-    #   it 'should insert an array of arrays of values', (done) ->
-    #     model =
-    #       schema: schemaArrayOfArraysOfValues
-    #     doc =
-    #       account:
-    #         locations: [ ['sf', 'bos'], ['nyc', 'mia'] ]
-    #
-    #     db.addModel('users', model)
-    #     db.users.insert(doc).then (result) ->
-    #       db.users.findOne({}).then (result) ->
-    #         result.account.locations.length.should.eql(2)
-    #         result.account.locations[0].length.should.eql(2)
-    #         result.account.locations[0][0].should.eql('sf')
-    #         result.account.locations[0][1].should.eql('bos')
-    #         result.account.locations[1].length.should.eql(2)
-    #         result.account.locations[1][0].should.eql('nyc')
-    #         result.account.locations[1][1].should.eql('mia')
-    #         done()
+'use strict'
+
+require('../helpers/setup')
+
+#Module dependencies.
+should = require('chai').should()
+expect = require('chai').expect
+assert = require('chai').assert
+
+db = require('../../lib')
+schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects')
+
+describe 'insert(): array of objects:', ->
+
+  beforeEach (done) ->
+    models = { users: { schema: schemaArrayOfObjects } }
+    db.addModels(models)
+    done()
+
+  it 'should throw an error given an object missing a required property', (done) ->
+    doc = { account: { friends: [{}] } }
+    try
+      db.users.insert(doc).then (result) ->
+        done(result)
+    catch e
+      e.errors.length.should.eql(1)
+      e.errors[0].property.should.eql('required')
+      done()
+
+  it 'should transform a property on an object given a custom transform function', (done) ->
+    doc = { account: { friends: [{ name: 'JAY' }] } }
+    db.users.insert(doc).then (result) ->
+      db.users.findOne({}).then (result) ->
+        console.log(result);
+        result.account.friends[0].name.should.eql('jay!')
+        done()
+
+  it 'should throw an error given a document w/ data in violation of the minLength property', (done) ->
+    doc = { account: { friends: [{ name: '' }] } }
+    try
+      db.users.insert(doc).then (result) ->
+        done(result)
+    catch e
+      e.errors.length.should.eql(1)
+      e.errors[0].property.should.eql('minLength')
+
+    doc = { account: { friends: [] } }
+    try
+      db.users.insert(doc).then (result) ->
+        done(result)
+    catch e
+      e.errors.length.should.eql(1)
+      e.errors[0].property.should.eql('minLength')
+      done()
+
+
+  it 'should throw an error given a document w/ data in violation of the maxLength property', (done) ->
+    doc = { account: { friends: [{name: 'jay'},{name: 'jay'},{name: 'jay'}] } }
+    try
+      db.users.insert(doc).then (result) ->
+        done(result)
+    catch e
+      e.errors.length.should.eql(1)
+      e.errors[0].property.should.eql('maxLength')
+      done()
+
+  it 'should throw an error given an invalid type constraint on a property on an object', (done) ->
+    doc = { account: { friends: [{name: 1}] } }
+    try
+      db.users.insert(doc).then (result) ->
+        done(result)
+    catch e
+      e.errors.length.should.eql(1)
+      e.errors[0].property.should.eql('type')
+      done()
+
+  it 'should sanitize an object property', (done) ->
+    doc = { account: { friends: [{name: '<script>jay</script>'}] } }
+    db.users.insert(doc).then (result) ->
+      db.users.findOne({}).then (result) ->
+        result.account.friends[0].name.should.not.eql('<script>jay</script>')
+        done()
+
+  it 'should set default values', (done) ->
+    doc = { account: { friends: [{name: 'jay'}] } }
+    db.users.insert(doc).then (result) ->
+      db.users.findOne({}).then (result) ->
+        result.account.friends[0].nicknames.should.eql([{}])
+        done()
+
+  it 'should successfully insert a document given correct data', (done) ->
+    doc = {
+      account: {
+        friends: [
+          { name: 'jay', nicknames: [ {name: 'gus', giver: [ { name: 'flip' } ] } ] },
+          { name: 'lou' }
+        ]
+      }
+    }
+    db.users.insert(doc).then (result) ->
+      db.users.findOne({}).then (result) ->
+        result.account.friends[1].should.be.ok
+        result.account.friends[0].name.should.eql('jay!')
+        result.account.friends[0].nicknames[0].name.should.eql('gus')
+        result.account.friends[0].nicknames[0].giver[0].name.should.eql('flip')
+        done()

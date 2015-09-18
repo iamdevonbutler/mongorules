@@ -46,7 +46,6 @@ describe 'Schema:', ->
       result['account.friends.nicknames.name'].should.be.ok
       result['account.friends.nicknames.giver'].should.be.ok
       result['account.friends.nicknames.giver.name'].should.be.ok
-      result['account.friends.nicknames.giver.school'].should.be.ok
 
     it 'should return null if no child objects exist.', ->
       result = schema._getArrayObjectChildren(schemaArrayOfObjects, 'account.friends.eggs');
@@ -87,12 +86,6 @@ describe 'Schema:', ->
         .arrayObjects['account.friends.nicknames']._schema
         .arrayObjects['account.friends.nicknames.giver']._schema
         .values['account.friends.nicknames.giver.name']
-        .should.be.ok
-
-      result.arrayObjects['account.friends']._schema
-        .arrayObjects['account.friends.nicknames']._schema
-        .arrayObjects['account.friends.nicknames.giver']._schema
-        .values['account.friends.nicknames.giver.school']
         .should.be.ok
 
     it 'should process a schema of array of arrays of values', ->

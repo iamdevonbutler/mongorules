@@ -10,7 +10,13 @@ module.exports = {
   "account.friends.name": {
     type: 'string',
     required: true,
-    lowercase: true
+    notNull: true,
+    lowercase: true,
+    sanitize: true,
+    minLength: 1,
+    transform: function(value) {
+      return value + '!';
+    }
   },
 
   // Array item w/ an array of objects as it's value.
@@ -20,27 +26,18 @@ module.exports = {
 
   "account.friends.nicknames.name": {
     type: 'string',
-    required: true,
-    lowercase: true
+    required: true
   },
 
   // Array item w/ an array of objects as it's value.
   "account.friends.nicknames.giver": [{
     type: 'string',
-    required: true,
-    lowercase: true
+    required: true
   }],
 
   "account.friends.nicknames.giver.name": {
     type: 'string',
-    required: true,
-    lowercase: true
-  },
-
-  "account.friends.nicknames.giver.school": {
-    type: 'string',
-    required: true,
-    lowercase: true
-  },
+    required: true
+  }
 
 };
