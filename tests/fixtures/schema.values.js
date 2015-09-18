@@ -24,13 +24,6 @@ module.exports = {
     }
   },
 
-  "mood": {
-    type: 'number',
-    transform: function(value) {
-      return 'good ' + value;
-    }
-  },
-
   "updated": {
     type: 'date',
     dateFormat: 'timestamp'
