@@ -7,7 +7,7 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-preprocess = require('../lib/preprocess')
+preprocess = require('../../lib/preprocess')
 
 describe 'Preprocess:', ->
 

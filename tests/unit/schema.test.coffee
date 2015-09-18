@@ -7,13 +7,13 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-schema = require('../lib/schema')
-schemaSimple = require('./fixtures/schema.simple')
-schemaNested = require('./fixtures/schema.nested')
-schemaArrayOfValues = require('./fixtures/schema.arrayofvalues')
-schemaArrayOfObjects = require('./fixtures/schema.arrayofobjects')
-schemaArrayOfArrayOfValues= require('./fixtures/schema.arrayofarraysofvalues')
-schemaArrayOfArrayOfObjects = require('./fixtures/schema.arrayofarraysofobjects')
+schema = require('../../lib/schema')
+schemaSimple = require('../fixtures/schema.simple')
+schemaNested = require('../fixtures/schema.nested')
+schemaArrayOfValues = require('../fixtures/schema.arrayofvalues')
+schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects')
+schemaArrayOfArrayOfValues= require('../fixtures/schema.arrayofarraysofvalues')
+schemaArrayOfArrayOfObjects = require('../fixtures/schema.arrayofarraysofobjects')
 
 func = (x) -> x * x
 

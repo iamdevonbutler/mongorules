@@ -7,7 +7,7 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-Validator = require('../lib/validate')
+Validator = require('../../lib/validate')
 
 describe 'Validate:', ->
 

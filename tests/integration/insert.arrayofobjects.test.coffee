@@ -1,0 +1,49 @@
+    # describe 'array of objects', ->
+    #   it 'should insert an array of objects', (done) ->
+    #     models =
+    #       users:
+    #         schema: schemaArrayOfObjects
+    #     doc =
+    #       account:
+    #         friends: [{
+    #           name: 'jay',
+    #           nicknames: [
+    #             {
+    #               name: 'el pesh',
+    #               giver: [{
+    #                 name: 'flip',
+    #                 school: 'bu'
+    #               }]
+    #             }
+    #           ],
+    #         }]
+    #
+    #     db.addModels(models)
+    #     db.users.insert(doc).then (result) ->
+    #       db.users.findOne({}).then (result) ->
+    #         result.account.friends[0].name.should.eql('jay')
+    #         result.account.friends[0].nicknames[0].name.should.eql('el pesh')
+    #         result.account.friends[0].nicknames[0].giver[0].name.should.eql('flip')
+    #         result.account.friends[0].nicknames[0].giver[0].school.should.eql('bu')
+    #         done()
+    #
+    # # describe 'array of arrays of objects', ->
+    # describe 'array of arrays of values', ->
+    #   it 'should insert an array of arrays of values', (done) ->
+    #     model =
+    #       schema: schemaArrayOfArraysOfValues
+    #     doc =
+    #       account:
+    #         locations: [ ['sf', 'bos'], ['nyc', 'mia'] ]
+    #
+    #     db.addModel('users', model)
+    #     db.users.insert(doc).then (result) ->
+    #       db.users.findOne({}).then (result) ->
+    #         result.account.locations.length.should.eql(2)
+    #         result.account.locations[0].length.should.eql(2)
+    #         result.account.locations[0][0].should.eql('sf')
+    #         result.account.locations[0][1].should.eql('bos')
+    #         result.account.locations[1].length.should.eql(2)
+    #         result.account.locations[1][0].should.eql('nyc')
+    #         result.account.locations[1][1].should.eql('mia')
+    #         done()

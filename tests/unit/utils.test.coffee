@@ -7,7 +7,7 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-utils = require('../lib/utils')
+utils = require('../../lib/utils')
 func = (x) -> x * x
 
 describe 'Utils:', ->

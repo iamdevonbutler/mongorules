@@ -7,7 +7,7 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-transform = require('../lib/transform')
+transform = require('../../lib/transform')
 
 describe 'Transform:', ->
 
@@ -24,7 +24,7 @@ describe 'Transform:', ->
     it 'should call the second transform function in a schema if given an array', ->
       result = transform._transformFunction(1, schema, 1);
       result.should.eql(3)
-      
+
   describe '_transformString()', ->
     schema =
       trim: true

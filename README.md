@@ -25,7 +25,7 @@ Custom schemas enforce consistency to `insert()`, `update()`, and `findAndModify
 - [Todos](#todos)
 
 ## Requirements
-- node (versions 0.12, 4.0.0)
+- node >= 0.12.x
 - ES6
 - ES6 proxies (enabled via [Harmony Reflect](https://github.com/tvcutsem/harmony-reflect) and the `--harmony_proxies` flag)
 - Mongodb (version 3)
@@ -40,8 +40,8 @@ The following operations will enforce schema validation:
 - `update()`
 - `findAndModify()`
 
-### Other operations
-All mongodb operations are supported; however, not all of operations are validated prior to execution. The `upsert: true` option, available on `update()` operations, cannot be supported - update validation does not ensure the presence of all fields required for an insert. For this same reason we cannot validate `save()` operations.
+### Future support
+All mongodb operations are supported; however, not all of operations are validated prior to execution. The `upsert: true` option, available on `update()` operations, and the `save()` operation, is not yet supported.
 
 *Note: the mongodb node native driver [findAndModify()](http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#findandmodify) implementation is different from the mongodb shell implementation.*
 
@@ -308,7 +308,7 @@ If an array of values is provided:
 
 *Note: if using the array syntax, pass `null` to skip a particular validation*
 
-### The 'validation' property
+### The 'validate' property
 The custom validation handler accepts two parameters, the field value, and field schema, and should return either `true` or `false`. The function is executed after the standard validation properties.
 
 **For arrays:**
@@ -353,7 +353,7 @@ For an *array of values* & an *array of arrays of values*: each value, if of typ
 ### The 'transform' property
 The custom transform handler accepts two parameters, the field value, and the field schema, and should return the manipulated value. The function is executed after the standard transformation properties.
 
-The functionality of the 'transform' function, for each data structure, mimics the functionality of the ['validation' function](#).
+The functionality of the 'transform' function, for each data structure, mimics the functionality of the ['validate' function](#).
 
 
 ## Indexes
@@ -430,6 +430,8 @@ mongorules.addGlobalErrorHandler('api-development', (collectionName, action, err
 In an insert, if a value is `undefined`, and required = false, and there isn't a default value declared in your schema, the `undefined` value will be converted into a `null` value prior to insert.
 
 ## Todos
+- more preprocess tests
+- upsert and save
 - expand date support
 - support more mongodb methods in addition to collection methods.
 - uppercase

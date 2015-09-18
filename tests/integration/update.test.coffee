@@ -1,14 +1,14 @@
 'use strict'
 
-require('./helpers/setup')
+require('../helpers/setup')
 
 #Module dependencies.
 should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-db = require('../lib')
-schema = require('./fixtures/schema.simple')
+db = require('../../lib')
+schema = require('../fixtures/schema.simple')
 
 
 
@@ -33,7 +33,6 @@ describe 'Insert integration tests:', ->
           name: 'jayy'
           newsletter: false
       db.users.findAndModify({}, [], payload, {new: true}).then (result) ->
-        console.log(result);
         done()
 
 
