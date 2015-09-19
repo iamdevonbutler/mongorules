@@ -89,6 +89,7 @@ describe 'insert(): array of objects:', ->
         done()
 
   it 'should successfully insert a document given correct data', (done) ->
+
     doc = {
       account: {
         friends: [
@@ -97,6 +98,7 @@ describe 'insert(): array of objects:', ->
         ]
       }
     }
+
     db.users.insert(doc).then (result) ->
       db.users.findOne({}).then (result) ->
         result.account.friends[1].should.be.ok

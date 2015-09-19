@@ -113,3 +113,11 @@ describe 'insert(): values:', ->
         result.account.name.should.eql('hey ja')
         result.newsletter.should.eql(true)
         done()
+
+  it 'should insert multiple documents', (done) ->
+    doc = { account: { name: 'jay' } }
+    db.users.insert([doc,doc,doc]).then (result) ->
+      db.users.find({}).then (result) ->
+        result.toArray().then (result) ->
+          result.length.should.eql(3)
+          done()

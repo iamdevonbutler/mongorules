@@ -152,14 +152,16 @@ describe 'Schema:', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({transform: [true]}) , 'users')).to.throw()
       expect(->schema._validateSchema( schema._setSchemaDefaults({transform: func}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: [1]}) , 'users')).to.not.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: ['1']}) , 'users')).to.throw()
-
-      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: [1]}) , 'users')).to.not.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: ['1']}) , 'users')).to.throw()
-
       expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: 1}) , 'users')).to.throw()
       expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: true}) , 'users')).to.not.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: '1'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: 1}) , 'users')).to.not.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: [1]}) , 'users')).to.not.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: '1'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: 1}) , 'users')).to.not.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: [1]}) , 'users')).to.not.throw()
 
     it 'should throw if default is null and notNull is true', ->
       expect(->schema._validateSchema( schema._setSchemaDefaults({default: null, notNull: true}) , 'users')).to.throw()
