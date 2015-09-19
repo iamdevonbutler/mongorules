@@ -81,6 +81,7 @@ describe 'update():', ->
       db.users.update({}, { '$set': {'account.name': 'gus'} }).then (result) ->
         db.users.findOne({}).then (result) ->
           result.account.name.should.eql('hey gus')
+          result.account.friends.should.eql(['gab'])
           result.newsletter.should.eql(true)
           result.age.should.eql(1)
           Object.keys(result).length.should.eql(4) # _id field adds a field.
