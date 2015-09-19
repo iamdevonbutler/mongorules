@@ -114,10 +114,12 @@ describe 'insert(): values:', ->
         result.newsletter.should.eql(true)
         done()
 
-  it 'should insert multiple documents', (done) ->
-    doc = { account: { name: 'jay' } }
+  it 'should insert multiple documents and discard fields not present in schema', (done) ->
+    doc = { account: { name: 'jay', notaschemafield: 'getridofme' } }
     db.users.insert([doc,doc,doc]).then (result) ->
       db.users.find({}).then (result) ->
         result.toArray().then (result) ->
           result.length.should.eql(3)
+          expect(result[0].account.name).to.be.ok
+          expect(result[0].account.notaschemafield).to.be.undefined
           done()

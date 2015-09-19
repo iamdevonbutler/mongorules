@@ -9,16 +9,26 @@ module.exports = {
     trim: true,
     lowercase: true,
     filterNulls: true,
-    validate: [null, function(value) {
-      return value !== 'reject';
-    }],
+    validate: [
+      // Validates each array of values.
+      function(value) {
+        return true;
+      },
+      // Validates each value in each array.
+      function(value) {
+        return value !== 'reject';
+      }
+    ],
     transform: [
+      // Transforms each array of values.
       function(value) {
         return value;
       },
+      // Transforms each value in each array.
       function(value) {
         return value + '!';
-    }]
+      }
+    ]
   }]],
 
 
