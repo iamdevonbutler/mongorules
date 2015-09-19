@@ -16,6 +16,11 @@ module.exports = {
     }
   },
 
+  "account.friends": [{
+    type: 'string',
+    default: []
+  }],
+
   "newsletter": {
     type: 'boolean',
     default: true

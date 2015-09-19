@@ -17,6 +17,14 @@ describe 'insert(): values:', ->
     db.addModels(models)
     done()
 
+  it 'should return an error given an empty document', (done) ->
+    try
+      db.users.insert({}).then (result) ->
+        done(result)
+    catch e
+      e.should.be.ok
+      done()
+
   it 'should throw an error when violating the minLength constraint', (done) ->
     doc = { account: { name: '' } }
     try
