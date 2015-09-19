@@ -263,17 +263,21 @@ Allowed types include:
 - 'boolean'
 - 'date'
 
-If 'type' is set to 'date', the 'dateFormat' property must be set to enforce date specific validation. Allowed 'dateFormat' values include:
-
-- 'iso8601'
-- 'timestmap' (unix timestmap)
-- custom: e.g. 'MM-DD-YYYY' ([moment.js custom date formats](http://momentjs.com/docs/#/parsing/string-format/) in strict mode)
-
 **For arrays:**
 
 Type checking will be enforced on each value in *arrays of values* and *arrays of arrays of values*.
 
 *Mongorules also supports types for arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type - the type is implied from your schema. See [supported data structures](#).*
+
+#### Date formats
+
+If 'type' is set to 'date', the 'dateFormat' property must be set to enforce date specific validation. Allowed 'dateFormat' values include:
+
+- 'iso8601'
+- 'timestamp'
+- [Custom moment.js format](http://momentjs.com/docs/#/parsing/string-format/) (in strict mode) - e.g. 'MM-DD-YYYY'
+
+To insert an iso8601 date into your database: use `new Date()` and mongodb will store it as a BSON 'ISODate' type. To insert a timestamp into your database, use `Date.now()` (@todo store as timestamp BSON type).
 
 ### The 'denyXSS' property
 
@@ -416,13 +420,11 @@ mongorules.addGlobalErrorHandler('api-development', (collectionName, action, err
 ```
 
 ## API
-### initDatabase
-### addDatabase
-### addGlobalErrorHandler
-### addModels
-### \_addModel
-### Validate insert
-### Validate update
+### initDatabase()
+### addDatabase()
+### addGlobalErrorHandler()
+### addModels()
+### \_addModel()
 
 ## Misc
 

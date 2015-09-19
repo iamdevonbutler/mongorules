@@ -20,15 +20,13 @@ describe 'Utils:', ->
 
   describe '_validateDate():', ->
     it 'should return true given a valid ISO 8601', ->
-      utils._validateDate('2015-09-05T14:48:30Z', 'iso8601').should.be.true
-      utils._validateDate('1994-11-05T08:15:30-05:00', 'iso8601').should.be.true
-      utils._validateDate('2015-09-05T14:48:30', 'iso8601').should.be.true
+      utils._validateDate(new Date(), 'iso8601').should.be.true
 
     it 'should return false given a invalid ISO 8601', ->
       utils._validateDate('15-09-05T14:48:30Z', 'iso8601').should.be.false
 
     it 'should return true given a valid unix timestamp', ->
-      utils._validateDate('12345', 'timestamp').should.be.true
+      utils._validateDate(Date.now(), 'timestamp').should.be.true
 
     it 'should return false given a invalid unix timestamp', ->
       utils._validateDate('11-12-2015', 'timestamp').should.be.false

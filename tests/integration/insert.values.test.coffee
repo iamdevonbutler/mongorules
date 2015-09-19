@@ -90,12 +90,14 @@ describe 'insert(): values:', ->
       done()
 
   it 'should insert a document given valid dates', (done) ->
-    doc = { account: { name: 'jay' }, birthday: '01-01-2000', updated: '12345', created: '2015-09-14T17:51:31+00:00' }
+    date = new Date()
+    now = Date.now()
+    doc = { account: { name: 'jay' }, birthday: '01-01-2000', updated: now, created: date }
     db.users.insert(doc).then (result) ->
       db.users.findOne({}).then (result) ->
         result.birthday.should.eql('01-01-2000')
-        result.updated.should.eql('12345')
-        result.created.should.eql('2015-09-14T17:51:31+00:00')
+        result.updated.should.eql(now)
+        result.created.should.eql(date)
         done()
 
   it 'should throw an error when violating the required field constraint', (done) ->
