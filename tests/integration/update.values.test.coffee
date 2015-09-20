@@ -10,7 +10,7 @@ assert = require('chai').assert
 db = require('../../lib')
 schema = require('../fixtures/schema.values')
 
-describe 'update():', ->
+describe 'update(): values:', ->
 
   beforeEach (done) ->
     db.addModel('users', { schema: schema })
@@ -18,14 +18,30 @@ describe 'update():', ->
     db.users.insert(doc).then (result) ->
       done()
 
-  it 'should return an error given an empty document', (done) ->
-    doc = { account: { name: '' } }
+  it 'should throw an error given an empty document', (done) ->
     try
       db.users.update({}, {}).then (result) ->
         done(result)
     catch e
       e.should.be.ok
       done()
+
+  it 'should throw an error when only given a field that does not exist in schema', (done) ->
+    doc = { doesnotexist: true }
+    try
+      db.users.update({}, doc).then (result) ->
+        done(result)
+    catch e
+      e.should.be.ok
+      done()
+
+  it 'should update but ignore fields that do not exist in schema', (done) ->
+    doc = { doesnotexist: true, newsletter: false }
+    db.users.update({}, doc).then (result) ->
+      db.users.findOne({}).then (result) ->
+        expect(result.doesnotexist).to.be.undefined
+        result.newsletter.should.eql(false)
+        done()
 
   describe '$inc', ->
     it 'should throw an error given an invalid type', (done) ->
@@ -76,6 +92,34 @@ describe 'update():', ->
       catch e
         e.errors[0].property.should.eql('type')
         done()
+
+    it 'should throw an error when violating the minLength constraint', (done) ->
+      try
+        db.users.update({}, { '$set': {'account.name': ''} }).then (result) ->
+          done(result)
+      catch e
+        e.errors[0].property.should.eql('minLength')
+        done()
+
+    it 'should throw an error when violating the maxLength constraint', (done) ->
+      try
+        db.users.update({}, { '$set': {'account.name': 'abcdefghijklmnopqrstuvqxyz'} }).then (result) ->
+          done(result)
+      catch e
+        e.errors[0].property.should.eql('maxLength')
+        done()
+
+    it 'should update using the default value if given null and notNull is true', (done) ->
+      db.users.update({}, { '$set': {'account.friends': null} }).then (result) ->
+        db.users.findOne({}).then (result) ->
+          result.account.friends.should.eql([])
+          done()
+
+    it 'should update a field w/ null if notNull is false', (done) ->
+      db.users.update({}, { '$set': { age: null } }).then (result) ->
+        db.users.findOne({}).then (result) ->
+          expect(result.age).to.eql(null)
+          done()
 
     it 'should update a nested field and not add extra fields', (done) ->
       db.users.update({}, { '$set': {'account.name': 'gus'} }).then (result) ->

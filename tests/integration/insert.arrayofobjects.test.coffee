@@ -8,12 +8,12 @@ expect = require('chai').expect
 assert = require('chai').assert
 
 db = require('../../lib')
-schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects')
+schema = require('../fixtures/schema.arrayofobjects')
 
 describe 'insert(): array of objects:', ->
 
   beforeEach (done) ->
-    models = { users: { schema: schemaArrayOfObjects } }
+    models = { users: { schema: schema } }
     db.addModels(models)
     done()
 
@@ -31,7 +31,6 @@ describe 'insert(): array of objects:', ->
     doc = { account: { friends: [{ name: 'JAY' }] } }
     db.users.insert(doc).then (result) ->
       db.users.findOne({}).then (result) ->
-        console.log(result);
         result.account.friends[0].name.should.eql('jay!')
         done()
 

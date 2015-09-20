@@ -8,12 +8,12 @@ expect = require('chai').expect
 assert = require('chai').assert
 
 db = require('../../lib')
-schemaArrayOfArraysOfValues = require('../fixtures/schema.arrayofarraysofvalues')
+schema = require('../fixtures/schema.arrayofarraysofvalues')
 
 describe 'insert(): array of arrays of values:', ->
 
   beforeEach (done) ->
-    models = { users: { schema: schemaArrayOfArraysOfValues } }
+    models = { users: { schema: schema } }
     db.addModels(models)
     done()
 
@@ -31,7 +31,6 @@ describe 'insert(): array of arrays of values:', ->
     doc = { locations: [ null, [' JAY ', '<script>jay</script>', null ] ] }
     db.users.insert(doc).then (result) ->
       db.users.findOne({}).then (result) ->
-        console.log(result);
         result.locations[0][0].should.eql('jay!')
         result.locations[0][1].should.not.eql('<script>jay</script>')
         result.locations.length.should.eql(1)

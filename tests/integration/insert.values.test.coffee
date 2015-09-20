@@ -8,12 +8,12 @@ expect = require('chai').expect
 assert = require('chai').assert
 
 db = require('../../lib')
-schemaValues = require('../fixtures/schema.values')
+schema = require('../fixtures/schema.values')
 
 describe 'insert(): values:', ->
 
   beforeEach (done) ->
-    models = { users: { schema: schemaValues } }
+    models = { users: { schema: schema } }
     db.addModels(models)
     done()
 

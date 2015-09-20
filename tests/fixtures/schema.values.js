@@ -18,6 +18,7 @@ module.exports = {
 
   "account.friends": [{
     type: 'string',
+    notNull: true,
     default: []
   }],
 

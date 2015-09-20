@@ -8,12 +8,12 @@ expect = require('chai').expect
 assert = require('chai').assert
 
 db = require('../../lib')
-schemaArrayOfArraysOfObjects = require('../fixtures/schema.arrayofarraysofobjects')
+schema = require('../fixtures/schema.arrayofarraysofobjects')
 
 describe 'insert(): array of arrays of objects:', ->
 
   beforeEach (done) ->
-    models = { users: { schema: schemaArrayOfArraysOfObjects } }
+    models = { users: { schema: schema } }
     db.addModels(models)
     done()
 

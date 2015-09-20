@@ -25,7 +25,6 @@ describe 'Preprocess:', ->
           relatives: [2,3,4]
 
       result = preprocess._replaceDocumentInPayload(obj, doc)
-      # console.log(result);
 
   describe '_getDocumentFromPayload()', ->
 
