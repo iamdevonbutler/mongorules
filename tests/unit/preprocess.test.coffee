@@ -13,7 +13,13 @@ describe 'Preprocess:', ->
 
 
   describe '_queryFieldsExistInSchema', ->
-    it 'should return false given a field in a the query not present in schema.', ->
+    it 'should return true given a nested query with fields that are present in schema', ->
+      query = { account: { name: 'hey gab', friends: { name: { nickname: 'lou' } } } }
+      schemaFields = ['account.name', 'account.friends.name.nickname']
+      result = preprocess._queryFieldsExistInSchema(query, schemaFields)
+      result.should.eql(true)
+
+    it 'should return false given a field in the query not present in schema.', ->
       query = { $and: [ { price: { $ne: 1.99 } }, { price: { $exists: true } } ] }
       schemaFields = ['quantity']
       result = preprocess._queryFieldsExistInSchema(query, schemaFields)
@@ -24,25 +30,23 @@ describe 'Preprocess:', ->
       result = preprocess._queryFieldsExistInSchema(query, schemaFields)
       result.should.eql(false)
 
-    it 'should return true given a fields in a the query that are present in schema.', ->
+    it 'should return true given a fields in the query that are present in schema.', ->
       query = { $and: [ { price: { $ne: 1.99 } }, { price: { $exists: true } } ] }
       schemaFields = ['price']
       result = preprocess._queryFieldsExistInSchema(query, schemaFields)
-      result.should.eql(false)
+      result.should.eql(true)
 
       query = { $or: [ { quantity: { $lt: 20 } }, { price: 10 } ] }
       schemaFields = ['quantity', 'price']
       result = preprocess._queryFieldsExistInSchema(query, schemaFields)
-      result.should.eql(false)
+      result.should.eql(true)
 
   describe '_getQueryFields()', ->
     it 'should return an array of query fields present in an $elemMatch query', ->
       query = {name: 4, grades: { $elemMatch: { grade: { $lte: 90 }, mean: { $gt: 80 } } } }
       result = preprocess._getQueryFields(query)
-      console.log(result);
-      result.length.should.eql(4)
+      result.length.should.eql(3)
       result.should.contain('name')
-      result.should.contain('grades')
       result.should.contain('grades.grade')
       result.should.contain('grades.mean')
 
