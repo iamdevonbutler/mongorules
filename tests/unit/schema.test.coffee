@@ -40,18 +40,40 @@ describe 'Schema:', ->
       keys[1].should.eql('a.a')
       keys[2].should.eql('a.b')
 
-  describe '_getArrayObjectChildren():', ->
+  describe '_getChildObjectsInArray():', ->
     it 'should return a nested child object given a parent schema field key.', ->
-      result = schema._getArrayObjectChildren(schemaArrayOfObjects, 'account.friends.nicknames');
+      result = schema._getChildObjectsInArray(schemaArrayOfObjects, 'account.friends.nicknames');
       result['account.friends.nicknames.name'].should.be.ok
       result['account.friends.nicknames.giver'].should.be.ok
       result['account.friends.nicknames.giver.name'].should.be.ok
 
     it 'should return null if no child objects exist.', ->
-      result = schema._getArrayObjectChildren(schemaArrayOfObjects, 'account.friends.eggs');
+      result = schema._getChildObjectsInArray(schemaArrayOfObjects, 'account.friends.eggs');
       expect(result).to.eql(null)
 
   describe '_normalizeSchema():', ->
+    it 'should add schema fields to the _fields array for a schema of values', ->
+      result = schema._normalizeSchema(schemaValues)
+      result._fields.length.should.eql(7)
+      result._fields.should.contain('account.name')
+      result._fields.should.contain('account.friends')
+      result._fields.should.contain('newsletter')
+      result._fields.should.contain('age')
+      result._fields.should.contain('birthday')
+      result._fields.should.contain('updated')
+      result._fields.should.contain('created')
+
+    it 'should add schema fields to the _fields array for a schema of objects in an array', ->
+      result = schema._normalizeSchema(schemaArrayOfObjects)
+      console.log(result);
+      result._fields.length.should.eql(6)
+      result._fields.should.contain('account.friends')
+      result._fields.should.contain('account.friends.name')
+      result._fields.should.contain('account.friends.nicknames')
+      result._fields.should.contain('account.friends.nicknames.name')
+      result._fields.should.contain('account.friends.nicknames.giver')
+      result._fields.should.contain('account.friends.nicknames.giver.name')
+
     it 'should process a schema consisting of non-array values', ->
       result = schema._normalizeSchema(schemaValues)
       Object.keys(result.values).length.should.be.ok
