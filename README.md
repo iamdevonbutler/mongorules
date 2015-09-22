@@ -357,7 +357,7 @@ The functionality of the 'transform' function, for each data structure, mimics t
 You can attach static methods to each collection object:
 
 ```
-var db, dbInstance, result;
+var db, dbInstance, result, user;
 db = require('mongorules');
 
 dbInstance = yield db.initDatabase(process.env.MONGO_URL);
@@ -366,14 +366,20 @@ db.addDatabase('api-development', dbInstance);
 db.addModel('users', {
   schema: schema,
   methods: {
-    getByEmail: function(email) {
-      // `this` == mongorules instance
+    // `this` == mongorules instance.
+    getUserByEmail: function(email) {
       return this.users.findOne({ email: email });
+    },
+    // You can pass generator functions!
+    addUser: function* (email) {
+      yield this.users.insert({ email: email });
+      return yield this.users.findOne({ email: email });
     }
   }
 });
 
-result = yield db.users.getByEmail('jay@example.com');
+user = yield* db.users.addUser('jay@example.com');
+user = yield db.users.getByEmail('jay@example.com');
 ```
 
 
