@@ -23,7 +23,6 @@ describe 'update(): values:', ->
       db.users.update({}, {}).then (result) ->
         done(result)
     catch e
-      console.log(e);
       e.should.be.ok
       done()
 

@@ -88,7 +88,6 @@ describe 'insert(): array of values:', ->
       db.users.insert(doc).then (result) ->
         done(result)
     catch e
-      console.log(e);
       e.errors.length.should.eql(1)
       e.errors[0].property.should.eql('type')
       done()

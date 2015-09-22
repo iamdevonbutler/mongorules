@@ -64,7 +64,6 @@ describe 'update(): array of objects:', ->
       payload = { '$addToSet': {'account.friends': { '$each': [_document] } } }
       db.users.update({}, payload).then (result) ->
         db.users.findOne({}).then (result) ->
-          console.log(result.account.friends[2]);
           result.account.friends.length.should.eql(3)
           result.account.friends[2].should.eql(output)
           done()

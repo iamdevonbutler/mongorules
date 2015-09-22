@@ -53,7 +53,6 @@ describe 'Preprocess:', ->
     it 'should return an array of query fields present in an $and query.', ->
       query = { $and: [ { price: { $ne: 1.99 } }, { price: { $exists: true } } ] }
       result = preprocess._getQueryFields(query)
-      console.log(result);
       result.should.eql(['price'])
 
     it 'should return an array of query fields present in an $all query.', ->

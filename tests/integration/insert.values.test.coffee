@@ -17,6 +17,14 @@ describe 'insert(): values:', ->
     db.addModels(models)
     done()
 
+  it 'should throw an error when inserting a document w/ an invalid ObjectID', (done) ->
+    try
+      db.users.insert({ account: { name: null }, _id: '1' }).then (result) ->
+        done(result)
+    catch e
+      e.should.be.ok
+      done()
+
   it 'should return an error given an empty document', (done) ->
     try
       db.users.insert({}).then (result) ->

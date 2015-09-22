@@ -7,16 +7,43 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
+_ = require('lodash')
 schema = require('../../lib/schema')
-schemaValues = require('../fixtures/schema.values')
-schemaArrayOfValues = require('../fixtures/schema.arrayofvalues')
-schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects')
-schemaArrayOfArrayOfValues= require('../fixtures/schema.arrayofarraysofvalues')
-schemaArrayOfArrayOfObjects = require('../fixtures/schema.arrayofarraysofobjects')
-
 func = (x) -> x * x
 
+schemaValues = null
+schemaArrayOfValues = null
+schemaArrayOfObjects = null
+schemaArrayOfArrayOfValues = null
+schemaArrayOfArrayOfObjects = null
+
 describe 'Schema:', ->
+
+  beforeEach (done) ->
+    schemaValues = _.clone(require('../fixtures/schema.values'))
+    schemaArrayOfValues = _.clone(require('../fixtures/schema.arrayofvalues'))
+    schemaArrayOfObjects = _.clone(require('../fixtures/schema.arrayofobjects'))
+    schemaArrayOfArrayOfValues = _.clone(require('../fixtures/schema.arrayofarraysofvalues'))
+    schemaArrayOfArrayOfObjects = _.clone(require('../fixtures/schema.arrayofarraysofobjects'))
+    done()
+
+  describe '_addIdFieldToSchema', ->
+    it 'should return false when executing the validate function given an invalid ID', ->
+      result = schema._addIdFieldToSchema(schemaValues)._id.validate('a')
+      result.should.eql(false)
+
+    it 'should return true when executing the validate function given a valid ID', ->
+      result = schema._addIdFieldToSchema(schemaValues)._id.validate('560037cdfa952916b820528e')
+      result.should.eql(true)
+
+    it 'should add an _id field to a schema when one does not already exist', ->
+      result = schema._addIdFieldToSchema(schemaValues)
+      expect(result._id).to.exist
+
+    it 'should not add an _id field to a schema if one already exists', ->
+        schemaValues._id = { type: 'string' }
+        result = schema._addIdFieldToSchema(schemaValues)
+        result._id.type.should.eql('string')
 
   describe '_arrayifySchema()', ->
     it 'should transform a validate/transform function into an array containing a function', ->
@@ -51,9 +78,9 @@ describe 'Schema:', ->
       result = schema._getChildObjectsInArray(schemaArrayOfObjects, 'account.friends.eggs');
       expect(result).to.eql(null)
 
-  describe '_normalizeSchema():', ->
+  describe '_preprocessSchema():', ->
     it 'should add schema fields to the _fields array for a schema of values', ->
-      result = schema._normalizeSchema(schemaValues)
+      result = schema._preprocessSchema(schemaValues)
       result._fields.length.should.eql(7)
       result._fields.should.contain('account.name')
       result._fields.should.contain('account.friends')
@@ -64,8 +91,7 @@ describe 'Schema:', ->
       result._fields.should.contain('created')
 
     it 'should add schema fields to the _fields array for a schema of objects in an array', ->
-      result = schema._normalizeSchema(schemaArrayOfObjects)
-      console.log(result);
+      result = schema._preprocessSchema(schemaArrayOfObjects)
       result._fields.length.should.eql(6)
       result._fields.should.contain('account.friends')
       result._fields.should.contain('account.friends.name')
@@ -75,15 +101,15 @@ describe 'Schema:', ->
       result._fields.should.contain('account.friends.nicknames.giver.name')
 
     it 'should process a schema consisting of non-array values', ->
-      result = schema._normalizeSchema(schemaValues)
+      result = schema._preprocessSchema(schemaValues)
       Object.keys(result.values).length.should.be.ok
 
     it 'should process a schema of values in arrays', ->
-      result = schema._normalizeSchema(schemaArrayOfValues)
+      result = schema._preprocessSchema(schemaArrayOfValues)
       result.arrayValues.should.be.ok
 
     it 'should process a schema of objects in arrays', ->
-      result = schema._normalizeSchema(schemaArrayOfObjects)
+      result = schema._preprocessSchema(schemaArrayOfObjects)
       result.arrayObjects['account.friends'].should.be.ok
 
       result.arrayObjects['account.friends']._schema
@@ -111,11 +137,11 @@ describe 'Schema:', ->
         .should.be.ok
 
     it 'should process a schema of array of arrays of values', ->
-      result = schema._normalizeSchema(schemaArrayOfArrayOfValues)
+      result = schema._preprocessSchema(schemaArrayOfArrayOfValues)
       result.arrayArrayValues.should.be.ok
 
     it 'should process a schema of array of arrays of objects', ->
-      result = schema._normalizeSchema(schemaArrayOfArrayOfObjects)
+      result = schema._preprocessSchema(schemaArrayOfArrayOfObjects)
       result.arrayArrayObjects.should.be.ok
 
   describe '_setSchemaDefaults():', ->

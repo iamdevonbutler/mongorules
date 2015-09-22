@@ -14,7 +14,7 @@ describe 'Upserts:', ->
 
   beforeEach (done) ->
     db.addModel('users', { schema: schema })
-    doc = { account: { friends: ['gab'], name: 'jay' } }
+    doc = { _id: '507f1f77bcf86cd799439011', account: { friends: ['gab'], name: 'jay' } }
     db.users.insert(doc).then (result) ->
       done()
 
@@ -31,7 +31,7 @@ describe 'Upserts:', ->
         done()
 
     it 'should update a document given a matching query', (done) ->
-      query = { 'account.name': 'hey jay' }
+      query = { _id: '507f1f77bcf86cd799439011', 'account.name': 'hey jay' }
       payload = { $set: { 'account.name': 'gab' } }
       db.users.update(query, payload, { upsert: true }).then (result) ->
         db.users.find().then (result) ->
@@ -59,8 +59,6 @@ describe 'Upserts:', ->
           result.toArray().then (result) ->
             result.length.should.eql(2)
             done()
-
-  describe '$setOnInsert', ->
 
   describe 'findAndModify()', ->
     it 'should update a document given a matching query', (done) ->
