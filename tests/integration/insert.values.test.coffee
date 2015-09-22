@@ -119,6 +119,13 @@ describe 'insert(): values:', ->
       e.errors[0].property.should.eql('required')
       done()
 
+  it 'should insert an invalid document using the novalidate prefix', (done) ->
+    doc = { account: {} }
+    db.users.novalidate.insert(doc).then (result) ->
+      db.users.findOne().then (result) ->
+        expect(result.account).to.be.empty
+        done()
+
   it 'should not throw an error when given a null value and notNull is false', (done) ->
     doc = { account: { name: null } }
     db.users.insert([doc]).then (result) ->
