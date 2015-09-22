@@ -23,6 +23,7 @@ describe 'insert(): values:', ->
         done(result)
     catch e
       e.should.be.ok
+      e.errors.property.should.eql('validate')
       done()
 
   it 'should return an error given an empty document', (done) ->
