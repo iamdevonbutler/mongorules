@@ -1,7 +1,7 @@
 {
   "name": "mongorules",
-  "version": "0.1.0",
-  "description": "A proxied mongodb wrapper w/ schemas",
+  "version": "0.1.0-beta.0",
+  "description": "A small but fierce wrapper around the native mongodb driver leveraging ES6 proxy black magic and schemas.",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -29,13 +29,10 @@
   "devDependencies": {
     "babel": "^5.8.23",
     "chai": "^3.2.0",
-    "co": "^4.6.0",
     "coffee-script": "^1.10.0",
     "harmony-reflect": "^1.4.2",
     "koa": "^1.0.0",
-    "koa-router": "^5.1.2",
-    "mocha": "^2.3.0",
-    "supertest": "^1.1.0"
+    "mocha": "^2.3.0"
   },
   "dependencies": {
     "debug": "^2.2.0",

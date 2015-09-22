@@ -81,7 +81,6 @@ describe 'Schema:', ->
   describe '_preprocessSchema():', ->
     it 'should add schema fields to the _fields array for a schema of values', ->
       result = schema._preprocessSchema(schemaValues)
-      result._fields.length.should.eql(7)
       result._fields.should.contain('account.name')
       result._fields.should.contain('account.friends')
       result._fields.should.contain('newsletter')
@@ -92,7 +91,6 @@ describe 'Schema:', ->
 
     it 'should add schema fields to the _fields array for a schema of objects in an array', ->
       result = schema._preprocessSchema(schemaArrayOfObjects)
-      result._fields.length.should.eql(6)
       result._fields.should.contain('account.friends')
       result._fields.should.contain('account.friends.name')
       result._fields.should.contain('account.friends.nicknames')

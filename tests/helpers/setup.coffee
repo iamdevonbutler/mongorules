@@ -5,23 +5,14 @@ require('babel/register')
 #Module dependencies.
 MongoClient = require('mongodb').MongoClient
 db = require('../../lib')
-Router = require('koa-router')
-handlers = require('./handlers')
-koa = require('koa')
 
-app = null
-dbInstance = null
+dbInit = false
 
 beforeEach (done) ->
-  if !app
+  if !dbInit
     db.initDatabase(MongoClient, 'mongodb://localhost/mongorules').then (_db) =>
       db.addDatabase('mongorules', _db);
-      dbInstance = db
-      app = koa()
-      router = new Router()
-      router.get('/users/get', handlers.add)
-      app.use(router.routes())
-      app.listen(3001)
+      dbInit = true
       done()
   else
     done()
@@ -29,7 +20,7 @@ beforeEach (done) ->
 
 # Remove collection users if it exists.
 afterEach (done) ->
-  dbInstance.users.remove({}).then((res)->
+  db.users.remove({}).then((res)->
     done()
   , (err) ->
     # catch error thrown if collection does not exist.

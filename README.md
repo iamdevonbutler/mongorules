@@ -1,14 +1,14 @@
-# Mongorules (beta) - DO NOT USE RIGHT MEOW
+# Mongorules (beta)
 
 A small but fierce wrapper around the native mongodb driver leveraging ES6 proxy black magic.
 
 # Intro
 
-Abiding by the the LOTR philosophy (one API to rule them all), node-mongorules adds a little extra sauce on top of the node-mongodb-native driver.
+Abiding by the the LOTR philosophy (one API to rule them all), node-mongorules adds a little extra sauce on top of the [node-mongodb-native](https://github.com/mongodb/node-mongodb-native) driver.
 
 Using the same syntax that you would w/ the native driver, all collection methods (find, insert...) are wrapped in promises, and thus become yieldable (check out [Koa](https://github.com/koajs/koa) to take advantage of this awesomeness)! Cursor methods, resulting from a find operation, return a promise, and can be yielded as well.
 
-Custom schemas enforce consistency to `insert()`, `update()`, and `findAndModify()` operations, and static methods can be attached to collection models.
+Custom schemas enforce consistency to `insert()`, `update()`, `save()`, and `findAndModify()` operations, and static methods can be attached to collection models.
 
 ## Legend
 - [Requirements](#requirements)
@@ -38,12 +38,8 @@ The following operations will enforce schema validation:
 
 - `insert()`
 - `update()`
+- `save()`
 - `findAndModify()`
-
-### Future support
-All mongodb operations are supported; however, not all of operations are validated prior to execution. The `upsert: true` option, available on `update()` operations, and the `save()` operation, is not yet supported.
-
-*Note: the mongodb node native driver [findAndModify()](http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#findandmodify) implementation is different from the mongodb shell implementation.*
 
 ## Getting started
 
@@ -56,10 +52,10 @@ npm install --save mongorules
 Second, init mongodb:
 
 ```
-const mongorules = require('mongorules');
-const MongoClient = require('mongodb').MongoCLient;
+var mongorules = require('mongorules');
+var MongoClient = require('mongodb').MongoCLient;
 
-const db = yield mongorules.initDatabase(MongoClient, process.env.MONGO_URL);
+var db = yield mongorules.initDatabase(MongoClient, process.env.MONGO_URL);
 
 mongorules.addDatabase('api-development', db);
 ```
@@ -68,15 +64,15 @@ mongorules.addDatabase('api-development', db);
 Third, add models:
 
 ```
-const mongorules = require('mongorules');
-const schema = require('./schemas/users.js');
-const methods = require('./methods/users.js');
+var mongorules = require('mongorules');
+var schema = require('./schemas/users.js');
+var methods = require('./methods/users.js');
 
 mongorules.addModels({
   users: {
     schema: schema,
     methods: methods,
-    onError: function(collection, action, errors) {}
+    onError: function(collectionName, action, errors) {}
   }
 });
 ```
@@ -84,19 +80,16 @@ mongorules.addModels({
 Third, write queries:
 
 ```
-const db = require('mongorules');
+var db = require('mongorules');
 
-try {
-  var result = yield db.users.find({});
-  var users = yield result.toArray();  
-}
-catch (err) {
-  // @todo log.
-}
+var result = yield db.users.insert({ name: 'jay' });
+
+var result = yield db.users.find({ name: 'jay' });
+var users = yield result.toArray();  
 ```
 
 ## Schemas
-A schema can validate and transform data for `insert()`, `update()`, and `findAndModify()` operations.
+A schema can validate and transform data for `insert()`, `update()`, `save()`, and `findAndModify()` operations.
 
 Schemas are optional, and are not required for each collection.
 
@@ -359,30 +352,25 @@ The custom transform handler accepts two parameters, the field value, and the fi
 
 The functionality of the 'transform' function, for each data structure, mimics the functionality of the ['validate' function](#).
 
-
-## Indexes
-
 ## Static methods
-@todo return promise always?
 
-You can attach static methods to the collection object like so:
+You can attach static methods to each collection object:
 
 ```
-const mongorules = require('mongorules');
-const db = yield mongorules.initDatabase(process.env.MONGO_URL);
-mongorules.addDatabase('api-development', db);
+var db, dbInstance, result;
+db = require('mongorules');
 
-mongorules.addModels({
-  users: {
-    schema: schema,
-    methods: {
-      getByEmail: function() {}
-    }
+dbInstance = yield db.initDatabase(process.env.MONGO_URL);
+db.addDatabase('api-development', dbInstance);
+
+db.addModel('users', {
+  schema: schema,
+  methods: {
+    getByEmail: function(email) {...}
   }
 });
 
-var db = mongorules;
-var result = yield db.users.getByEmail('jay@example.com');
+result = yield db.users.getByEmail('jay@example.com');
 ```
 
 
