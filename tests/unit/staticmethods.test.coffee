@@ -14,10 +14,14 @@ describe 'Static methods:', ->
 
   beforeEach (done) ->
     methods = {
-      test: (value) -> value+1
+      addUser: (value) ->
+        return this.users.insert({ account: { name: value } })
     }
     db.addModel('users', { schema: schema, methods: methods })
     done()
 
-  it 'should execute a static method on the users collection.', ->
-    db.users.test(1).should.eql(2)
+  it 'should execute a static method on the users collection.', (done) ->
+    db.users.addUser('gus').then (result) ->
+      db.users.findOne().then (result) ->
+        result.account.name.should.eql('hey gus')
+        done()

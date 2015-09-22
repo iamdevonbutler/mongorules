@@ -366,7 +366,10 @@ db.addDatabase('api-development', dbInstance);
 db.addModel('users', {
   schema: schema,
   methods: {
-    getByEmail: function(email) {...}
+    getByEmail: function(email) {
+      // `this` == mongorules instance
+      return this.users.findOne({ email: email });
+    }
   }
 });
 
