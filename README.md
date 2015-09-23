@@ -41,6 +41,7 @@ Second, init mongodb:
 
 ```
 var db, mongodb, dbInstance;
+
 mongodb = require('mongodb');
 db = require('mongorules');
 
@@ -53,6 +54,7 @@ Third, add models:
 
 ```
 var db, schema, methods;
+
 db = require('mongorules');
 schema = require('./schemas/users.js');
 methods = require('./methods/users.js');
@@ -66,10 +68,11 @@ db.addModels({
 });
 ```
 
-Third, write queries:
+Now, write queries:
 
 ```
 var db, result, users;
+
 db = require('mongorules');
 
 result = yield db.users.insert({ name: 'jay' });
@@ -450,12 +453,14 @@ The execution order of custom error handlers begins w/ the local error handler, 
 
 ```
 /**
- * @param {String} collectionName
- * @param {String} action - e.g. 'insert', 'find'...
- * @param {Array} errors
- * @param {Boolean} localHandler - will be 'true' a local error handler has been called.
+ * Adds a global error handler for schema validation and mongodb errors.
+ * @param {Function} handler:
+ *    @param {String} collectionName.
+ *    @param {String} action.
+ *    @param {Array} errors.
+ * @return `this`.
  */
-mongorules.addGlobalErrorHandler('api-development', (collectionName, action, errors, localHandler) => {
+mongorules.addGlobalErrorHandler((collectionName, action, errors, localHandler) => {
    // log to database
    // throw '';
 });
@@ -464,6 +469,7 @@ mongorules.addGlobalErrorHandler('api-development', (collectionName, action, err
 ## API
 ### connect()
 Connects to mongodb using `MongoClient.connect()` (convenience method).
+
 **Arguments**
 - mongoUrl {String}
 - mongodb {Object} - require('mongodb')
@@ -478,7 +484,6 @@ Mongodb instance to be passed to the `addDatabase()` method.
 - mongodbInstance {Object}
 
 ### addModel()
-Adds a data model.
 
 **Arguments**
 - collectionName {String}
@@ -493,7 +498,6 @@ db.addModel('users', {
 });
 ```
 ### addModels()
-Adds data models.
 
 **Arguments**
 - models {Object} - data models.
