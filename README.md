@@ -17,7 +17,6 @@ Custom schemas enforce consistency to `insert()`, `update()`, `save()`, and `fin
 - [Schemas](#schemas)
 - [Document Validation](#document-validation)
 - [Document Transformation](#document-transformation)
-- [Indexes](#indexes)
 - [Static methods](#static-methods)
 - [Error handling](#error-handling)
 - [API](#api)
@@ -88,6 +87,20 @@ The following operations will enforce schema validation:
 - `update()`
 - `save()`
 - `findAndModify()`
+
+### Update operations
+
+Mongoproxy supports validation for the following mongodb update operators:
+
+- `$inc`
+- `$mul`
+- `$set`
+- `$min`
+- `$max`
+- `$addToSet`
+- `$push`
+
+Upsert operations are supported as well.
 
 ## Schemas
 
