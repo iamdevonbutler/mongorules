@@ -27,22 +27,36 @@ describe 'update(): values:', ->
       done()
 
   it 'should throw an error when only given a field that does not exist in schema', (done) ->
-    doc = { doesnotexist: true }
+    payload = { doesnotexist: true }
     try
-      db.users.update({}, doc).then (result) ->
+      db.users.update({}, payload).then (result) ->
         done(result)
     catch e
       e.should.be.ok
       done()
 
   it 'should update but ignore fields that do not exist in schema', (done) ->
-    doc = { doesnotexist: true, newsletter: false }
-    db.users.update({}, doc).then (result) ->
-      console.log(result);
+    payload = { doesnotexist: true, newsletter: false }
+    db.users.update({}, payload).then (result) ->
       db.users.findOne({}).then (result) ->
-        console.log(result);
         expect(result.doesnotexist).to.be.undefined
         result.newsletter.should.eql(false)
+        done()
+
+  it 'should ignore fields that do not exist in schema during an $addToSet w/ $each update', (done) ->
+    payload = {
+      $addToSet: {
+        'account.doesnotexist': { $each: ['jay', 'gab'] },
+        'account.friends': { $each: ['jay', 'lou'] }
+      }
+    }
+    db.users.update({}, payload).then (result) ->
+      db.users.findOne({}).then (result) ->
+        result.newsletter.should.eql(true)
+        result.age.should.eql(1)
+        result.account.name.should.eql('hey jay')
+        result.account.friends.should.eql(['gab', 'jay', 'lou'])
+        expect(result.account.friends.doesnotexist).to.be.undefined
         done()
 
   describe '$inc', ->
