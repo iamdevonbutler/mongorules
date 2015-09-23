@@ -38,7 +38,9 @@ describe 'update(): values:', ->
   it 'should update but ignore fields that do not exist in schema', (done) ->
     doc = { doesnotexist: true, newsletter: false }
     db.users.update({}, doc).then (result) ->
+      console.log(result);
       db.users.findOne({}).then (result) ->
+        console.log(result);
         expect(result.doesnotexist).to.be.undefined
         result.newsletter.should.eql(false)
         done()
