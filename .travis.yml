@@ -4,8 +4,8 @@ node_js:
   - '4.0'
   - 'iojs'
 services: mongodb
+os:
+  - osx
 before_install:
-  - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  - which brew
   - brew update
   - brew outdated mongodb || brew upgrade mongodb
