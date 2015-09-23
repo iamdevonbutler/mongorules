@@ -6,4 +6,4 @@ node_js:
 services: mongodb
 before_install:
   - brew update
-  - brew outdated mongodb || brew upgrade mongodb
+  - brew outdated mongodb || brew install mongodb
