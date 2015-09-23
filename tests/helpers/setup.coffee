@@ -3,14 +3,14 @@
 require('babel/register')
 
 #Module dependencies.
-MongoClient = require('mongodb').MongoClient
+mongodb = require('mongodb')
 db = require('../../lib')
 
 dbInit = false
 
 beforeEach (done) ->
   if !dbInit
-    db.initDatabase(MongoClient, 'mongodb://localhost/mongorules').then (_db) =>
+    db.connect('mongodb://localhost/mongorules', mongodb).then (_db) =>
       db.addDatabase('mongorules', _db);
       dbInit = true
       done()
