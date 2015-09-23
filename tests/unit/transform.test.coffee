@@ -39,6 +39,12 @@ describe 'Transform:', ->
       result.should.eql('string')
       result = transform._transformString(' STRING ', falseSchema);
       result.should.eql(' STRING ')
+    it 'should uppercase and trim a string', ->
+      anotherSchema =
+        trim: true
+        uppercase: true
+      result = transform._transformString(' string ', anotherSchema);
+      result.should.eql('STRING')
     it 'should return a unmodified value if not given a string', ->
       result = transform._transformString([1], schema);
       result.should.eql([1])

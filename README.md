@@ -21,8 +21,7 @@ Custom schemas enforce consistency to `insert()`, `update()`, `save()`, and `fin
 - [Static methods](#static-methods)
 - [Error handling](#error-handling)
 - [API](#api)
-- [Misc](#misc)
-- [Todos](#todos)
+- [License](#license)
 
 ## Requirements
 - node >= 0.12.x
@@ -52,23 +51,24 @@ npm install --save mongorules
 Second, init mongodb:
 
 ```
-var mongorules = require('mongorules');
-var MongoClient = require('mongodb').MongoCLient;
+var db, MongoClient, dbInstance;
+db = require('mongorules');
+MongoClient = require('mongodb').MongoCLient;
 
-var db = yield mongorules.initDatabase(MongoClient, process.env.MONGO_URL);
-
-mongorules.addDatabase('api-development', db);
+dbInstance = yield db.initDatabase(MongoClient, process.env.MONGO_URL);
+db.addDatabase('api-development', dbInstance);
 ```
 *The initDatabase method is a convenience method that returns a promise (wrap code in `co` to yield). You can init mongodb any way you choose as long as you pass the instance to the `addDatabase()` method.*
 
 Third, add models:
 
 ```
-var mongorules = require('mongorules');
-var schema = require('./schemas/users.js');
-var methods = require('./methods/users.js');
+var db, schema, methods;
+db = require('mongorules');
+schema = require('./schemas/users.js');
+methods = require('./methods/users.js');
 
-mongorules.addModels({
+db.addModels({
   users: {
     schema: schema,
     methods: methods,
@@ -80,12 +80,12 @@ mongorules.addModels({
 Third, write queries:
 
 ```
-var db = require('mongorules');
+var db, result, users;
+db = require('mongorules');
 
-var result = yield db.users.insert({ name: 'jay' });
-
-var result = yield db.users.find({ name: 'jay' });
-var users = yield result.toArray();  
+result = yield db.users.insert({ name: 'jay' });
+result = yield db.users.find({ name: 'jay' });
+users = yield result.toArray();  
 ```
 
 ## Schemas
@@ -97,7 +97,7 @@ Schemas are optional, and are not required for each collection.
 
 The following illustrates how you go about creating schemas for different data structures:
 
-*Note: there will be much talk about array types, arrays in arrays and whatnot; admittedly, this can become overwhelming, and in most cases these data structures are not needed. If that's the case, your best bet is to ignore them altogether.*
+*Note: there will be much talk about array fields, arrays of values, arrays of objects, ..., and whatnot; admittedly, this can become overwhelming, and in most cases these data structures are not needed. If that's the case, your best bet is to ignore them altogether.*
 
 #### Values
 
@@ -208,6 +208,7 @@ Resolves to:
 *Transformation properties*
 - `trim` {Boolean} default `false` (Strings only)
 - `lowercase` {Boolean} default `false` (String only)
+- `uppercase` {Boolean} default `false` (String only)
 - `filterNulls` {Boolean} default `false` (Arrays only)
 - `sanitize` {Boolean} default `false` (Strings only)
 - `transform` {Function | Array} default `null`
@@ -215,7 +216,7 @@ Resolves to:
   - *@param {Object} schema*
   - *@return {Mixed} - you should return the transformed value.*
 
-*Note: if setting properties on an array of objects or an array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'dateFormat', 'trim', 'lowercase', 'sanitize', and 'denyXSS'.*
+*Note: if setting properties on an array of objects or an array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'dateFormat', 'trim', 'lowercase', `uppercase`, 'sanitize', and 'denyXSS'.*
 
 ## Document validation
 Document validation will occur on `insert()`, `update()`, and `findAndModify()` operations and enforce the rules declared in your schemas. As w/ mongodb query errors, document validation failures will throw document validation errors if custom error handlers are not provided (see [Error handling](#error-handling)).
@@ -341,8 +342,8 @@ Removes `null` values from arrays, both inner and outer, prior to validation.
 
 The 'sanitize' property passes values through Yahoo's [XSS Filters](https://github.com/yahoo/xss-filters) module.
 
-### The 'trim' and 'lowercase' properties
-The 'trim' and 'lowercase' properties accept a Boolean and can only be set on values of type `string`.
+### The 'trim', 'lowercase', and 'uppercase', properties
+The 'trim', 'lowercase', and 'uppercase' properties accept a Boolean and can only be set on values of type `string`.
 
 **For arrays:**
 For an *array of values* & an *array of arrays of values*: each value, if of type `string`, will be evaluated.
@@ -423,23 +424,5 @@ mongorules.addGlobalErrorHandler('api-development', (collectionName, action, err
 ### addModels()
 ### \_addModel()
 
-## Misc
-
-### Inserting undefined values
-In an insert, if a value is `undefined`, and required = false, and there isn't a default value declared in your schema, the `undefined` value will be converted into a `null` value prior to insert.
-
-## Todos
-- currentDate
-- more preprocess tests
-- upsert and save
-- expand date support
-- support more mongodb methods in addition to collection methods.
-- uppercase
-- run maxLength minLength validation after required, notNull validation becasue we dont want to be counting null values in array if notnull is true.
-- addModel should be public
-- what to do if inserting/updating and the value is empty? right now we are running the query. probably shouldn't but what to return.
-- Custom properties
-- multiple databases
-- performance test
-  - vs native vs mongoose
-  - w/o transforming and validating at the same time w/ 50% validation failures.
+## License
+MIT

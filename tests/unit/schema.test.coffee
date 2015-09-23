@@ -151,6 +151,7 @@ describe 'Schema:', ->
       expect(defaults.type).to.not.be.undefined
       expect(defaults.trim).to.not.be.undefined
       expect(defaults.lowercase).to.not.be.undefined
+      expect(defaults.uppercase).to.not.be.undefined
       expect(defaults.denyXSS).to.not.be.undefined
       expect(defaults.filterNulls).to.not.be.undefined
       expect(defaults.sanitize).to.not.be.undefined
@@ -159,7 +160,7 @@ describe 'Schema:', ->
       expect(defaults.dateFormat).to.not.be.undefined
       expect(defaults.minLength).to.not.be.undefined
       expect(defaults.maxLength).to.not.be.undefined
-      Object.keys(defaults).length.should.eql(14)
+      Object.keys(defaults).length.should.eql(15)
 
   describe '_validateSchema():', ->
 
@@ -182,6 +183,9 @@ describe 'Schema:', ->
 
       expect(->schema._validateSchema( schema._setSchemaDefaults({trim: 'true'}) , 'users')).to.throw()
       expect(->schema._validateSchema( schema._setSchemaDefaults({trim: true}) , 'users')).to.not.throw()
+
+      expect(->schema._validateSchema( schema._setSchemaDefaults({uppercase: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchema( schema._setSchemaDefaults({uppercase: true}) , 'users')).to.not.throw()
 
       expect(->schema._validateSchema( schema._setSchemaDefaults({lowercase: 'true'}) , 'users')).to.throw()
       expect(->schema._validateSchema( schema._setSchemaDefaults({lowercase: true}) , 'users')).to.not.throw()
