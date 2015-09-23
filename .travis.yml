@@ -5,5 +5,4 @@ node_js:
   - 'iojs'
 services: mongodb
 before_install:
-  - brew update
-  - brew outdated mongodb || brew install mongodb
+  - brew outdated mongodb || brew upgrade mongodb
