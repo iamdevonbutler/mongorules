@@ -1,4 +1,4 @@
-# Mongorules (beta)
+# Mongorules (beta - don't use now)
 
 A small but fierce wrapper around the native mongodb driver leveraging ES6 proxy black magic.
 
