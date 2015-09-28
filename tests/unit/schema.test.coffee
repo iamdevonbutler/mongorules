@@ -98,37 +98,15 @@ describe 'Schema:', ->
 
     it 'should process a schema of objects in arrays', ->
       result = schema._preprocessSchema(schemaArrayOfObjects)
-
       result._id.should.be.ok
-
       result['account.friends'].should.be.ok
-
       result['account.friends']._type.should.eql('arrayofobjects')
-
-      result['account.friends']
-        ._schema['account.friends.nicknames']
-        .should.be.ok
-
-      result['account.friends']
-        ._schema['account.friends.nicknames']
-        ._type.should.eql('arrayofobjects')
-
-      result['account.friends']
-        ._schema['account.friends.nicknames']
-        ._schema['account.friends.nicknames.name'].should.be.ok
-
-      result['account.friends']
-        ._schema['account.friends.nicknames']
-        ._schema['account.friends.nicknames.giver'].should.be.ok
-
-      result['account.friends']
-        ._schema['account.friends.nicknames']
-        ._schema['account.friends.nicknames.giver']._type.should.eql('arrayofobjects')
-
-      result['account.friends']
-        ._schema['account.friends.nicknames']
-        ._schema['account.friends.nicknames.giver']
-        ._schema['account.friends.nicknames.giver.name'].should.be.ok
+      result['account.friends.nicknames'].should.be.ok
+      result['account.friends.nicknames']._type.should.eql('arrayofobjects')
+      result['account.friends.nicknames.name'].should.be.ok
+      result['account.friends.nicknames.giver'].should.be.ok
+      result['account.friends.nicknames.giver']._type.should.eql('arrayofobjects')
+      result['account.friends.nicknames.giver.name'].should.be.ok
 
     it 'should process a schema of array of arrays of values', ->
       result = schema._preprocessSchema(schemaArrayOfArrayOfValues)
@@ -141,8 +119,8 @@ describe 'Schema:', ->
       result._id.should.be.ok
       result['account.friends'].should.be.ok
       result['account.friends']._type.should.eql('arrayofarraysofobjects')
-      result['account.friends']._schema['account.friends.name'].should.be.ok
-      result['account.friends']._schema['account.friends.age'].should.be.ok
+      result['account.friends.name'].should.be.ok
+      result['account.friends.age'].should.be.ok
 
 
   describe '_setSchemaDefaults():', ->

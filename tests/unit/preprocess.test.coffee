@@ -11,6 +11,61 @@
 #
 # describe 'Preprocess:', ->
 #
+#   describe '_preprocessPayload', ->
+#     it 'should parse an insert payload', ->
+#       payload = {
+#         account: {
+#           name: 'jay',
+#           friends: [{ name: 'gab', age: 26 }],
+#           tags: [[1], [2]]
+#         }
+#       }
+#       result = preprocess._preprocessPayload(payload)
+#       console.log(result);
+#       result.account.name.should.eql({payloadKey: 'account.name', value: 'jay', isEmbeddedField: false})
+#       result.account.friends.should.eql({payloadKey: 'account.friends', value: [{name: 'gab', age: 26}], isEmbeddedField: false})
+#       result.account.tags.should.eql({payloadKey: 'account.tags', value: [[1], [2]], isEmbeddedField: false})
+#
+#     it 'should parse a $set payload w/ embedded fields', ->
+#     it 'should parse a $set payload w/ array item update fields', ->
+#       payload = {
+#         $set: {
+#           "tags.1": "rain gear",
+#           "ratings.0.rating": 2
+#         }
+#       }
+#
+#      result = {
+#        'tags': {
+#          value: 'rain gear',
+#          payloadPath: ['$set', 'tags.1'],
+#          isEmbeddedField: true,
+#          isEach: false,
+#          isArrayItemUpdate: true,
+#        },
+#        'ratings.rating': {
+#          value: 2,
+#          payloadPath: ['$set', 'ratings.0.rating'],
+#          isEmbeddedField: true,
+#          isEach: false,
+#        }
+#      }
+#
+#     it 'should parse a $addToSet payload', ->
+#       payload = {
+#         $addToSet: {
+#           tags: "camera"
+#         }
+#       }
+#
+#     it 'should parse a $addToSet w/ $each payload', ->
+#       payload = {
+#         $addToSet: {
+#           tags: {
+#             $each: [ "camera", "electronics", "accessories" ]
+#           }
+#         }
+#       }
 #
 #   describe '_queryFieldsExistInSchema', ->
 #     it 'should return true given a nested query with fields that are present in schema', ->
@@ -104,13 +159,3 @@
 #           relatives: [2,3,4]
 #
 #       result = preprocess._replaceDocumentInPayload(obj, doc)
-#
-#   describe '_getDocumentFromPayload()', ->
-#
-#     it 'should', ->
-#       obj =
-#         account:
-#           name: 'jay'
-#         'friendCount.$.relatives':
-#           $each: [1,2,3]
-#       result = preprocess._getDocumentFromPayload(obj)
