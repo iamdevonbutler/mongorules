@@ -17,7 +17,7 @@ describe 'insert(): array of arrays of objects:', ->
     db.addModels(models)
     done()
 
-  it 'should throw an error given a null or undefined value', (done) ->
+  it 'should throw an error given a null or undefined value on a required and notNull field', (done) ->
     doc = { account: {friends: null} }
     try
       db.users.insert(doc).then (result) ->

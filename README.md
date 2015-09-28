@@ -528,7 +528,7 @@ There are some notes on the behavior of mongorules that may not be initially obv
 - Mongodb methods `push()` and `addToSet()` add items to an array and thus cannot mongorules cannot validate maxLength.
 - If preforming an `upsert`, all required fields must be present in the update payload (validated as an insert).
 - If setting schema properties on an array of objects or an array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'dateFormat', 'trim', 'lowercase', 'uppercase', 'sanitize', and 'denyXSS'.
-- You cannot add items to an array inside an array via push or addtoset, and must updating the entire inner array.
+- You cannot add items to an array inside an array via push or addtoset; instead, you must update the entire inner array.
 
 ## License
 MIT

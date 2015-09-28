@@ -7,7 +7,7 @@
     "lib"
   ],
   "scripts": {
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --harmony --harmony_proxies --reporter spec --ui bdd --bail --colors ./tests/**/*.test.coffee",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --harmony --harmony_proxies --reporter spec --ui bdd --bail --colors ./tests/unit/*.test.coffee",
     "debug": "NODE_ENV=test DEBUG=*,-babel,-mocha:* ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --harmony --harmony_proxies --reporter spec --ui bdd --bail --colors ./tests/**/*.test.coffee"
   },
   "engines": {
@@ -35,7 +35,6 @@
     "mocha": "^2.3.0"
   },
   "dependencies": {
-    "co": "^4.6.0",
     "debug": "^2.2.0",
     "lodash": "^3.10.1",
     "lodash-deep": "^1.6.0",

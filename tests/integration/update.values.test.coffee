@@ -125,10 +125,16 @@ describe 'update(): values:', ->
         e.errors[0].property.should.eql('maxLength')
         done()
 
-    it 'should update using the default value if given null and notNull is true', (done) ->
+    it 'should not update a field that is not in the payload w/ the schemas default value', (done) ->
+      db.users.update({}, { '$set': {'account.name': 'jay'} }).then (result) ->
+        db.users.findOne({}).then (result) ->
+          result.account.friends.should.eql(['gab'])
+          done()
+
+    it 'should not update a field that is null w/ notNull = true w/ the schemas default value', (done) ->
       db.users.update({}, { '$set': {'account.friends': null} }).then (result) ->
         db.users.findOne({}).then (result) ->
-          result.account.friends.should.eql([])
+          result.account.friends.should.eql(['gab'])
           done()
 
     it 'should update a field w/ null if notNull is false', (done) ->

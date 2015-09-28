@@ -32,6 +32,7 @@ describe 'update(): array of objects:', ->
       payload = { '$set': {'account.friends.0': { name: 'lou' } } }
       db.users.update({}, payload).then (result) ->
         db.users.findOne({}).then (result) ->
+          console.log(result.account.friends);
           result.account.friends.length.should.eql(2)
           result.account.friends[0].name.should.eql('lou!')
           result.account.friends[0].nicknames.should.eql([{}])
