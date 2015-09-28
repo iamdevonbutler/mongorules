@@ -252,7 +252,7 @@ Resolves to:
 *Validation properties*
 - `required` {Boolean} default `false`
 - `notNull` {Boolean} default `false`
-- `default` {Mixed} default `null`
+- `default` {Mixed} default `undefined`
 - `type` {string|number|boolean|date} default `null` *(array and object types are implicit)*
 - `dateFormat` {String} default `null` *(used in conjunction w/ type: 'date')*
 - `denyXSS` {Boolean} default `false`
@@ -294,9 +294,7 @@ If 'required' is `true` and 'notNull' is `true`, `undefined` AND `null` values w
 *An empty string or empty array that is 'required' will pass validation. If this is not the intended behavior, set a minLength value.*
 
 ### The 'default' property
-If 'required' is `false`, the 'default' property may be set. The default value will take effect if a value would fail 'required' validation for its respective data structure.
-
-*Edge case example: if the notNull = true, value = null, required = false - the default value will be set.*
+If 'required' is `false`, the 'default' property may be set. The default value will take effect during an insert/upsert when a value is `undefined`.
 
 ### The 'type' and 'dateFormat' properties
 
