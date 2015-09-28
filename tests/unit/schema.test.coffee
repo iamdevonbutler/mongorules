@@ -11,20 +11,20 @@ _ = require('lodash')
 schema = require('../../lib/schema')
 func = (x) -> x * x
 
-schemaValues = null
-schemaArrayOfValues = null
-schemaArrayOfObjects = null
-schemaArrayOfArrayOfValues = null
-schemaArrayOfArrayOfObjects = null
+schemaValues = require('../fixtures/schema.values')
+schemaArrayOfValues = require('../fixtures/schema.arrayofvalues')
+schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects')
+schemaArrayOfArrayOfValues = require('../fixtures/schema.arrayofarraysofvalues')
+schemaArrayOfArrayOfObjects = require('../fixtures/schema.arrayofarraysofobjects')
 
 describe 'Schema:', ->
 
   beforeEach (done) ->
-    schemaValues = _.clone(require('../fixtures/schema.values'))
-    schemaArrayOfValues = _.clone(require('../fixtures/schema.arrayofvalues'))
-    schemaArrayOfObjects = _.clone(require('../fixtures/schema.arrayofobjects'))
-    schemaArrayOfArrayOfValues = _.clone(require('../fixtures/schema.arrayofarraysofvalues'))
-    schemaArrayOfArrayOfObjects = _.clone(require('../fixtures/schema.arrayofarraysofobjects'))
+    schemaValues = _.clone(schemaValues)
+    schemaArrayOfValues = _.clone(schemaArrayOfValues)
+    schemaArrayOfObjects = _.clone(schemaArrayOfObjects)
+    schemaArrayOfArrayOfValues = _.clone(schemaArrayOfArrayOfValues)
+    schemaArrayOfArrayOfObjects = _.clone(schemaArrayOfArrayOfObjects)
     done()
 
   describe '_addIdFieldToSchema', ->

@@ -6,19 +6,27 @@ require('babel/register')
 should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
+_ = require('lodash')
 
 preprocess = require('../../lib/preprocess')
+
+schemaValues = require('../fixtures/schema.values')
 
 describe 'Preprocess:', ->
 
   describe '_preprocessPayload', ->
-    it 'should validate, transform, and reconstruct an insert payload given the values schema', ->
-
-    it '', ->
-
-    it '', ->
-
-    it '', ->
+    describe 'insert:', ->
+      it 'should validate, transform, and reconstruct a payload for the values schema', ->
+        schemaValues = _.clone(schemaValues)
+        payload  = {
+          account: {
+            name: 'jay'
+          }
+          newsletter: false
+        }
+        parsedPayload = preprocess._parsePayload(payload)
+        result = preprocess._preprocessPayload(parsedPayload, schemaValues)
+        console.log(result);
 
   describe '_parsePayload', ->
     it 'should parse an insert payload', ->
