@@ -9,6 +9,7 @@ assert = require('chai').assert
 _ = require('lodash')
 
 preprocess = require('../../lib/preprocess')
+schema = require('../../lib/schema')
 
 schemaValues = require('../fixtures/schema.values')
 
@@ -20,15 +21,19 @@ describe 'Preprocess:', ->
         schemaValues = _.clone(schemaValues)
         payload  = {
           account: {
-            name: 'jay'
+            name: 'jay',
+            'friends': ['gab', 'lou']
           }
           newsletter: false
         }
-        parsedPayload = preprocess._parsePayload(payload)
-        result = preprocess._preprocessPayload(parsedPayload, schemaValues)
-        console.log(result);
+        deconstructedPayload = preprocess._deconstructPayload(payload)
+        schema = schema._preprocessSchema(schemaValues)
+        payload = preprocess._preprocessPayload(deconstructedPayload, schema)
+        result = preprocess._reconstructPayload(payload.payload);
+        console.log(result,1212121212);
+        throw new Error()
 
-  describe '_parsePayload', ->
+  describe '_deconstructPayload', ->
     it 'should parse an insert payload', ->
       payload = {
         account: {
@@ -45,6 +50,7 @@ describe 'Preprocess:', ->
           payloadPath: ['account', 'name'],
           fieldInSubdocument: true,
           isEach: false,
+          modifiers: null,
           isArrayItemUpdate: false
         },
         'account.email': {
@@ -52,6 +58,7 @@ describe 'Preprocess:', ->
           payloadPath: ['account', 'email'],
           fieldInSubdocument: true,
           isEach: false,
+          modifiers: null,
           isArrayItemUpdate: false
         },
         'account.friends': {
@@ -59,6 +66,7 @@ describe 'Preprocess:', ->
           payloadPath: ['account', 'friends'],
           fieldInSubdocument: true,
           isEach: false,
+          modifiers: null,
           isArrayItemUpdate: false
         },
         'notifications': {
@@ -66,11 +74,12 @@ describe 'Preprocess:', ->
           payloadPath: ['notifications'],
           fieldInSubdocument: false,
           isEach: false,
+          modifiers: null,
           isArrayItemUpdate: false
         },
       }
 
-      result = preprocess._parsePayload(payload)
+      result = preprocess._deconstructPayload(payload)
       result.should.eql(parsedPayload)
 
     it 'should parse a $set payload', ->
@@ -91,6 +100,7 @@ describe 'Preprocess:', ->
          payloadPath: ['tags.1'],
          fieldInSubdocument: false,
          isEach: false,
+         modifiers: null,
          isArrayItemUpdate: true,
         },
         'ratings.rating': {
@@ -98,6 +108,7 @@ describe 'Preprocess:', ->
          payloadPath: ['ratings.0.rating'],
          fieldInSubdocument: false,
          isEach: false,
+         modifiers: null,
          isArrayItemUpdate: true
         }
         'account.name': {
@@ -105,6 +116,7 @@ describe 'Preprocess:', ->
          payloadPath: ['account', 'name'],
          fieldInSubdocument: true,
          isEach: false,
+         modifiers: null,
          isArrayItemUpdate: false
         },
         'account.location.name': {
@@ -112,11 +124,12 @@ describe 'Preprocess:', ->
          payloadPath: ['account', 'location', 'name'],
          fieldInSubdocument: true,
          isEach: false,
+         modifiers: null,
          isArrayItemUpdate: false
         }
       }
 
-      result = preprocess._parsePayload(payload, '$set')
+      result = preprocess._deconstructPayload(payload, '$set')
       result.should.eql(parsedPayload)
 
     it 'should parse a $addToSet payload', ->
@@ -129,28 +142,32 @@ describe 'Preprocess:', ->
            payloadPath: ['account.notifications'],
            fieldInSubdocument: false,
            isEach: false,
+           modifiers: null,
            isArrayItemUpdate: false
         }
       }
-      result = preprocess._parsePayload(payload, '$addToSet')
+      result = preprocess._deconstructPayload(payload, '$addToSet')
       result.should.eql(parsedPayload)
 
     it 'should parse a $addToSet w/ $each payload', ->
       payload = {
         'account.notifications': {
-          $each: [1,2,3]
+          $each: [1,2,3],
+          $slice: -5,
+          $position: 0
         }
       }
       parsedPayload = {
         'account.notifications': {
            value: [1,2,3],
            payloadPath: ['account.notifications', '$each'],
+           modifiers: [{$slice: -5}, {$position: 0}]
            fieldInSubdocument: false,
            isEach: true,
            isArrayItemUpdate: false
         }
       }
-      result = preprocess._parsePayload(payload, '$addToSet')
+      result = preprocess._deconstructPayload(payload, '$addToSet')
       result.should.eql(parsedPayload)
 
   describe '_queryFieldsExistInSchema', ->
