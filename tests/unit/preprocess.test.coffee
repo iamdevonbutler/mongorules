@@ -12,11 +12,29 @@ preprocess = require('../../lib/preprocess')
 schema = require('../../lib/schema')
 
 schemaValues = require('../fixtures/schema.values')
+schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects')
 
 describe 'Preprocess:', ->
 
   describe '_preprocessPayload', ->
     describe 'insert:', ->
+      it 'should validate, transform, and reconstruct a payload for the values schema', ->
+        schemaArrayOfObjects = _.clone(schemaArrayOfObjects)
+        payload = {
+          account: {
+            friends: [
+              { name: 'jay', nicknames: [ {name: 'gus', giver: [ { name: 'flip' } ] } ] },
+              { name: 'lou' }
+            ]
+          }
+        }
+        deconstructedPayload = preprocess._deconstructPayload(payload)
+        schema = schema._preprocessSchema(schemaArrayOfObjects)
+        payload = preprocess._preprocessPayload(deconstructedPayload, schema)
+        result = preprocess._reconstructPayload(payload.payload);
+        console.log(99, result.account.friends);
+        throw new Error()
+
       it 'should validate, transform, and reconstruct a payload for the values schema', ->
         schemaValues = _.clone(schemaValues)
         payload  = {
@@ -30,7 +48,7 @@ describe 'Preprocess:', ->
         schema = schema._preprocessSchema(schemaValues)
         payload = preprocess._preprocessPayload(deconstructedPayload, schema)
         result = preprocess._reconstructPayload(payload.payload);
-        console.log(result,1212121212);
+        console.log(result);
         throw new Error()
 
   describe '_deconstructPayload', ->
