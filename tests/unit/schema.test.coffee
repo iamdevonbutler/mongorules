@@ -14,8 +14,6 @@ func = (x) -> x * x
 schemaValues = require('../fixtures/schema.values')
 schemaArrayOfValues = require('../fixtures/schema.arrayofvalues')
 schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects')
-schemaArrayOfArrayOfValues = require('../fixtures/schema.arrayofarraysofvalues')
-schemaArrayOfArrayOfObjects = require('../fixtures/schema.arrayofarraysofobjects')
 
 describe 'Schema:', ->
 
@@ -23,8 +21,6 @@ describe 'Schema:', ->
     schemaValues = _.clone(schemaValues)
     schemaArrayOfValues = _.clone(schemaArrayOfValues)
     schemaArrayOfObjects = _.clone(schemaArrayOfObjects)
-    schemaArrayOfArrayOfValues = _.clone(schemaArrayOfArrayOfValues)
-    schemaArrayOfArrayOfObjects = _.clone(schemaArrayOfArrayOfObjects)
     done()
 
   describe '_addIdFieldToSchema', ->
@@ -107,21 +103,6 @@ describe 'Schema:', ->
       result['account.friends.nicknames.giver'].should.be.ok
       result['account.friends.nicknames.giver']._type.should.eql('arrayofobjects')
       result['account.friends.nicknames.giver.name'].should.be.ok
-
-    it 'should process a schema of array of arrays of values', ->
-      result = schema._preprocessSchema(schemaArrayOfArrayOfValues)
-      result._id.should.be.ok
-      result.locations.should.be.ok
-      result.locations._type.should.eql('arrayofarraysofvalues')
-
-    it 'should process a schema of array of arrays of objects', ->
-      result = schema._preprocessSchema(schemaArrayOfArrayOfObjects)
-      result._id.should.be.ok
-      result['account.friends'].should.be.ok
-      result['account.friends']._type.should.eql('arrayofarraysofobjects')
-      result['account.friends.name'].should.be.ok
-      result['account.friends.age'].should.be.ok
-
 
   describe '_setSchemaDefaults():', ->
     it 'should set default values for all schema properties', ->
