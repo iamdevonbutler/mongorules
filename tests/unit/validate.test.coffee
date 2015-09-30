@@ -11,60 +11,60 @@ Validator = require('../../lib/validate')
 
 describe 'Validate:', ->
 
-  describe '_validateNotNull', ->
+  describe 'validateNotNull', ->
     it 'should return an error given a null value when notNull = true', ->
       new Validator(null, '', { notNull: true }, false)
-        ._validateNotNull()
+        .validateNotNull()
         .getErrors()
         .length.should.eql(1)
 
     it 'should not return an error given a null with notNull = false ', ->
       errors = new Validator(null, '', { required: true, notNull: false }, false)
-        ._validateNotNull()
+        .validateNotNull()
         .getErrors()
       expect(errors).to.be.null
 
-  describe '_validateRequired()', ->
+  describe 'validateRequired()', ->
 
     it 'should return an error given an undefined value when required = true', ->
         new Validator(undefined, '', { required: true }, false)
-          ._validateRequired()
+          .validateRequired()
           .getErrors()
           .length.should.eql(1)
 
     it 'should not return an error given "false" when required = true', ->
       errors = new Validator(false, '', { required: true }, false)
-        ._validateRequired()
+        .validateRequired()
         .getErrors()
       expect(errors).to.be.null
 
     it 'should not return an error given "0" when required = true', ->
       errors = new Validator(0, '', { required: true }, false)
-        ._validateRequired()
+        .validateRequired()
         .getErrors()
       expect(errors).to.be.null
 
     it 'should not return an error given "\'\'" when required = true', ->
       errors = new Validator('', '', { required: true }, false)
-        ._validateRequired()
+        .validateRequired()
         .getErrors()
       expect(errors).to.be.null
 
     it 'should not return an error given a "[]" when required = true', ->
       errors = new Validator([], '', { required: true }, false)
-        ._validateRequired()
+        .validateRequired()
         .getErrors()
       expect(errors).to.be.null
 
     it 'should not return an error given a "{}" when required = true', ->
       errors = new Validator({}, '', { required: true }, false)
-        ._validateRequired()
+        .validateRequired()
         .getErrors()
       expect(errors).to.be.null
 
     it 'should not return an error given an undefined value when required = false', ->
       errors = new Validator(undefined, '', { required: false }, false)
-        ._validateRequired()
+        .validateRequired()
         .getErrors()
       expect(errors).to.be.null
 

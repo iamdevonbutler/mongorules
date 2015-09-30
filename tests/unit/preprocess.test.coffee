@@ -47,6 +47,7 @@ describe 'Preprocess:', ->
           }
         }
         result = preprocess._preprocessPayload(payload, schemaArrayOfObjects)
+        console.log(result);
         result.payload.should.eql({
           account: {
             friends: [
