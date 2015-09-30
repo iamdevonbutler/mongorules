@@ -13,12 +13,31 @@ schema = require('../../lib/schema')
 
 schemaValues = require('../fixtures/schema.values')
 schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects')
+schemaArrayOfObjects = schema._preprocessSchema(_.clone(schemaArrayOfObjects))
 
 describe 'Preprocess:', ->
 
+  describe '_validateRequiredFields', ->
+
+  describe '_filterSchema', ->
+
+    it 'should filter out nested schemas (schemas in arrays)', ->
+      result = preprocess._filterSchema(schemaArrayOfObjects)
+      Object.keys(result).should.eql(['account.friends', '_id'])
+
+    it 'should filter out nested schemas and parent schemas given a parent key', ->
+      result = preprocess._filterSchema(schemaArrayOfObjects, 'account.friends')
+      Object.keys(result).should.eql(['account.friends.name', 'account.friends.nicknames'])
+
+      result = preprocess._filterSchema(schemaArrayOfObjects, 'account.friends.nicknames')
+      Object.keys(result).should.eql(['account.friends.nicknames.name', 'account.friends.nicknames.giver'])
+
   describe '_setDefaultValues', ->
+
   describe '_reconstructPayload', ->
+
   describe '_preprocessPayload', ->
+
     describe 'insert:', ->
       it 'should validate, transform, and reconstruct a payload for the values schema', ->
         schemaArrayOfObjects = _.clone(schemaArrayOfObjects)
@@ -30,9 +49,8 @@ describe 'Preprocess:', ->
             ]
           }
         }
-        schema = schema._preprocessSchema(schemaArrayOfObjects)
-        payload = preprocess._preprocessPayload(payload, schema)
-        console.log(99, payload.payload.account.friends[0].nicknames[0]);
+        payload = preprocess._preprocessPayload(payload, schemaArrayOfObjects)
+        console.log(99, payload.payload.account.friends);
         throw new Error()
 
       it 'should validate, transform, and reconstruct a payload for the values schema', ->
