@@ -41,31 +41,20 @@ describe 'Preprocess:', ->
         payload = {
           account: {
             friends: [
-              { name: 'jay', nicknames: [ {name: 'gus', giver: [ { name: 'flip' }, { name: 'gus' } ] } ] },
-              { name: 'lou', nicknames: [{name: 1, giver: 1}] }
+              { name: 'jay', nicknames: [ {name: 'gus', giver: [{name: 'flip'}, {name: 'gus'}] } ] },
+              { name: 'lou' }
             ]
           }
         }
-        payload = preprocess._preprocessPayload(payload, schemaArrayOfObjects)
-        console.log(99112, payload.errors);
-        console.log(99, payload.payload.account.friends[0]);
-        console.log(99, payload.payload.account.friends[1]);
-        throw new Error()
-
-      it 'should validate, transform, and reconstruct a payload for the values schema', ->
-        schemaValues = _.clone(schemaValues)
-        payload  = {
+        result = preprocess._preprocessPayload(payload, schemaArrayOfObjects)
+        result.payload.should.eql({
           account: {
-            name: 'jay',
-            'friends': ['gab', 'lou']
+            friends: [
+              { name: 'jay!', nicknames: [ {name: 'gus', giver: [{name: 'flip'}, {name: 'gus'}] } ] },
+              { name: 'lou!', nicknames: [] }
+            ]
           }
-          newsletter: false
-        }
-        deconstructedPayload = preprocess._deconstructPayload(payload)
-        schema = schema._preprocessSchema(schemaValues)
-        payload = preprocess._preprocessPayload(deconstructedPayload, schema)
-        result = preprocess._reconstructPayload(payload.payload);
-        throw new Error()
+        });
 
   describe '_deconstructPayload', ->
     it 'should parse an insert payload', ->
