@@ -17,10 +17,11 @@ schemaArrayOfObjects = schema._preprocessSchema(_.clone(schemaArrayOfObjects))
 
 describe 'Preprocess:', ->
 
+  describe '_reconstructPayload', ->
   describe '_validateRequiredFields', ->
+  describe '_setDefaultValues', ->
 
   describe '_filterSchema', ->
-
     it 'should filter out nested schemas (schemas in arrays)', ->
       result = preprocess._filterSchema(schemaArrayOfObjects)
       Object.keys(result).should.eql(['account.friends', '_id'])
@@ -32,10 +33,6 @@ describe 'Preprocess:', ->
       result = preprocess._filterSchema(schemaArrayOfObjects, 'account.friends.nicknames')
       Object.keys(result).should.eql(['account.friends.nicknames.name', 'account.friends.nicknames.giver'])
 
-  describe '_setDefaultValues', ->
-
-  describe '_reconstructPayload', ->
-
   describe '_preprocessPayload', ->
 
     describe 'insert:', ->
@@ -45,12 +42,14 @@ describe 'Preprocess:', ->
           account: {
             friends: [
               { name: 'jay', nicknames: [ {name: 'gus', giver: [ { name: 'flip' }, { name: 'gus' } ] } ] },
-              { name: 'lou' }
+              { name: 'lou', nicknames: [{name: 1, giver: 1}] }
             ]
           }
         }
         payload = preprocess._preprocessPayload(payload, schemaArrayOfObjects)
-        console.log(99, payload.payload.account.friends);
+        console.log(99112, payload.errors);
+        console.log(99, payload.payload.account.friends[0]);
+        console.log(99, payload.payload.account.friends[1]);
         throw new Error()
 
       it 'should validate, transform, and reconstruct a payload for the values schema', ->
@@ -66,7 +65,6 @@ describe 'Preprocess:', ->
         schema = schema._preprocessSchema(schemaValues)
         payload = preprocess._preprocessPayload(deconstructedPayload, schema)
         result = preprocess._reconstructPayload(payload.payload);
-        console.log(result);
         throw new Error()
 
   describe '_deconstructPayload', ->
