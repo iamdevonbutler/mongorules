@@ -2,7 +2,7 @@ module.exports = {
 
   // Array item w/ an array of objects as it's value.
   "account.friends": [{
-    default: [{}],
+    default: [],
     minLength: 1,
     maxLength: 2
   }],

@@ -19,7 +19,14 @@ describe 'Preprocess:', ->
 
   describe '_reconstructPayload', ->
   describe '_validateRequiredFields', ->
+    
   describe '_setDefaultValues', ->
+    it 'should set default values for an insert given the array of objects schema', ->
+      payload = {}
+      payload = preprocess._deconstructPayload(payload)
+      result = preprocess._setDefaultValues(payload, schemaArrayOfObjects, null)
+      Object.keys(result).length.should.eql(1)
+      result['account.friends'].value.should.eql([])
 
   describe '_filterSchema', ->
     it 'should filter out nested schemas (schemas in arrays)', ->
@@ -35,8 +42,29 @@ describe 'Preprocess:', ->
 
   describe '_preprocessPayload', ->
 
+    describe 'update:', ->
+      it 'should validate, and transform a payload given the array of objects schema', ->
+        schemaArrayOfObjects = _.clone(schemaArrayOfObjects)
+        payload = {
+          account: {
+            friends: [
+              { name: 'jay', nicknames: [ {name: 'gus', giver: [{name: 'flip'}, {name: 'gus'}] } ] },
+              { name: 'lou' }
+            ]
+          }
+        }
+        result = preprocess._preprocessPayload(payload, schemaArrayOfObjects, '$set')
+        result.payload.should.eql({
+          account: {
+            friends: [
+              { name: 'jay!', nicknames: [ {name: 'gus', giver: [{name: 'flip'}, {name: 'gus'}] } ] },
+              { name: 'lou!', nicknames: [] }
+            ]
+          }
+        });
+
     describe 'insert:', ->
-      it 'should validate, transform, and reconstruct a payload for the values schema', ->
+      it 'should validate, and transform a payload given the array of objects schema', ->
         schemaArrayOfObjects = _.clone(schemaArrayOfObjects)
         payload = {
           account: {
@@ -47,7 +75,6 @@ describe 'Preprocess:', ->
           }
         }
         result = preprocess._preprocessPayload(payload, schemaArrayOfObjects)
-        console.log(result);
         result.payload.should.eql({
           account: {
             friends: [
@@ -153,7 +180,7 @@ describe 'Preprocess:', ->
         }
       }
 
-      result = preprocess._deconstructPayload(payload, '$set')
+      result = preprocess._deconstructPayload(payload)
       result.should.eql(parsedPayload)
 
     it 'should parse a $addToSet payload', ->
@@ -170,7 +197,7 @@ describe 'Preprocess:', ->
            isArrayItemUpdate: false
         }
       }
-      result = preprocess._deconstructPayload(payload, '$addToSet')
+      result = preprocess._deconstructPayload(payload)
       result.should.eql(parsedPayload)
 
     it 'should parse a $addToSet w/ $each payload', ->
@@ -191,7 +218,7 @@ describe 'Preprocess:', ->
            isArrayItemUpdate: false
         }
       }
-      result = preprocess._deconstructPayload(payload, '$addToSet')
+      result = preprocess._deconstructPayload(payload)
       result.should.eql(parsedPayload)
 
   describe '_queryFieldsExistInSchema', ->
