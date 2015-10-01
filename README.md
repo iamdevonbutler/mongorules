@@ -152,8 +152,6 @@ Resolves to:
 ```
 Check out [/tests/fixtures](https://github.com/iamdevonbutler/node-mongorules/tree/master/tests/fixtures) for examples on how to create schemas.
 
-*Note: the following will include much talk about array fields, arrays of values, arrays of objects, ..., and whatnot; admittedly, this can become overwhelming, and in most cases these data structures are not needed. If that's the case, your best bet is to ignore them altogether.*
-
 **Array of values**
 
 ```
@@ -201,53 +199,6 @@ Resolves to:
 }
 ```
 
-**Array of arrays of values**
-
-```
-// Note the double square brackets.
-{  
-  "friends": [[{
-    type: 'string',
-    required: true,
-    default: [[]]
-  }]];
-}
-```
-
-Resolves to:
-
-```
-{
-  friends: [ ['value'] ]
-}
-```
-
-**Array of arrays of objects**
-
-```
-// Note the double square brackets.
-{
-  "friends": [[{
-    required: true,
-    default: [ [{}] ]
-  }]],
-  "friends.name": {
-    type: 'string'
-  },
-  "friends.email": {
-    type: 'string'
-  },
-}
-```
-
-Resolves to:
-
-```
-{
-  friends: [ [{name: 'value', 'email: 'value'}] ]
-}
-```
-
 ### Schema properties
 *Validation properties*
 - `required` {Boolean} default `false`
@@ -258,7 +209,7 @@ Resolves to:
 - `denyXSS` {Boolean} default `false`
 - `minLength` {Number | Array} default `null`
 - `maxLength` {Number | Array} default `null`
-- `validate` {Function | Array} default `null`
+- `validate` {Function} default `null`
   - *@param {Mixed} value*
   - *@param {Object} schema*
   - *@return {Boolean} - you should return a `Boolean`.*
@@ -269,7 +220,7 @@ Resolves to:
 - `uppercase` {Boolean} default `false`
 - `filterNulls` {Boolean} default `false`
 - `sanitize` {Boolean} default `false`
-- `transform` {Function | Array} default `null`
+- `transform` {Function} default `null`
   - *@param {Mixed} value*
   - *@param {Object} schema*
   - *@return {Mixed} - you should return the transformed value.*
@@ -305,11 +256,9 @@ Allowed types include:
 - 'boolean'
 - 'date'
 
-**For arrays:**
+Type checking will be enforced on each value in an *arrays of values*.
 
-Type checking will be enforced on each value in an *arrays of values* and a *arrays of arrays of values*.
-
-*Mongorules also supports types for arrays of values, arrays of objects, and arrays in arrays; however, there is no need to explicitly specify the type - the type is implied from your schema. See [supported data structures](#supported-data-structures).*
+*Mongorules supports types for arrays of values, arrays of objects; however, there is no need to explicitly specify the type - the type is implied from your schema. See [supported data structures](#supported-data-structures).*
 
 #### Date formats
 
@@ -325,58 +274,43 @@ To insert an iso8601 date into your database: use `new Date()` and mongodb will 
 
 The 'denyXSS' property will fail validation if given a string containing XSS as identified by Yahoo's [XSS Filters](https://github.com/yahoo/xss-filters) module.
 
-**For arrays:**
-For an *array of values* & an *array of arrays of values*: each value, if of type `string`, will be evaluated.
+For an *array of values*, each value, if of type `string`, will be evaluated.
 
 ### The 'minLength' and 'maxLength' properties
 
 Enforces min and max length values on arrays and strings.
 
-If a single value is provided:
+**For arrays:**
 
-- Array of values/objects: evaluates the number of items in array.
-- Array of arrays of values/objects: evaluates the number of inner arrays.
+If a single value is provided, the number of items in array will be evaluated.
 
-If an array of values is provided:
+If an array is provided, the first value will evaluate the number of items in the array, and the second value will evaluate the length of each item.
 
 ```
 {
-  fieldName: [[{
-    minLength: [1, 3]  
-  }]]
+  fieldName: [{
+    minLength: [1, 1]  
+  }]
 }
 ```
-
-- *Array of values/objects*: ensures the array has a length of at least one. If the array items are of type `string`, the second value in the minLength property array ensures that each string has a length of at least three.
-
-- *Array of arrays of values/objects*: ensures the outer array has a length of at least one and that the inner array has a length of at least three. If the inner array values are of type `string`, you may prepend a third value to the minLength array to enforce a string length on those values.
 
 *Note: if using the array syntax, pass `null` to skip a particular validation*
 
 ### The 'validate' property
 The custom validation handler accepts two parameters, the field value, and field schema, and should return either `true` or `false`. The function is executed after the standard validation properties.
 
-If a single function is provided:
-
-- *Array of values/objects*: passes each item to the validation function (not particularly useful for objects).
-- *Array of arrays of values/objects*: passes each inner array to the validation function.
-
-If an array of functions is provided:
-
 ```
 {
-  fieldName: [[{
-    validate: [
-      function() { ... },
-      function() { ... }
-    ]
-  }]]
+  fieldName: [{
+    validate:
+      function(value, schema) {
+        return true;
+      }
+  }]
 }
 ```
-- Array of values/objects: passes each item to the validation function (the second function is ignored).
-- Array of arrays of values/objects: executes the validation method on each inner array (the first function), and the items w/i each inner array (the second function).
 
-*Note: if using the array syntax, pass `null` to skip a particular validation*
+*Note: when processing an array of values/objects, each value/object will be passed to the validate handler.*
 
 ## Document transformation
 
@@ -387,19 +321,28 @@ Removes `null` values from arrays, both inner and outer, prior to validation.
 
 The 'sanitize' property passes values through Yahoo's [XSS Filters](https://github.com/yahoo/xss-filters) module.
 
-**For arrays:**
-For an *array of values* & an *array of arrays of values*: each value, if of type `string`, will be evaluated.
+For an *array of values*, each value, if of type `string`, will be evaluated.
 
 ### The 'trim', 'lowercase', and 'uppercase', properties
 The 'trim', 'lowercase', and 'uppercase' properties accept a Boolean and can only be set on values of type `string`.
 
-**For arrays:**
-For an *array of values* & an *array of arrays of values*: each value, if of type `string`, will be evaluated.
+For an *array of values*, each value, if of type `string`, will be evaluated.
 
 ### The 'transform' property
 The custom transform handler accepts two parameters, the field value, and the field schema, and should return the manipulated value. The function is executed after the standard transformation properties.
 
-The functionality of the 'transform' function, for each data structure, mimics the functionality of the ['validate' property](#the-validate-property).
+```
+{
+  fieldName: [{
+    transform:
+      function(value, schema) {
+        return value;
+      }
+  }]
+}
+```
+
+*Note: when processing an array of values/objects, each value/object will be passed to the transform handler.*
 
 ## Static methods
 
@@ -525,8 +468,6 @@ There are some notes on the behavior of mongorules that may not be initially obv
 
 - Mongodb methods `push()` and `addToSet()` add items to an array and thus cannot mongorules cannot validate maxLength.
 - If preforming an `upsert`, all required fields must be present in the update payload (validated as an insert).
-- If setting schema properties on an array of objects or an array of arrays of objects, the following properties will have no effect; they can, however, be set on an object's fields: 'notNull', 'type', 'dateFormat', 'trim', 'lowercase', 'uppercase', 'sanitize', and 'denyXSS'.
-- You cannot add items to an array inside an array via push or addtoset; instead, you must update the entire inner array.
 
 ## License
 MIT
