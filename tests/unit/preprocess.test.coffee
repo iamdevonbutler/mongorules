@@ -17,10 +17,40 @@ schemaArrayOfObjects = schema._preprocessSchema(_.clone(schemaArrayOfObjects))
 
 describe 'Preprocess:', ->
 
-  describe '_reconstructPayload', ->
-  describe '_validateRequiredFields', ->
-    
-  describe '_setDefaultValues', ->
+  # describe '_reconstructPayload', ->
+
+  describe '_validateRequiredFields():', ->
+    it 'should return an errors array given a missing field for an insert operation', ->
+      payload = {name: 'jay'}
+      payload = preprocess._deconstructPayload(payload, 'account.friends.nicknames')
+      errors = preprocess._validateRequiredFields(payload, schemaArrayOfObjects, null, 'account.friends.nicknames')
+      errors.length.should.eql(1)
+
+    it 'should not return an errors array given a proper fields for an insert operation', ->
+      payload = {name: 'jay', giver: [{name: 'jay'}]}
+      payload = preprocess._deconstructPayload(payload, 'account.friends.nicknames')
+      errors = preprocess._validateRequiredFields(payload, schemaArrayOfObjects, null, 'account.friends.nicknames')
+      expect(errors).to.be.null
+
+    it 'should return an errors array given a missing field for an subdocument update operation', ->
+      payload = {name: 'jay'}
+      payload = preprocess._deconstructPayload(payload, 'account.friends.nicknames')
+      errors = preprocess._validateRequiredFields(payload, schemaArrayOfObjects, '$set', 'account.friends.nicknames')
+      errors.length.should.eql(1)
+
+    it 'should not return an errors array given a proper fields for an subdocument update operation', ->
+      payload = {name: 'jay', giver: [{name: 'jay'}]}
+      payload = preprocess._deconstructPayload(payload, 'account.friends.nicknames')
+      errors = preprocess._validateRequiredFields(payload, schemaArrayOfObjects, '$set', 'account.friends.nicknames')
+      expect(errors).to.be.null
+
+    it 'should not return an errors array for an embedded field update operation', ->
+      payload = { 'account.friends.nicknames.0.name': 'jay' }
+      payload = preprocess._deconstructPayload(payload)
+      errors = preprocess._validateRequiredFields(payload, schemaArrayOfObjects, '$set')
+      expect(errors).to.be.null
+
+  describe '_setDefaultValues():', ->
     it 'should set default values for an insert given the array of objects schema', ->
       payload = {}
       payload = preprocess._deconstructPayload(payload)
@@ -28,19 +58,40 @@ describe 'Preprocess:', ->
       Object.keys(result).length.should.eql(1)
       result['account.friends'].value.should.eql([])
 
-  describe '_filterSchema', ->
+    it 'should set default values for a subdocument update', ->
+      payload = { name: 'jay' }
+      payload = preprocess._deconstructPayload(payload, 'account.friends')
+      result = preprocess._setDefaultValues(payload, schemaArrayOfObjects, '$set', 'account.friends')
+      Object.keys(result).length.should.eql(2)
+      result.name.value.should.eql('jay')
+      result.nicknames.value.should.eql([])
+
+    it 'should not set default values for a embedded field update', ->
+      payload = { 'account.friends.0.name': 'jay' }
+      payload = preprocess._deconstructPayload(payload)
+      result = preprocess._setDefaultValues(payload, schemaArrayOfObjects, '$set')
+      Object.keys(result).length.should.eql(1)
+      result['account.friends.name'].value.should.eql('jay')
+
+  describe '_filterSchema():', ->
     it 'should filter out nested schemas (schemas in arrays)', ->
-      result = preprocess._filterSchema(schemaArrayOfObjects)
+      result = preprocess._filterSchema({}, schemaArrayOfObjects)
       Object.keys(result).should.eql(['account.friends', '_id'])
 
     it 'should filter out nested schemas and parent schemas given a parent key', ->
-      result = preprocess._filterSchema(schemaArrayOfObjects, 'account.friends')
+      result = preprocess._filterSchema({}, schemaArrayOfObjects, null, 'account.friends')
       Object.keys(result).should.eql(['account.friends.name', 'account.friends.nicknames'])
 
-      result = preprocess._filterSchema(schemaArrayOfObjects, 'account.friends.nicknames')
+      result = preprocess._filterSchema({}, schemaArrayOfObjects, null, 'account.friends.nicknames')
       Object.keys(result).should.eql(['account.friends.nicknames.name', 'account.friends.nicknames.giver'])
 
-  describe '_preprocessPayload', ->
+    it 'should filter a subdocument given a payload w/ an embedded field', ->
+      payload = { 'account.friends.0.name': 'jay' }
+      payload = preprocess._deconstructPayload(payload)
+      result = preprocess._filterSchema(payload, schemaArrayOfObjects, '$set')
+      Object.keys(result).should.eql(['_id'])
+
+  describe '_preprocessPayload():', ->
 
     describe 'update:', ->
       it 'should validate, and transform a payload given the array of objects schema', ->
@@ -84,7 +135,7 @@ describe 'Preprocess:', ->
           }
         });
 
-  describe '_deconstructPayload', ->
+  describe '_deconstructPayload():', ->
     it 'should parse an insert payload', ->
       payload = {
         account: {
@@ -102,7 +153,7 @@ describe 'Preprocess:', ->
           fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
-          isArrayItemUpdate: false
+          itemInArrayUpdate: false
         },
         'account.email': {
           value: 'j@j.com',
@@ -110,7 +161,7 @@ describe 'Preprocess:', ->
           fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
-          isArrayItemUpdate: false
+          itemInArrayUpdate: false
         },
         'account.friends': {
           value: [{ name: 'gab' },  {name: 'lou'}],
@@ -118,7 +169,7 @@ describe 'Preprocess:', ->
           fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
-          isArrayItemUpdate: false
+          itemInArrayUpdate: false
         },
         'notifications': {
           value: [1,2,3],
@@ -126,7 +177,7 @@ describe 'Preprocess:', ->
           fieldInSubdocument: false,
           isEach: false,
           modifiers: null,
-          isArrayItemUpdate: false
+          itemInArrayUpdate: false
         },
       }
 
@@ -152,7 +203,7 @@ describe 'Preprocess:', ->
          fieldInSubdocument: false,
          isEach: false,
          modifiers: null,
-         isArrayItemUpdate: true,
+         itemInArrayUpdate: true,
         },
         'ratings.rating': {
          value: 2,
@@ -160,7 +211,7 @@ describe 'Preprocess:', ->
          fieldInSubdocument: false,
          isEach: false,
          modifiers: null,
-         isArrayItemUpdate: true
+         itemInArrayUpdate: true
         }
         'account.name': {
          value: 'jay',
@@ -168,7 +219,7 @@ describe 'Preprocess:', ->
          fieldInSubdocument: true,
          isEach: false,
          modifiers: null,
-         isArrayItemUpdate: false
+         itemInArrayUpdate: false
         },
         'account.location.name': {
          value: 'home',
@@ -176,7 +227,7 @@ describe 'Preprocess:', ->
          fieldInSubdocument: true,
          isEach: false,
          modifiers: null,
-         isArrayItemUpdate: false
+         itemInArrayUpdate: false
         }
       }
 
@@ -194,7 +245,7 @@ describe 'Preprocess:', ->
            fieldInSubdocument: false,
            isEach: false,
            modifiers: null,
-           isArrayItemUpdate: false
+           itemInArrayUpdate: false
         }
       }
       result = preprocess._deconstructPayload(payload)
@@ -215,13 +266,13 @@ describe 'Preprocess:', ->
            modifiers: [{$slice: -5}, {$position: 0}]
            fieldInSubdocument: false,
            isEach: true,
-           isArrayItemUpdate: false
+           itemInArrayUpdate: false
         }
       }
       result = preprocess._deconstructPayload(payload)
       result.should.eql(parsedPayload)
 
-  describe '_queryFieldsExistInSchema', ->
+  describe '_queryFieldsExistInSchema():', ->
     it 'should return true given a nested query with fields that are present in schema', ->
       query = { account: { name: 'hey gab', friends: { name: { nickname: 'lou' } } } }
       schemaFields = ['account.name', 'account.friends.name.nickname']
@@ -250,7 +301,7 @@ describe 'Preprocess:', ->
       result = preprocess._queryFieldsExistInSchema(query, schemaFields)
       result.should.eql(true)
 
-  describe '_getQueryFields()', ->
+  describe '_getQueryFields():', ->
     it 'should return an array of query fields present in an $elemMatch query', ->
       query = {name: 4, grades: { $elemMatch: { grade: { $lte: 90 }, mean: { $gt: 80 } } } }
       result = preprocess._getQueryFields(query)
