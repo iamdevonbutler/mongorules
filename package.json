@@ -7,7 +7,7 @@
     "lib"
   ],
   "scripts": {
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --harmony --harmony_proxies --reporter spec --ui bdd --bail --colors ./tests/unit/*.test.coffee",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --harmony --harmony_proxies --reporter spec --ui bdd --bail --colors ./tests/**/*.test.coffee",
     "debug": "NODE_ENV=test DEBUG=*,-babel,-mocha:* ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --harmony --harmony_proxies --reporter spec --ui bdd --bail --colors ./tests/**/*.test.coffee"
   },
   "engines": {

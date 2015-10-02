@@ -238,9 +238,9 @@ var result = db.users.novalidate.insert({...});
 
 ### The 'required' and 'notNull' properties
 
-If 'required' is `true` and 'notNull' is `false`, ONLY `undefined` values will fail validation.
+If 'required' is `true`, `undefined` values will fail validation.
 
-If 'required' is `true` and 'notNull' is `true`, `undefined` AND `null` values will fail validation.
+If 'notNull' is `true`, `null` values will fail validation.
 
 *An empty string or empty array that is 'required' will pass validation. If this is not the intended behavior, set a minLength value.*
 

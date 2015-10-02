@@ -84,8 +84,9 @@ describe 'insert(): array of objects:', ->
     doc = { account: { friends: [{name: 'jay'}] } }
     db.users.insert(doc).then (result) ->
       db.users.findOne({}).then (result) ->
-        result.account.friends[0].nicknames.should.eql([{}])
+        result.account.friends.should.eql([{name: 'jay!', nicknames: []}])
         done()
+
 
   it 'should successfully insert a document given correct data', (done) ->
 

@@ -18,7 +18,7 @@ addUser = (value) ->
 describe 'Static methods:', ->
 
   beforeEach (done) ->
-    methods = { addOne: addOne, addUser: addUser }
+    methods = { addUser: addUser }
     db.addModel('users', { schema: schema, methods: methods })
     done()
 

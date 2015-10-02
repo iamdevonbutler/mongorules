@@ -14,8 +14,8 @@ describe 'update(): values:', ->
 
   beforeEach (done) ->
     db.addModel('users', { schema: schema })
-    doc = { account: { friends: ['gab'], name: 'jay' }, newsletter: true, age: 1 }
-    db.users.insert(doc).then (result) ->
+    payload = { account: { friends: ['gab'], name: 'jay' }, newsletter: true, age: 1 }
+    db.users.insert(payload).then (result) ->
       done()
 
   it 'should throw an error given an empty document', (done) ->
@@ -27,7 +27,7 @@ describe 'update(): values:', ->
       done()
 
   it 'should throw an error when only given a field that does not exist in schema', (done) ->
-    payload = { doesnotexist: true }
+    payload = { $set: { doesnotexist: true } }
     try
       db.users.update({}, payload).then (result) ->
         done(result)
@@ -35,8 +35,25 @@ describe 'update(): values:', ->
       e.should.be.ok
       done()
 
-  it 'should update but ignore fields that do not exist in schema', (done) ->
-    payload = { doesnotexist: true, newsletter: false }
+  it 'should throw an given an update w/o an operator that\'s missing required fields', (done) ->
+    try
+      payload = { newsletter: false }
+      db.users.update({}, payload).then (result) ->
+        done(result)
+    catch e
+      e.should.be.ok
+      done()
+
+  it 'should preform an update w/o an operator that contains required fields', (done) ->
+    payload = { account: { name: 'jay' }, newsletter: false }
+    db.users.update({}, payload).then (result) ->
+      db.users.findOne({}).then (result) ->
+        result.account.should.eql({ name: 'hey jay', friends: [] })
+        result.newsletter.should.eql(false)
+        done()
+
+  it 'should preform an update but ignore fields that do not exist in schema', (done) ->
+    payload = { $set: { doesnotexist: true, newsletter: false } }
     db.users.update({}, payload).then (result) ->
       db.users.findOne({}).then (result) ->
         expect(result.doesnotexist).to.be.undefined
@@ -127,12 +144,6 @@ describe 'update(): values:', ->
 
     it 'should not update a field that is not in the payload w/ the schemas default value', (done) ->
       db.users.update({}, { '$set': {'account.name': 'jay'} }).then (result) ->
-        db.users.findOne({}).then (result) ->
-          result.account.friends.should.eql(['gab'])
-          done()
-
-    it 'should not update a field that is null w/ notNull = true w/ the schemas default value', (done) ->
-      db.users.update({}, { '$set': {'account.friends': null} }).then (result) ->
         db.users.findOne({}).then (result) ->
           result.account.friends.should.eql(['gab'])
           done()

@@ -72,14 +72,14 @@ describe 'insert(): array of values:', ->
       e.errors[0].property.should.eql('validate')
       done()
 
-  it 'should throw an error when violating the required field constraint', (done) ->
+  it 'should throw given a null value when notNull is true', (done) ->
     doc = { account: { friends: null } }
     try
       db.users.insert([doc]).then (result) ->
         done(result)
     catch e
       e.errors.length.should.eql(1)
-      e.errors[0].property.should.eql('required')
+      e.errors[0].property.should.eql('notNull')
       done()
 
   it 'should ensure all values are of type `string`', (done) ->
