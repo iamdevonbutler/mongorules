@@ -20,7 +20,7 @@ Custom schemas enforce consistency to `insert()`, `update()`, `save()`, and `fin
 - [Static methods](#static-methods)
 - [Error handling](#error-handling)
 - [API](#api)
-- [Quirks](#quirks)
+- [Misc](#misc)
 - [License](#license)
 
 ## Requirements
@@ -463,11 +463,13 @@ Adds a global error handler for schema validation and mongodb errors.
    - action {String} - e.g. 'insert', 'update'...
    - errors {Array}
 
-## Quirks
+## Misc
 There are some notes on the behavior of mongorules that may not be initially obvious:
 
 - Mongodb methods `push()` and `addToSet()` add items to an array and thus cannot mongorules cannot validate maxLength.
 - If preforming an `upsert`, all required fields must be present in the update payload (validated as an insert).
+- Upsert and save, operations have the porential to preform an insert, and thus, must include all required fields.
+- By default, the '\_id' field is validated using the `mongodb.ObjectID.isValid()` method. If this behavior is not desired, or, if you wish to add other schema requirements to the '\_id' field, you may add the '\_id' field to your schemas.
 
 ## License
 MIT
