@@ -1,6 +1,6 @@
 {
   "name": "mongorules",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "description": "A small but fierce wrapper around the native mongodb driver leveraging ES6 proxy black magic and schemas.",
   "main": "lib/index.js",
   "files": [
