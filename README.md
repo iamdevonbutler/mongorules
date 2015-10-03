@@ -178,7 +178,7 @@ Resolves to:
 {  
   "account.friends": [{
     required: true,
-    default: [{}]
+    default: []
   }],
   "account.friends.name": {
     type: 'string'
@@ -357,13 +357,9 @@ db.addModel('users', {
   schema: schema,
   methods: {
     // `this` == mongorules instance.
+    // Generators can be passed if using Koa.
     getUserByEmail: function(email) {
       return this.users.findOne({ email: email });
-    },
-    // You can pass generator functions!
-    addUser: function* (email) {
-      yield this.users.insert({ email: email });
-      return yield this.users.findOne({ email: email });
     }
   }
 });
@@ -466,7 +462,7 @@ Adds a global error handler for schema validation and mongodb errors.
 ## Misc
 There are some notes on the behavior of mongorules that may not be initially obvious:
 
-- Mongodb methods `push()` and `addToSet()` add items to an array and thus cannot mongorules cannot validate maxLength.
+- Mongodb methods `push()` and `addToSet()` add items to an array and thus cannot mongorules cannot validate minLength & maxLength.
 - If preforming an `upsert`, all required fields must be present in the update payload (validated as an insert).
 - Upsert and save, operations have the porential to preform an insert, and thus, must include all required fields.
 - By default, the '\_id' field is validated using the `mongodb.ObjectID.isValid()` method. If this behavior is not desired, or, if you wish to add other schema requirements to the '\_id' field, you may add the '\_id' field to your schemas.
