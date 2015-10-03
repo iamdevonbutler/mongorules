@@ -24,7 +24,6 @@ describe 'Preprocess:', ->
       payload = {name: 'jay'}
       payload = preprocess._deconstructPayload(payload, 'account.friends.nicknames')
       filteredSchema = preprocess._filterSchema(payload, schemaArrayOfObjects, null, null, 'account.friends.nicknames')
-      console.log(filteredSchema);
       errors = preprocess._validateRequiredFields(payload, filteredSchema, null, null, 'account.friends.nicknames')
       errors.length.should.eql(1)
 

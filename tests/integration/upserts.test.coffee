@@ -70,6 +70,5 @@ describe 'Upserts:', ->
       db.users.findAndModify(query, null, payload, { upsert: true, new: true }).then (result) ->
         db.users.find().then (result) ->
           result.toArray().then (result) ->
-            console.log(result);
             result.length.should.eql(2)
             done()
