@@ -1,6 +1,6 @@
 {
   "name": "mongorules",
-  "version": "0.1.0-beta.3",
+  "version": "0.1.0-beta.4",
   "description": "A small but fierce wrapper around the native mongodb driver leveraging ES6 proxy black magic and schemas.",
   "main": "lib/index.js",
   "files": [
@@ -30,11 +30,11 @@
     "babel": "^5.8.23",
     "chai": "^3.2.0",
     "coffee-script": "^1.10.0",
-    "harmony-reflect": "^1.4.2",
     "koa": "^1.0.0",
     "mocha": "^2.3.0"
   },
   "dependencies": {
+    "harmony-reflect": "^1.4.2",
     "debug": "^2.2.0",
     "lodash": "^3.10.1",
     "lodash-deep": "^1.6.0",
