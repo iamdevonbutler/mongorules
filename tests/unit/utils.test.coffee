@@ -12,6 +12,15 @@ func = (x) -> x * x
 
 describe 'Utils:', ->
 
+  describe '_isObjectId', ->
+    it 'should return false given an invalid ID', ->
+      result = utils._isObjectId('a')
+      result.should.eql(false)
+
+    it 'should return true given a valid ID', ->
+      result = utils._isObjectId('560037cdfa952916b820528e')
+      result.should.eql(true)
+
   describe '_filterNulls', ->
     it 'should filter null values from an array and array of arrays', ->
       result = utils._filterNulls([1, null, 'a', [1, null, 'a']])
