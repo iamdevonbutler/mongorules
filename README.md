@@ -404,7 +404,7 @@ mongorules.addGlobalErrorHandler((collectionName, action, errors, localHandler) 
 ```
 
 ## API
-### connect()
+### .connect()
 Connects to mongodb using `MongoClient.connect()` (convenience method).
 
 **Arguments**
@@ -414,13 +414,13 @@ Connects to mongodb using `MongoClient.connect()` (convenience method).
 **Returns**
 Mongodb instance to be passed to the `addDatabase()` method.
 
-### addDatabase()
+### .addDatabase()
 
 **Arguments**
 - databaseName {String}
 - mongodbInstance {Object}
 
-### addModel()
+### .addModel()
 
 **Arguments**
 - collectionName {String}
@@ -434,7 +434,7 @@ db.addModel('users', {
   onError: function() {...}
 });
 ```
-### addModels()
+### .addModels()
 
 **Arguments**
 - models {Object} - data models.
@@ -450,7 +450,7 @@ db.addModel({
 });
 ```
 
-### addGlobalErrorHandler()
+### .addGlobalErrorHandler()
 Adds a global error handler for schema validation and mongodb errors.
 
 **Arguments**
@@ -463,9 +463,9 @@ Adds a global error handler for schema validation and mongodb errors.
 There are some notes on the behavior of mongorules that may not be initially obvious:
 
 - Mongodb methods `push()` and `addToSet()` add items to an array and thus cannot mongorules cannot validate minLength & maxLength.
-- If preforming an `upsert`, all required fields must be present in the update payload (validated as an insert).
-- Upsert and save, operations have the porential to preform an insert, and thus, must include all required fields.
+- Upsert and save, operations have the potential to preform an insert, and thus, must include all required fields.
 - By default, the '\_id' field is validated using the `mongodb.ObjectID.isValid()` method. If this behavior is not desired, or, if you wish to add other schema requirements to the '\_id' field, you may add the '\_id' field to your schemas.
+- During an insert/update, fields included in the payload that are not present in schema will be disregarded, and the operation will continue to execute.
 
 ## License
 MIT

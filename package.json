@@ -13,6 +13,17 @@
   "engines": {
     "node": ">= 0.12.0"
   },
+  "keywords": [
+    "database",
+    "mongo",
+    "mongodb",
+    "wrapper",
+    "abstraction",
+    "proxies",
+    "schema",
+    "validation",
+    "orm"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iamdevonbutler/node-mongorules.git"
