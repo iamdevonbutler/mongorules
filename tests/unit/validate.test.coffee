@@ -1,7 +1,3 @@
-'use strict'
-
-# require('./helpers/setup')
-
 #Module dependencies.
 should = require('chai').should()
 expect = require('chai').expect

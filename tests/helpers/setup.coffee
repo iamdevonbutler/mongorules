@@ -1,28 +1,35 @@
 'use strict'
 
-require('babel/register')
+require 'babel/register'
 
-#Module dependencies.
+# Module dependencies.
 mongodb = require('mongodb')
 db = require('../../lib')
+initDb = true
 
-dbInit = false
 
 beforeEach (done) ->
-  if !dbInit
-    db.connect('mongodb://localhost/mongorules', mongodb).then (_db) =>
-      db.addDatabase('mongorules', _db);
-      dbInit = true
+  if initDb
+    db.connect('mongodb://localhost/mongorules', mongodb).then ((_db) ->
+      db.addDatabase 'mongorules', _db
+      initDb = false
       done()
+      return
+    ), (err) ->
+      console.log '>>> Must run a "mongod" process in the background to use the mongodb client'
+      process.exit()
+      return
   else
     done()
+  return
 
-
-# Remove collection users if it exists.
 afterEach (done) ->
-  db.users.remove({}).then((res)->
+  # Remove collection users if it exists.
+  db.users.remove({}).then ((res) ->
     done()
-  , (err) ->
+    return
+  ), (err) ->
     # catch error thrown if collection does not exist.
-    done(err)
-  )
+    done err
+    return
+  return

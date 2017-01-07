@@ -424,7 +424,7 @@ Mongodb instance to be passed to the `addDatabase()` method.
 
 **Arguments**
 - collectionName {String}
-- models {Object} - data models.
+- model {Object} - collection model.
 
 ```
 db = require('mongorules');
@@ -437,7 +437,7 @@ db.addModel('users', {
 ### .addModels()
 
 **Arguments**
-- models {Object} - data models.
+- models {Object} - collection models.
 
 ```
 db = require('mongorules');
