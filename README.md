@@ -1,4 +1,4 @@
-# Mongorules (beta - currently being tested)
+# Mongorules (alpha)
 
 A small but fierce wrapper around the native mongodb driver leveraging ES6 proxy black magic.
 
@@ -24,9 +24,7 @@ Custom schemas enforce consistency to `insert()`, `update()`, `save()`, and `fin
 - [License](#license)
 
 ## Requirements
-- node >= 0.12.x
-- ES6
-- ES6 proxies (enabled via [Harmony Reflect](https://github.com/tvcutsem/harmony-reflect) and the `--harmony_proxies` flag)
+- node >= v6.0.0
 - Mongodb >= 2.6
 
 ## Getting started

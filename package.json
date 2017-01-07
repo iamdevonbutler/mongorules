@@ -1,17 +1,17 @@
 {
   "name": "mongorules",
-  "version": "0.1.0-beta.5",
+  "version": "0.1.0-alpha1",
   "description": "A small but fierce wrapper around the native mongodb driver leveraging ES6 proxy black magic and schemas.",
   "main": "lib/index.js",
   "files": [
     "lib"
   ],
   "scripts": {
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --harmony --harmony_proxies --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/**/*.test.coffee",
-    "debug": "NODE_ENV=test DEBUG=*,-babel,-mocha:* ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --harmony --harmony_proxies --reporter spec --ui bdd --bail --colors ./tests/**/*.test.coffee"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/**/*.test.coffee",
+    "debug": "NODE_ENV=test DEBUG=*,-babel,-mocha:* ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/**/*.test.coffee"
   },
   "engines": {
-    "node": ">= 0.12.0"
+    "node": ">=6.0.0"
   },
   "keywords": [
     "mongo",
@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/iamdevonbutler/node-mongorules#readme",
   "peerDependencies": {
-    "mongodb": ">=2"
+    "mongodb": ">=2.0.0"
   },
   "devDependencies": {
     "babel": "^5.8.23",
@@ -44,7 +44,6 @@
     "mongodb": "^2.0.0"
   },
   "dependencies": {
-    "harmony-reflect": "^1.4.2",
     "debug": "^2.2.0",
     "lodash": "^3.10.1",
     "lodash-deep": "^1.6.0",
