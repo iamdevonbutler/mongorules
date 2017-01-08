@@ -357,7 +357,7 @@ db.addModel('users', {
     // `this` == mongorules instance.
     // Generators can be passed if using Koa.
     getUserByEmail: function(email) {
-      return this.users.findOne({ email: email });
+      return this.users.findOne({ 'account.email': email });
     }
   }
 });
@@ -410,7 +410,14 @@ Connects to mongodb using `MongoClient.connect()` (convenience method).
 - mongodb {Object} - require('mongodb')
 
 **Returns**
-Mongodb instance to be passed to the `addDatabase()` method.
+{promise} Mongodb instance to be passed to the `addDatabase()` method.
+
+### .close()
+Closes a mongodb connection using `MongoClient.close()` (convenience method).
+
+**Returns**
+{promise} The first parameter will contain the Error object if an error occured, or null otherwise. While the second parameter will contain the results from the close method or null if an error occured.
+
 
 ### .addDatabase()
 
