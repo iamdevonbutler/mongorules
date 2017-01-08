@@ -91,7 +91,7 @@ The following operations will enforce schema validation:
 
 ### Update operations
 
-Mongoproxy supports validation for the following mongodb update operators:
+Mongorules supports validation for the following mongodb update operators:
 
 - `$inc`
 - `$mul`
