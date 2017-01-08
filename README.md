@@ -1,5 +1,7 @@
 # Mongorules (alpha)
 
+[![Build Status](https://travis-ci.org/iamdevonbutler/node-mongorules.svg?branch=master)](https://travis-ci.org/iamdevonbutler/node-mongorules)
+
 A small but fierce wrapper around the native mongodb driver leveraging ES6 proxy black magic.
 
 # Intro
