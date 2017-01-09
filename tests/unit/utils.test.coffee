@@ -43,6 +43,12 @@ describe 'Utils:', ->
       utils._validateDate('11-12-15', 'MM-DD-YYYY').should.be.false
 
   describe '_isType():', ->
+    it 'should return true given a date object', ->
+      utils._isType(new Date(), 'date').should.be.true
+
+    it 'should return false given a object', ->
+      utils._isType({}, 'date').should.be.false
+
     it 'should return true given a string', ->
       utils._isType('string', 'string').should.be.true
 
@@ -78,6 +84,9 @@ describe 'Utils:', ->
 
 
   describe '_getType():', ->
+    it 'should return date given a date', ->
+      utils._getType(new Date()).should.eql('date')      
+
     it 'should return string given a string', ->
       utils._getType('string').should.eql('string')
 

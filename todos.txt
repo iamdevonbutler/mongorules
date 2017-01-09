@@ -1,3 +1,10 @@
 - multiple database instances
 - refactor index.js
 - pref test.
+- test time implementation
+- perf test _isType() in utils
+- add is NAN to utils
+- debugger when tests fail.....
+- might be able to cache the deconstruction...
+- pre-push live search console.logs
+- perf test values, array of values, array of objects.
