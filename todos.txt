@@ -8,3 +8,6 @@
 - might be able to cache the deconstruction...
 - pre-push live search console.logs
 - perf test values, array of values, array of objects.
+- perf testing: deconstruction and reconstruction inc slowness by around 10% and validate methods inc slowness by 5-9%, novalidate adds around 3-4% given 50,000 requests in series.
+- maybe there should be a global error handler and a collection error handler.
+- make more ES6y
