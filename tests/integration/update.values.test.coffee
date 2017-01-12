@@ -10,7 +10,7 @@ describe 'update(): values:', ->
 
   beforeEach (done) ->
     db.addModel('users', { schema: schema })
-    payload = { account: { friends: ['gab'], name: 'jay' }, newsletter: true, age: 1 }
+    payload = { account: { friends: ['lrn'], name: 'jay' }, newsletter: true, age: 1 }
     db.users.insert(payload).then (result) ->
       done()
 
@@ -59,7 +59,7 @@ describe 'update(): values:', ->
   it 'should ignore fields that do not exist in schema during an $addToSet w/ $each update', (done) ->
     payload = {
       $addToSet: {
-        'account.doesnotexist': { $each: ['jay', 'gab'] },
+        'account.doesnotexist': { $each: ['jay', 'lrn'] },
         'account.friends': { $each: ['jay', 'lou'] }
       }
     }
@@ -68,7 +68,7 @@ describe 'update(): values:', ->
         result.newsletter.should.eql(true)
         result.age.should.eql(1)
         result.account.name.should.eql('hey jay')
-        result.account.friends.should.eql(['gab', 'jay', 'lou'])
+        result.account.friends.should.eql(['lrn', 'jay', 'lou'])
         expect(result.account.friends.doesnotexist).to.be.undefined
         done()
 
@@ -141,7 +141,7 @@ describe 'update(): values:', ->
     it 'should not update a field that is not in the payload w/ the schemas default value', (done) ->
       db.users.update({}, { '$set': {'account.name': 'jay'} }).then (result) ->
         db.users.findOne({}).then (result) ->
-          result.account.friends.should.eql(['gab'])
+          result.account.friends.should.eql(['lrn'])
           done()
 
     it 'should update a field w/ null if notNull is false', (done) ->
@@ -154,7 +154,7 @@ describe 'update(): values:', ->
       db.users.update({}, { '$set': {'account.name': 'gus'} }).then (result) ->
         db.users.findOne({}).then (result) ->
           result.account.name.should.eql('hey gus')
-          result.account.friends.should.eql(['gab'])
+          result.account.friends.should.eql(['lrn'])
           result.newsletter.should.eql(true)
           result.age.should.eql(1)
           Object.keys(result).length.should.eql(4) # _id field adds a field.
@@ -164,26 +164,26 @@ describe 'update(): values:', ->
     it 'should add an item to the friends array', (done) ->
       db.users.update({}, { '$addToSet': {'account.friends': 'gus'} }).then (result) ->
         db.users.findOne({}).then (result) ->
-          result.account.friends.should.eql(['gab', 'gus'])
+          result.account.friends.should.eql(['lrn', 'gus'])
           done()
 
     it 'should add multiple items using $each to an array', (done) ->
       payload = { '$addToSet': { 'account.friends': { '$each': ['lou', 'gus'] } } }
       db.users.update({}, payload).then (result) ->
         db.users.findOne({}).then (result) ->
-          result.account.friends.should.eql(['gab', 'lou', 'gus'])
+          result.account.friends.should.eql(['lrn', 'lou', 'gus'])
           done()
 
   describe '$push', ->
     it 'should add an item to the friends array', (done) ->
       db.users.update({}, { '$push': {'account.friends': 'gus'} }).then (result) ->
         db.users.findOne({}).then (result) ->
-          result.account.friends.should.eql(['gab', 'gus'])
+          result.account.friends.should.eql(['lrn', 'gus'])
           done()
 
     it 'should add multiple items using $each to an array and apply the $slice operator', (done) ->
       payload = { '$push': { 'account.friends': { '$each': ['lou', 'gus', 'sam'], '$slice': 2 } } }
       db.users.update({}, payload).then (result) ->
         db.users.findOne({}).then (result) ->
-          result.account.friends.should.eql(['gab', 'lou'])
+          result.account.friends.should.eql(['lrn', 'lou'])
           done()

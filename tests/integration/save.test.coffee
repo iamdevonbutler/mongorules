@@ -26,16 +26,16 @@ describe 'save():', ->
           done()
 
   it 'should update a document that contains a matching _id field.', (done) ->
-    payload = { _id: _id, account: { name: 'gab'} }
+    payload = { _id: _id, account: { name: 'lrn'} }
     db.users.save(payload).then (result) ->
       db.users.find().then (result) ->
         result.toArray().then (result) ->
           result.length.should.eql(1)
-          result[0].account.name.should.eql('hey gab')
+          result[0].account.name.should.eql('hey lrn')
           done()
 
   it 'should insert a document that contains a non matching _id field.', (done) ->
-    payload = { _id: '560037c4fa952916b820528d', account: { name: 'gab'} }
+    payload = { _id: '560037c4fa952916b820528d', account: { name: 'lrn'} }
     db.users.save(payload).then (result) ->
       db.users.find().then (result) ->
         result.toArray().then (result) ->

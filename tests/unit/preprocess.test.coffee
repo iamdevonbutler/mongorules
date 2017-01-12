@@ -158,7 +158,7 @@ describe 'Preprocess:', ->
         account: {
           name: 'jay',
           email: 'j@j.com',
-          friends: [{ name: 'gab' },  {name: 'lou'}]
+          friends: [{ name: 'lrn' },  {name: 'lou'}]
         },
         notifications: [1,2,3]
       }
@@ -181,7 +181,7 @@ describe 'Preprocess:', ->
           itemInArrayUpdate: false
         },
         'account.friends': {
-          value: [{ name: 'gab' },  {name: 'lou'}],
+          value: [{ name: 'lrn' },  {name: 'lou'}],
           payloadPath: ['account', 'friends'],
           fieldInSubdocument: true,
           isEach: false,
@@ -291,7 +291,7 @@ describe 'Preprocess:', ->
 
   describe '_queryFieldsExistInSchema():', ->
     it 'should return true given a nested query with fields that are present in schema', ->
-      query = { account: { name: 'hey gab', friends: { name: { nickname: 'lou' } } } }
+      query = { account: { name: 'hey lrn', friends: { name: { nickname: 'lou' } } } }
       schema = {'account.name':{}, 'account.friends.name.nickname': {}}
       result = preprocess._queryFieldsExistInSchema(query, schema)
       result.should.eql(true)
@@ -362,6 +362,6 @@ describe 'Preprocess:', ->
       result = preprocess._getQueryFields(query)
       result.should.eql(['item.name'])
 
-      query = { "item.name.0": { $eq: "ab" }, friends: ['gab'] }
+      query = { "item.name.0": { $eq: "ab" }, friends: ['lrn'] }
       result = preprocess._getQueryFields(query)
       result.should.eql(['item.name', 'friends'])

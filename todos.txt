@@ -11,3 +11,10 @@
 - perf testing: deconstruction and reconstruction inc slowness by around 10% and validate methods inc slowness by 5-9%, novalidate adds around 3-4% given 50,000 requests in series.
 - maybe there should be a global error handler and a collection error handler.
 - make more ES6y
+- preprocess 194 debug statement - say something about that in docs.
+- could replace OOP validator w/ functional validator. -  find out how costly obj construction is in JS
+- travis should dl mongo 6.0 not ^6.0
+- might be double wrapping promises - db.users.remove is a promise to begin w/.
+- there might be a babel bug or some bug that occurs when trying to use es6 import syntax to import db from 'mongorules'.
+- do i need error.prototype (see error file)
+- does close() return a promise.

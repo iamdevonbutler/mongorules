@@ -10,7 +10,7 @@ describe 'update(): array of values:', ->
 
   beforeEach (done) ->
     db.addModel('users', { schema: schema })
-    doc = { account: { friends: ['gab', 'gus'] } }
+    doc = { account: { friends: ['lrn', 'gus'] } }
     db.users.insert(doc).then (result) ->
       done()
 
@@ -36,5 +36,5 @@ describe 'update(): array of values:', ->
       payload  = { '$addToSet': {'account.friends': { '$each': ['sam', 'new'] } } }
       db.users.update({}, payload).then (result) ->
         db.users.findOne({}).then (result) ->
-          result.account.friends.should.eql(['hey gab', 'hey gus', 'hey sam', 'hey new'])
+          result.account.friends.should.eql(['hey lrn', 'hey gus', 'hey sam', 'hey new'])
           done()

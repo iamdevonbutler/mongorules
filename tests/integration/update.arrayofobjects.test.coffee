@@ -11,7 +11,7 @@ describe 'update(): array of objects:', ->
   beforeEach (done) ->
     db.addModel('users', { schema: schema })
     doc = { account: {
-      friends: [{ name: 'gab' }, { name: 'gus' }]
+      friends: [{ name: 'lrn' }, { name: 'gus' }]
     } }
     db.users.insert(doc).then (result) ->
       done()
@@ -52,7 +52,7 @@ describe 'update(): array of objects:', ->
       db.users.update({}, payload).then (result) ->
         db.users.findOne({}).then (result) ->
           result.account.friends.should.eql([
-            { name: 'gab!', nicknames: [{name: 'lou', giver: [] }] },
+            { name: 'lrn!', nicknames: [{name: 'lou', giver: [] }] },
             { name: 'gus!', nicknames: [] }
           ])
           done()

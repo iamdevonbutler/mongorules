@@ -32,7 +32,7 @@ describe 'insert(): array of values:', ->
       done()
 
   it 'should throw an error when violating the maxLength constraint', (done) ->
-    doc = { account: { friends: ['gab', 'gus', 'jay', 'tim'] } }
+    doc = { account: { friends: ['lrn', 'gus', 'jay', 'tim'] } }
     try
       db.users.insert([doc]).then (result) ->
         done(result)
@@ -40,7 +40,7 @@ describe 'insert(): array of values:', ->
       e.errors.length.should.eql(1)
       e.errors[0].property.should.eql('maxLength')
 
-    doc = { account: { friends: ['gab', 'gus', 'jayy'] } }
+    doc = { account: { friends: ['lrn', 'gus', 'jayy'] } }
     try
       db.users.insert([doc]).then (result) ->
         done(result)
@@ -50,11 +50,11 @@ describe 'insert(): array of values:', ->
       done()
 
   it 'should filter null values, transform, lowercase & trim', (done) ->
-    doc = { account: { friends: ['GAB', 'el ', null] } }
+    doc = { account: { friends: ['LRN', 'el ', null] } }
     db.users.insert([doc]).then (result) ->
       db.users.findOne({}).then (res) ->
         res.account.friends.length.should.eql(2)
-        res.account.friends[0].should.eql('hey gab')
+        res.account.friends[0].should.eql('hey lrn')
         res.account.friends[1].should.eql('hey el')
         done()
 
