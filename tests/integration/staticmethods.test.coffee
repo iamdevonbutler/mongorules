@@ -16,7 +16,7 @@ describe 'Static methods:', ->
     db.addModel('users', { schema: schema, methods: methods })
     done()
 
-  it 'should add a user using a static methods.', (done) ->
+  it 'should add a user using a static methods', (done) ->
     db.users.addUser('gus').then (result) ->
       db.users.findOne({ 'account.name': 'hey gus' }).then (result) ->
         result.account.name.should.eql('hey gus')

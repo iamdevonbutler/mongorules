@@ -18,3 +18,6 @@
 - there might be a babel bug or some bug that occurs when trying to use es6 import syntax to import db from 'mongorules'.
 - do i need error.prototype (see error file)
 - does close() return a promise.
+- sanitize changes date from obj to string (will cause bugs)
+- restructure docs (/doc/...)
+- local error handler absent from docs.
