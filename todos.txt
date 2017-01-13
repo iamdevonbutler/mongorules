@@ -1,23 +1,20 @@
 - multiple database instances
 - refactor index.js
 - pref test.
+
 - test time implementation
-- perf test _isType() in utils
-- add is NAN to utils
-- debugger when tests fail.....
 - might be able to cache the deconstruction...
 - pre-push live search console.logs
 - perf test values, array of values, array of objects.
-- perf testing: deconstruction and reconstruction inc slowness by around 10% and validate methods inc slowness by 5-9%, novalidate adds around 3-4% given 50,000 requests in series.
-- maybe there should be a global error handler and a collection error handler.
-- make more ES6y
-- preprocess 194 debug statement - say something about that in docs.
+- debug statement - say something about that in docs.
 - could replace OOP validator w/ functional validator. -  find out how costly obj construction is in JS
 - travis should dl mongo 6.0 not ^6.0
 - might be double wrapping promises - db.users.remove is a promise to begin w/.
-- there might be a babel bug or some bug that occurs when trying to use es6 import syntax to import db from 'mongorules'.
-- do i need error.prototype (see error file)
 - does close() return a promise.
 - sanitize changes date from obj to string (will cause bugs)
 - restructure docs (/doc/...)
-- local error handler absent from docs.
+- collection error handler absent from docs - .
+- doxygen tests 'none' refer to unit tests, most if not all things are tested via integration tests.
+- dyanamic docs - doc compiler
+- replace throw w/ throw new error (more info).
+- add @file declarations
