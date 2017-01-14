@@ -16,5 +16,10 @@
 - collection error handler absent from docs - .
 - doxygen tests 'none' refer to unit tests, most if not all things are tested via integration tests.
 - dyanamic docs - doc compiler
-- replace throw w/ throw new error (more info).
 - add @file declarations
+- too much `this`.
+- what happens when you try to do shit w/o calling addDatabase
+- in docs mention that this is for microservices and a deisgn paradigm of multiple db connections to a distributed cluser of datastores.
+- underscore prefixes in utils - remove, public has 2 audiences, 1) public to implementer of lib and public to myself as i include dependencies.
+- mention in docs that results from add/get database return a proxy, but u can get the naked (unproxied) connectino obj from getConnection
+- find out more uses for debug and evaluate existing uses.
