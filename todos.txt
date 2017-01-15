@@ -2,6 +2,14 @@
 - refactor index.js
 - pref test.
 
+- use parens more for errors (see the last else statement in proxy step1)
+- should see what this is like when a model has no scheam and has statics only.
+- utils._isType should not be private
+- getDatabase should always return a proxy - elims errors where people may pass in a third param by accident, and if someone wants a unproxied obj they can call getConnection and then conn.db()
+- metion $databaseName and the tradeoff - want a clean namespace for naming models. wouldnt be able to have a model named open w/o dollar prefix.
+- addModel should have more checks to ensure people are passing in a schema.
+- idk if _getModel (should be getModels) should throw.
+- add gh questions that are answered to a FAQ doc.
 - test time implementation
 - might be able to cache the deconstruction...
 - pre-push live search console.logs
@@ -23,3 +31,4 @@
 - underscore prefixes in utils - remove, public has 2 audiences, 1) public to implementer of lib and public to myself as i include dependencies.
 - mention in docs that results from add/get database return a proxy, but u can get the naked (unproxied) connectino obj from getConnection
 - find out more uses for debug and evaluate existing uses.
+- reversing no validate - going to be the first param so u can query a - change docs.
