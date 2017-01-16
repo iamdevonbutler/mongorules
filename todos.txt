@@ -1,10 +1,4 @@
-
-- function decoration idea.
-create a func called db.
-create a func called setDefaultDb - pass in connection and db name
-const {db} = require('mongorules')
-the decorated db func will hijack the getter and call getDatabse for you w/ the default config
-
+- defaultDb docs
 
 - pref test.
 - test removeModel and removeModels. add tests. in readme mention use cases for these (really edge case - if your api has a update hook you can change your models w/o taking the server down).
