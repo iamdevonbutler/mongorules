@@ -3,7 +3,8 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-db = require('../../lib')
+db = null
+mongorules = require('../../lib')
 schema = require('../fixtures/schema.values')
 
 addUser = (value) ->
@@ -13,7 +14,9 @@ describe 'Static methods:', ->
 
   beforeEach (done) ->
     methods = { addUser: addUser }
-    db.addModel('users', { schema: schema, methods: methods })
+    mongorules.removeModel('test', 'mongorules-testing', 'users')
+    mongorules.addModel('test','mongorules-testing', 'users', { schema: schema, methods: methods })
+    db = mongorules.getDatabase('test', 'mongorules-testing')
     done()
 
   it 'should add a user using a static methods', (done) ->

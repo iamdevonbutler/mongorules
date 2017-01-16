@@ -3,13 +3,16 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-db = require('../../lib')
+db = null
+mongorules = require('../../lib')
 schema = require('../fixtures/schema.arrayofvalues')
 
 describe 'update(): array of values:', ->
 
   beforeEach (done) ->
-    db.addModel('users', { schema: schema })
+    mongorules.removeModel('test', 'mongorules-testing', 'users')
+    mongorules.addModel('test','mongorules-testing', 'users', { schema: schema })
+    db = mongorules.getDatabase('test', 'mongorules-testing')
     doc = { account: { friends: ['lrn', 'gus'] } }
     db.users.insert(doc).then (result) ->
       done()

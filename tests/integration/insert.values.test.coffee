@@ -3,14 +3,17 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-db = require('../../lib')
+db = null
+mongorules = require('../../lib')
 schema = require('../fixtures/schema.values')
 
 describe 'insert(): values:', ->
 
   beforeEach (done) ->
+    mongorules.removeModel('test', 'mongorules-testing', 'users')
     models = { users: { schema: schema } }
-    db.addModels(models)
+    mongorules.addModels('test','mongorules-testing', models)
+    db = mongorules.getDatabase('test', 'mongorules-testing')
     done()
 
   it 'should throw an error when inserting a document w/ an invalid ObjectID', (done) ->
@@ -117,7 +120,7 @@ describe 'insert(): values:', ->
 
   it 'should insert an invalid document using the novalidate prefix', (done) ->
     doc = { account: {} }
-    db.users.novalidate.insert(doc).then (result) ->
+    db.novalidate.users.insert(doc).then (result) ->
       db.users.findOne().then (result) ->
         expect(result.account).to.be.empty
         done()

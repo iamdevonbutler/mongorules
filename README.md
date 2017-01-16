@@ -234,7 +234,7 @@ Document validation will occur on `insert()`, `update()`, `save()`, and `findAnd
 In instances where you want to run a query w/o schema validation you may prefix your query w/ the 'novalidate' property:
 
 ```
-var result = db.users.novalidate.insert({...});
+var result = db.novalidate.users.insert({...});
 ```
 
 ### The 'required' and 'notNull' properties

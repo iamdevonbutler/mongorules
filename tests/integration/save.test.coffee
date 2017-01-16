@@ -3,7 +3,8 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-db = require('../../lib')
+db = null
+mongorules = require('../../lib')
 schema = require('../fixtures/schema.values')
 
 _id = null
@@ -11,6 +12,7 @@ _id = null
 describe 'save():', ->
 
   beforeEach (done) ->
+    db = mongorules.getDatabase('test', 'mongorules-testing')
     db.users.insert({ account: { name: 'jay' } }).then (result) ->
       db.users.findOne().then (result) ->
         _id = result._id

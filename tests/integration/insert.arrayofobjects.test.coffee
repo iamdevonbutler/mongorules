@@ -3,14 +3,17 @@ should = require('chai').should()
 expect = require('chai').expect
 assert = require('chai').assert
 
-db = require('../../lib')
+db = null
+mongorules = require('../../lib')
 schema = require('../fixtures/schema.arrayofobjects')
 
 describe 'insert(): array of objects:', ->
 
   beforeEach (done) ->
+    mongorules.removeModel('test', 'mongorules-testing', 'users')
     models = { users: { schema: schema } }
-    db.addModels(models)
+    mongorules.addModels('test','mongorules-testing', models)
+    db = mongorules.getDatabase('test', 'mongorules-testing')
     done()
 
   it 'should throw an error given an object missing a required property', (done) ->

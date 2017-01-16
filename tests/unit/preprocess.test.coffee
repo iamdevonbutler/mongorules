@@ -80,7 +80,7 @@ describe 'Preprocess:', ->
   describe '_filterSchema():', ->
     it 'should filter out nested schemas (schemas in arrays)', ->
       result = preprocess._filterSchema({}, schemaArrayOfObjects)
-      Object.keys(result).should.eql(['account.friends', '_id'])
+      Object.keys(result).should.eql(['_id', 'account.friends'])
 
     it 'should filter out nested schemas and parent schemas given a parent key', ->
       result = preprocess._filterSchema({}, schemaArrayOfObjects, null, null, 'account.friends')

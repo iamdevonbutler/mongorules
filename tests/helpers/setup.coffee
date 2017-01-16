@@ -1,17 +1,15 @@
 'use strict'
 
-require 'babel/register'
-
 # Module dependencies.
 mongodb = require('mongodb')
-db = require('../../lib')
+mongorules = require('../../lib')
 initDb = true
-
+db = null
 
 beforeEach (done) ->
   if initDb
-    db.connect('test','mongodb://localhost/mongorules', mongodb).then ((_db) ->
-      db.addDatabase 'test', 'mongorules', _db
+    mongorules.connect('test','mongodb://localhost/mongorules-testing', mongodb).then ((_db) ->
+      db = mongorules.addDatabase 'test', 'mongorules-testing', _db
       initDb = false
       done()
       return
