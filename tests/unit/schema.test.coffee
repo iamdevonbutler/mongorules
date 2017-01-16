@@ -37,13 +37,13 @@ describe 'Schema:', ->
         result = schema._addIdFieldToSchema(schemaValues)
         result._id.type.should.eql('string')
 
-  describe '_arrayifySchemaValue()', ->
+  describe '_arrayifySchemaField()', ->
     it 'should transform a validate/transform function into an array containing a function', ->
-      result = schema._arrayifySchemaValue({ transform: func, validate: func })
+      result = schema._arrayifySchemaField({ transform: func, validate: func })
       result.transform[0].should.eql(func)
       result.validate[0].should.eql(func)
     it 'should transform a minLength/maxLength value into an array containing a minLength/maxLength value', ->
-      result = schema._arrayifySchemaValue({ minLength: 1, maxLength: 1 })
+      result = schema._arrayifySchemaField({ minLength: 1, maxLength: 1 })
       result.minLength[0].should.eql(1)
       result.maxLength[0].should.eql(1)
 
@@ -100,9 +100,9 @@ describe 'Schema:', ->
       result['account.friends.nicknames.giver']._type.should.eql('arrayofobjects')
       result['account.friends.nicknames.giver.name'].should.be.ok
 
-  describe '_setSchemaDefaults():', ->
-    it 'should set default values for all schema properties', ->
-      defaults = schema._setSchemaDefaults({})
+  describe '_setSchemaFieldDefaults():', ->
+    it 'should set default values for all schema fields', ->
+      defaults = schema._setSchemaFieldDefaults({})
       expect(defaults.required).to.not.be.undefined
       expect(defaults.notNull).to.not.be.undefined
       expect(defaults.default).to.be.undefined
@@ -120,70 +120,70 @@ describe 'Schema:', ->
       expect(defaults.maxLength).to.not.be.undefined
       Object.keys(defaults).length.should.eql(15)
 
-  describe '_validateSchema():', ->
+  describe '_validateSchemaField():', ->
 
     it 'should throw if a field has a type of `object` or `array`', ->
-      expect(-> schema._validateSchema(schema._setSchemaDefaults({type: 'array'}), 'users')).to.throw()
-      expect(-> schema._validateSchema(schema._setSchemaDefaults({type: 'object'}), 'users')).to.throw()
+      expect(-> schema._validateSchemaField(schema._setSchemaFieldDefaults({type: 'array'}), 'users')).to.throw()
+      expect(-> schema._validateSchemaField(schema._setSchemaFieldDefaults({type: 'object'}), 'users')).to.throw()
 
     it 'should throw if given an invalid value for a schema property', ->
-      expect(->schema._validateSchema( schema._setSchemaDefaults({required: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({required: true}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({required: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({required: true}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({notNull: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({notNull: true, required: true}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({notNull: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({notNull: true, required: true}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({type: Boolean}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'boolean'}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({type: Boolean}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({type: 'boolean'}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({dateFormat: true}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({dateFormat: 'timestamp'}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({dateFormat: true}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({dateFormat: 'timestamp'}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({trim: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({trim: true}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({trim: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({trim: true}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({uppercase: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({uppercase: true}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({uppercase: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({uppercase: true}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({lowercase: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({lowercase: true}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({lowercase: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({lowercase: true}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: true}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({sanitize: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({sanitize: true}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({denyXSS: 'true'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({denyXSS: true}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({denyXSS: 'true'}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({denyXSS: true}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({validate: [true]}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({validate: func}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({validate: [true]}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({validate: func}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({transform: [true]}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({transform: func}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({transform: [true]}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({transform: func}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: 1}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({filterNulls: true}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({filterNulls: 1}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({filterNulls: true}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: '1'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: 1}) , 'users')).to.not.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({minLength: [1]}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({minLength: '1'}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({minLength: 1}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({minLength: [1]}) , 'users')).to.not.throw()
 
-      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: '1'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: 1}) , 'users')).to.not.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({maxLength: [1]}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({maxLength: '1'}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({maxLength: 1}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({maxLength: [1]}) , 'users')).to.not.throw()
 
     it 'should throw if default is null and notNull is true', ->
-      expect(->schema._validateSchema( schema._setSchemaDefaults({default: null, notNull: true}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({default: null, notNull: false}) , 'users')).to.not.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({default: null, notNull: true}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({default: null, notNull: false}) , 'users')).to.not.throw()
 
     it 'should throw if given both sanitize and denyXSS', ->
-      expect(->schema._validateSchema( schema._setSchemaDefaults({sanitize: true, denyXSS: true}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({sanitize: true, denyXSS: true}) , 'users')).to.throw()
 
     it 'should throw if given both default and required', ->
-      expect(->schema._validateSchema( schema._setSchemaDefaults({default: true, required: true}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({default: true, required: true}) , 'users')).to.throw()
 
     it 'should throw if type is date and dateFormat is not specified', ->
-      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'date'}) , 'users')).to.throw()
-      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'string', dateFormat: 'unix'}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({type: 'date'}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({type: 'string', dateFormat: 'unix'}) , 'users')).to.throw()
 
     it 'should throw if type is not a string and the string transformation methods are true', ->
-      expect(->schema._validateSchema( schema._setSchemaDefaults({type: 'boolean', trim: true}) , 'users')).to.throw()
+      expect(->schema._validateSchemaField( schema._setSchemaFieldDefaults({type: 'boolean', trim: true}) , 'users')).to.throw()

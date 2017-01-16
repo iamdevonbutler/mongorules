@@ -2,6 +2,13 @@
 - refactor index.js
 - pref test.
 
+- test duplicate key inserts and inserts on unique field - see what the error messages look like.
+- module versions static no ^.
+- on schema file dont use _.isBoolean and destructure dependencies. utils can curry a type check func. var isBoolean = utils.isType('boolean')
+- array of arrays should get a mention in the docs and i should play around w/ them to see how they work.
+- date obj changed by sanitiz
+- verify im doing dates right and _id.
+- static methods only accept generators?
 - use parens more for errors (see the last else statement in proxy step1)
 - should see what this is like when a model has no scheam and has statics only.
 - utils._isType should not be private
