@@ -1,7 +1,8 @@
 language: node_js
 node_js:
-  - '6.0.0'
-  - '6.0.x'
+ - stable
+  - 7
+  - 6
 services: mongodb
 before_script:
   - "until nc -z localhost 27017; do echo Waiting for MongoDB; sleep 1; done"
