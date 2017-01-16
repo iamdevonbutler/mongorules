@@ -2,6 +2,7 @@
 - refactor index.js
 - pref test.
 
+- fix underscore `private` inconsistency. there are funcs in schema that should not have an underscore.
 - test duplicate key inserts and inserts on unique field - see what the error messages look like.
 - module versions static no ^.
 - on schema file dont use _.isBoolean and destructure dependencies. utils can curry a type check func. var isBoolean = utils.isType('boolean')
