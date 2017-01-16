@@ -27,7 +27,6 @@
 - could replace OOP validator w/ functional validator. -  find out how costly obj construction is in JS
 - travis should dl mongo 6.0 not ^6.0
 - might be double wrapping promises - db.users.remove is a promise to begin w/.
-- does close() return a promise.
 - sanitize changes date from obj to string (will cause bugs)
 - restructure docs (/doc/...)
 - collection error handler absent from docs - .
