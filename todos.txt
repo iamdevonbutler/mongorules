@@ -2,9 +2,10 @@
 - refactor index.js
 - pref test.
 
+- test removeModel and removeModels. add tests. in readme mention use cases for these (really edge case - if your api has a update hook you can change your models w/o taking the server down).
+- make sure gloabal and local error handelrs work
 - fix underscore `private` inconsistency. there are funcs in schema that should not have an underscore.
 - test duplicate key inserts and inserts on unique field - see what the error messages look like.
-- module versions static no ^.
 - on schema file dont use _.isBoolean and destructure dependencies. utils can curry a type check func. var isBoolean = utils.isType('boolean')
 - array of arrays should get a mention in the docs and i should play around w/ them to see how they work.
 - date obj changed by sanitiz

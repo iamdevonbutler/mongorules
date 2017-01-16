@@ -43,10 +43,10 @@
     "mongodb": "^2.0.0"
   },
   "dependencies": {
-    "debug": "^2.2.0",
-    "lodash": "^3.10.1",
-    "lodash-deep": "^1.6.0",
-    "moment": "^2.10.6",
-    "xss-filters": "^1.2.6"
+    "debug": "2.6.0",
+    "lodash": "4.17.4",
+    "lodash-deep": "2.0.0",
+    "moment": "2.17.1",
+    "xss-filters": "1.2.7"
   }
 }

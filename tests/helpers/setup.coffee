@@ -10,14 +10,14 @@ initDb = true
 
 beforeEach (done) ->
   if initDb
-    db.connect('mongodb://localhost/mongorules', mongodb).then ((_db) ->
-      db.addDatabase 'mongorules', _db
+    db.connect('test','mongodb://localhost/mongorules', mongodb).then ((_db) ->
+      db.addDatabase 'test', 'mongorules', _db
       initDb = false
       done()
       return
     ), (err) ->
       console.log '>>> Must run a "mongod" process in the background to use the mongodb client'
-      process.exit()
+      process.exit();
       return
   else
     done()
