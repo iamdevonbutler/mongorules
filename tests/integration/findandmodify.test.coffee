@@ -19,10 +19,13 @@ describe 'findAndModify():', ->
   it 'should return an updated document', (done) ->
     payload = { '$set': {'account.name': 'gus'} }
     db.users.findAndModify({}, [], payload, { new: true }).then (result) ->
-      result = result.value
-      result.account.name.should.eql('hey gus')
-      result.account.friends.should.eql(['lrn'])
-      result.newsletter.should.eql(true)
-      result.age.should.eql(1)
-      Object.keys(result).length.should.eql(4) # _id field adds a field.
-      done()
+      try
+        result = result.value
+        result.account.name.should.eql('hey gus')
+        result.account.friends.should.eql(['lrn'])
+        result.newsletter.should.eql(true)
+        result.age.should.eql(1)
+        Object.keys(result).length.should.eql(4) # _id field adds a field.
+        done()
+      catch e
+        done e
