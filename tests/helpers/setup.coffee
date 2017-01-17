@@ -11,23 +11,15 @@ beforeEach (done) ->
     mongorules.connect('test','mongodb://localhost/mongorules-testing', mongodb).then ((_db) ->
       db = mongorules.addDatabase 'test', 'mongorules-testing', _db
       initDb = false
-      done()
-      return
+      db.users.remove({})
+        .then(() -> done())
+        .catch(done)
     ), (err) ->
       console.log '>>> Must run a "mongod" process in the background to use the mongodb client'
       process.exit();
-      return
   else
-    done()
-  return
-
-afterEach (done) ->
-  # Remove collection users if it exists.
-  db.users.remove({}).then ((res) ->
-    done()
-    return
-  ), (err) ->
-    # catch error thrown if collection does not exist.
-    done err
-    return
-  return
+    try
+      db.users.remove({})
+        .then(() -> done())
+        .catch(done)
+    catch e

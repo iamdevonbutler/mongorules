@@ -9,7 +9,7 @@ schema = require('../../lib/schema')
 
 schemaValues = require('../fixtures/schema.values')
 schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects')
-schemaArrayOfObjects = schema._preprocessSchema(_.clone(schemaArrayOfObjects))
+schemaArrayOfObjects = schema.preprocessSchema(_.clone(schemaArrayOfObjects))
 
 describe 'Preprocess:', ->
 

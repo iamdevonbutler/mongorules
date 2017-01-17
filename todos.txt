@@ -1,5 +1,8 @@
 - defaultDb docs
 
+- allow for custom sanitize func
+- rename static methods to collection method
+- see how decorators can help w/ readibility
 - pref test.
 - test removeModel and removeModels. add tests. in readme mention use cases for these (really edge case - if your api has a update hook you can change your models w/o taking the server down).
 - make sure gloabal and local error handelrs work

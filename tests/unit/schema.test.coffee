@@ -70,9 +70,9 @@ describe 'Schema:', ->
       result = schema._findSchemaArrayOfObjectsChildFields(schemaArrayOfObjects, 'account.friends.eggs');
       expect(result).to.eql(null)
 
-  describe '_preprocessSchema():', ->
+  describe 'preprocessSchema():', ->
     it 'should process a schema consisting of non-array values', ->
-      result = schema._preprocessSchema(schemaValues)
+      result = schema.preprocessSchema(schemaValues)
       result.newsletter.should.be.ok
       result.age.should.be.ok
       result.birthday.should.be.ok
@@ -83,13 +83,13 @@ describe 'Schema:', ->
       result._id.should.be.ok
 
     it 'should process a schema of values in arrays', ->
-      result = schema._preprocessSchema(schemaArrayOfValues)
+      result = schema.preprocessSchema(schemaArrayOfValues)
       result['account.friends'].should.be.ok
       result['account.friends']._type.should.eql('arrayofvalues')
       result._id.should.be.ok
 
     it 'should process a schema of objects in arrays', ->
-      result = schema._preprocessSchema(schemaArrayOfObjects)
+      result = schema.preprocessSchema(schemaArrayOfObjects)
       result._id.should.be.ok
       result['account.friends'].should.be.ok
       result['account.friends']._type.should.eql('arrayofobjects')
