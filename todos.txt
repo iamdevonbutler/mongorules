@@ -1,5 +1,6 @@
 - defaultDb docs
 
+- need to implement global error handler w/ proxy code.
 - check all intergation tests and try/catch errors. use setDefaultDb func?
 - allow for custom sanitize func
 - rename static methods to model method
@@ -17,7 +18,7 @@
 - test multiple database instances
 - use parens more for errors (see the last else statement in proxy step1)
 - should see what this is like when a model has no scheam and has statics only.
-- utils._isType should not be private
+- utils.isType should not be private
 - getDatabase should always return a proxy - elims errors where people may pass in a third param by accident, and if someone wants a unproxied obj they can call getConnection and then conn.db()
 - metion $databaseName and the tradeoff - want a clean namespace for naming models. wouldnt be able to have a model named open w/o dollar prefix.
 - addModel should have more checks to ensure people are passing in a schema.
