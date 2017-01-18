@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/**/*.test.coffee",
-    "debug": "NODE_ENV=test DEBUG=*,-mocha:* ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/**/*.test.coffee"
+    "debug": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/**/*.test.coffee",
+    "test:preprocess": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/unit/preprocess.test.coffee"
   },
   "engines": {
     "node": ">=6.0.x"

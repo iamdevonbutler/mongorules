@@ -15,7 +15,7 @@ beforeEach (done) ->
         .then(() -> done())
         .catch(done)
     ), (err) ->
-      console.log '>>> Must run a "mongod" process in the background to use the mongodb client'
+      console.error '>>> Must run a "mongod" process in the background to use the mongodb client'
       process.exit();
   else
     try

@@ -1,5 +1,9 @@
 - defaultDb docs
 
+- you can do the schema types the way react does.
+- dont need _.flatten - use spread.
+- test: https://docs.mongodb.com/manual/reference/operator/update/set/ (last example)
+- if type is given, validate to be sure the default is of that type
 - need to implement global error handler w/ proxy code.
 - check all intergation tests and try/catch errors. use setDefaultDb func?
 - allow for custom sanitize func

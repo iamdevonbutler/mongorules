@@ -22,6 +22,7 @@ describe 'insert(): array of objects:', ->
       db.users.insert(doc).then (result) ->
         done(result)
     catch e
+      console.log(e.errors[0]);
       e.errors.length.should.eql(1)
       e.errors[0].property.should.eql('required')
       done()
@@ -41,6 +42,7 @@ describe 'insert(): array of objects:', ->
     catch e
       e.errors.length.should.eql(1)
       e.errors[0].property.should.eql('minLength')
+      done()
 
     doc = { account: { friends: [] } }
     try
