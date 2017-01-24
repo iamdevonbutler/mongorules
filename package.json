@@ -7,9 +7,12 @@
     "lib"
   ],
   "scripts": {
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/**/*.test.coffee",
-    "debug": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/**/*.test.coffee",
-    "test:preprocess": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/unit/preprocess.test.coffee"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/**/*.test.js",
+    "debug": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/**/*.test.coffee",
+    "test:preprocess": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/unit/preprocess.test.js ./tests/integration/*.preprocess.test.js",
+    "test:preprocess:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/preprocess.test.js",
+    "test:preprocess:integration": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/*.preprocess.test.js",
+    "test:utils:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/utils.test.js"
   },
   "engines": {
     "node": ">=6.0.x"
@@ -38,7 +41,6 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
-    "coffee-script": "^1.10.0",
     "mocha": "^2.3.0",
     "mongodb": "^2.0.0"
   },
