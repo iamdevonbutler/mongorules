@@ -1,0 +1,114 @@
+* make schema updates first.
+
+Operators -> update operators -> field update operators
+
+$inc, $mul
+- can't preprocess, don't know original field values
+
+$rename
+- make sure field being renamed is in schema.
+- how can you update schema for production apps deployed using a microservice cluster???
+lets say you deploy microservices and have 3 boxes running
+your api using mongorules. you want to change the schema
+of a collection, and w/ that, u need to update your queries.
+you deploy a new cluster, updated you schemas, and queries,
+and then switch the routing to your new cluster. db updates, e.g. $rename(ing)
+fields in the live DB to match your new schemas, should probably
+be done external to monogorules, but if done w/ mongorules, could be a function
+called after calling addModels() and before an API endpoint is called.
+
+$setOnInsert
+- for an update, if upsert is true, and we are inserting, perform operation.
+- keep in mind, upserts will insert at the _id defined in the find query.
+- get e.g. from website
+
+$set
+- replaces the value of a field w/ a specified value.
+- if field DNE, set will add the field - even create middle fields for an embedded document
+- $set can be used w/ array `dot` notation $set: {tags.1: 'value'}
+- get e.g. from website
+
+$unset
+- unset removes a field from a document.
+- validate that the field is not required.
+
+$min, $max (inverse of $min)
+- updates a field if the value is less than the existing value
+- works w/ dates (@todo test - get e.g. from website)
+- should validate according to schema.
+
+$currentDate
+- need to ensure that field we are setting to the $currentDate has that type
+as defined in schema.
+
+Operators -> update operators -> array update operators
+
+$
+- the positional operator.
+- for update/findAndModify the pos operator acts as a placeholder for the first
+element that matches a query document.
+- update values in an array.
+db.students.update(
+   { _id: 1, grades: 80 },
+   { $set: { "grades.$" : 82 } }
+)
+grades is an array [90, 85, 80] and this query will update the first occurance of 80
+in the array
+- Update Documents in an Array
+see example (https://docs.mongodb.com/v3.2/reference/operator/update/positional/#up._S_)
+updates the first match.
+- can also be used to 'Update Embedded Documents Using Multiple Field Matches'
+
+$addToSet
+- adds a value to an array if it is unique.
+- creates a new array if one does not exist.
+- use each to add multiple items.
+- cannot validate minlength, or maxlength accurately.
+- can validate type - make sure you are not adding an array if type is something else.
+
+$pop
+- removes an item from an array.
+- can't validate.
+
+$pullAll
+- removes items from an array that match the value
+- cant validate
+
+$pull
+- cant validate
+
+$pushAll
+- depricated - use $push w/ $each
+
+$push
+- similar to $addToSet - it adds values if the exist or not.
+- used w/ modifiers and w/o is different. w/ $each your not adding an
+array but it would appear that you are.
+
+Modifiers
+- $each, $slice, $sort, $position
+
+$each
+
+$slice
+- make sure slice respects minlenght
+
+$sort
+- no validate
+
+$position
+- no validate
+
+mongo shell commands -> collection methods
+* todo, make the handleing of these methods modular.
+- bulkWrite
+- findAndModify
+- findOneAndReplace
+- findOneAndUpdate
+- insert
+- insertOne
+- insertMany
+- save
+- update
+- upadateOne
+- updateMany

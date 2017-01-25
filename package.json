@@ -12,7 +12,8 @@
     "test:preprocess": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/unit/preprocess.test.js ./tests/integration/*.preprocess.test.js",
     "test:preprocess:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/preprocess.test.js",
     "test:preprocess:integration": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/*.preprocess.test.js",
-    "test:utils:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/utils.test.js"
+    "test:utils:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/utils.test.js",
+    "test:schema:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/schema.test.js"
   },
   "engines": {
     "node": ">=6.0.x"

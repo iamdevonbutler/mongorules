@@ -11,10 +11,13 @@ describe('Utils:', () => {
 
   describe('isObjectId', () => {
     it('should return false given an invalid ID', () => {
-      result = utils.isObjectId('a')
+      result = utils.isObjectId('5888d77b3910d717882d70b1d'); // has extra character.
       result.should.eql(false)
     });
-
+    it('should return true given a valid ID', () => {
+      result = utils.isObjectId('5888d77b3910d717882d70b1')
+      result.should.eql(true)
+    });
     it('should return true given a valid ID', () => {
       result = utils.isObjectId(mongo.ObjectID())
       result.should.eql(true)
@@ -101,17 +104,14 @@ describe('Utils:', () => {
       utils.isType(func, 'function').should.be.true
     });
 
-    it('should return false given a array when checking for object', () => {
+    it('should return false given an array when checking for object', () => {
       utils.isType([], 'object').should.be.false
     });
 
-    it('should return false given a object when checking for array', () => {
-      utils.isType({}, 'array').should.be.false
+    it('should return false given a null when checking for object', () => {
+      utils.isType(null, 'object').should.be.false
     });
 
-    it('should return false given a string when checking for object', () => {
-      utils.isType('string', 'object').should.be.false
-    });
   });
 
 
