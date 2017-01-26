@@ -1,7 +1,9 @@
+const {Types} = require('../../lib/schema');
+
 module.exports = {
 
-  "account.friends": [{
-    type: 'string',
+  "account.friends": {
+    type: Types.array(Types.string),
     required: true,
     notNull: true,
     lowercase: true,
@@ -16,6 +18,6 @@ module.exports = {
     transform: [function(value) {
       return 'hey ' + value;
     }]
-  }]
+  }
 
 };

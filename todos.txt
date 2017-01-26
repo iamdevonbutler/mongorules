@@ -1,3 +1,4 @@
+- have a way to add supported operations via api. e.g. a way to process another query type (make `this` === preprocess)
 - add custom types
 - document the db alias const {db} = require('mongorules').
 - get date types right. (do docs last) verify dates in Database e.g. timestamp constructor date constructor.
@@ -65,6 +66,7 @@
 - see if query modifiers work w/ cursors (https://docs.mongodb.com/v3.2/reference/operator/query-modifier/)
 - to test the error handling, do a duplicate key insert and make sure that returns an error.
 - gotta test unique indexes - pref an upsert after doing a unique index and it should error (https://docs.mongodb.com/v3.2/core/index-unique/#index-type-unique)
+- test mixed types w/ integration test.
 
 TYPES!!!!
 const {type} = require('mongorules');

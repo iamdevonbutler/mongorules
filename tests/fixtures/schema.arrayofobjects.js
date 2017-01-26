@@ -1,14 +1,17 @@
+const {Types} = require('../../lib/schema');
+
 module.exports = {
 
   // Array item w/ an array of objects as it's value.
-  "account.friends": [{
+  "account.friends": {
+    type: Types.array(Types.object),
     default: [],
     minLength: 1,
     maxLength: 2
-  }],
+  },
 
   "account.friends.name": {
-    type: 'string',
+    type: Types.string,
     required: true,
     notNull: true,
     lowercase: true,
@@ -20,23 +23,24 @@ module.exports = {
   },
 
   // Array item w/ an array of objects as it's value.
-  "account.friends.nicknames": [{
+  "account.friends.nicknames": {
+    type: Types.array(Types.object),
     default: [],
-  }],
+  },
 
   "account.friends.nicknames.name": {
-    type: 'string',
+    type: Types.string,
     required: true
   },
 
   // Array item w/ an array of objects as it's value.
-  "account.friends.nicknames.giver": [{
-    type: 'string',
+  "account.friends.nicknames.giver": {
+    type: Types.array(Types.object),
     required: true
-  }],
+  },
 
   "account.friends.nicknames.giver.name": {
-    type: 'string',
+    type: Types.string,
     required: true
   }
 

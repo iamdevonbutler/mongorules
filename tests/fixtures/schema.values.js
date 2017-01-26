@@ -1,8 +1,10 @@
+const {Types} = require('../../lib/schema');
+
 module.exports = {
 
   "account.name": {
     required: true,
-    type: 'string',
+    type: Types.string,
     trim: true,
     lowercase: true,
     denyXSS: true,
@@ -16,31 +18,31 @@ module.exports = {
     }
   },
 
-  "account.friends": [{
-    type: 'string',
+  "account.friends": {
+    type: Types.array(Types.string),
     notNull: true,
     default: []
-  }],
+  },
 
   "newsletter": {
-    type: 'boolean',
+    type: Types.boolean,
     default: true
   },
 
   "age": {
-    type: 'number'
+    type: Types.number,
   },
 
   "birthday": {
-    type: 'date'
+    type: Types.date,
   },
 
   "updated": {
-    type: 'date'
+    type: Types.date,
   },
 
   "created": {
-    type: 'date'
+    type: Types.date,
   }
 
 }

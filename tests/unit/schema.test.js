@@ -4,19 +4,20 @@ const assert = require('chai').assert;
 
 const  _ = require('lodash');
 const schema = require('../../lib/schema');
+const Types = schema.Types;
 
 const func = (x) => x * x;
 
-var schemaValues;
-var schemaArrayOfValues;
-var schemaArrayOfObjects;
+const _schemaValues = require('../fixtures/schema.values');
+const _schemaArrayOfValues = require('../fixtures/schema.arrayofvalues');
+const _schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects');
 
 describe('Schema:', function() {
 
   beforeEach(function(done) {
-    schemaValues = require('../fixtures/schema.values');
-    schemaArrayOfValues = require('../fixtures/schema.arrayofvalues');
-    schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects');
+    schemaValues = Object.assign({}, _schemaValues);
+    schemaArrayOfValues = Object.assign({}, _schemaArrayOfValues);
+    schemaArrayOfObjects = Object.assign({}, _schemaArrayOfObjects);
     done();
   });
 
@@ -99,26 +100,26 @@ describe('Schema:', function() {
   });
 
   describe('preprocessSchema():', function() {
-    it('should process a schema consisting of non-array values', function() {
+    it('should process a schema consisting of values (w/o arrays)', function() {
       var result;
       result = schema.preprocessSchema(schemaValues);
+      result['account.name'].should.be.ok;
+      result['account.friends'].should.be.ok;
+      result['account.friends']._type.should.eql('arrayofvalues');
       result.newsletter.should.be.ok;
       result.age.should.be.ok;
       result.birthday.should.be.ok;
       result.updated.should.be.ok;
-      result['account.name'].should.be.ok;
-      result['account.friends'].should.be.ok;
-      result['account.friends']._type.should.eql('arrayofvalues');
-      return result._id.should.be.ok;
+      result._id.should.be.ok;
     });
     it('should process a schema of values in arrays', function() {
       var result;
       result = schema.preprocessSchema(schemaArrayOfValues);
       result['account.friends'].should.be.ok;
       result['account.friends']._type.should.eql('arrayofvalues');
-      return result._id.should.be.ok;
+      result._id.should.be.ok;
     });
-    return it('should process a schema of objects in arrays', function() {
+    it('should process a schema of objects in arrays', function() {
       var result;
       result = schema.preprocessSchema(schemaArrayOfObjects);
       result._id.should.be.ok;
@@ -129,7 +130,7 @@ describe('Schema:', function() {
       result['account.friends.nicknames.name'].should.be.ok;
       result['account.friends.nicknames.giver'].should.be.ok;
       result['account.friends.nicknames.giver']._type.should.eql('arrayofobjects');
-      return result['account.friends.nicknames.giver.name'].should.be.ok;
+      result['account.friends.nicknames.giver.name'].should.be.ok;
     });
   });
 
@@ -157,12 +158,13 @@ describe('Schema:', function() {
 
   describe('_validateSchemaField():', function() {
 
-    it('should throw if a field has a type of `object` or `array`', function() {
+    it('should throw if a field type is created w/o using the `.Types` object.', function() {
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
-          type: 'array'
+          type: 'string',
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           type: 'object'
@@ -176,143 +178,191 @@ describe('Schema:', function() {
           required: 'true'
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           required: true
         }), 'users');
       }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           notNull: 'true'
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           notNull: true,
           required: true
         }), 'users');
       }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           type: Boolean
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
-          type: 'boolean'
+          type: Types.boolean,
         }), 'users');
       }).to.not.throw();
+
+
+      expect(() => {
+        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+          type: Types.array(Types.mixed(Types.string, Types.number)),
+        }), 'users');
+      }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           trim: 'true'
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           trim: true
         }), 'users');
       }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           uppercase: 'true'
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           uppercase: true
         }), 'users');
       }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           lowercase: 'true'
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           lowercase: true
         }), 'users');
       }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           sanitize: 'true'
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           sanitize: true
         }), 'users');
       }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           denyXSS: 'true'
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           denyXSS: true
         }), 'users');
       }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           validate: [true]
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           validate: func
         }), 'users');
       }).to.not.throw();
+
+      expect(() => {
+        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+          validate: [func]
+        }), 'users');
+      }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           transform: [true]
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           transform: func
         }), 'users');
       }).to.not.throw();
+
+      expect(() => {
+        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+          transform: [func]
+        }), 'users');
+      }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           filterNulls: 1
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           filterNulls: true
         }), 'users');
       }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           minLength: '1'
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           minLength: 1
         }), 'users');
       }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           minLength: [1]
         }), 'users');
       }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           maxLength: '1'
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           maxLength: 1
         }), 'users');
       }).to.not.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           maxLength: [1]
         }), 'users');
       }).to.not.throw();
+
     });
+
     it('should throw if default is null and notNull is true', function() {
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
@@ -320,6 +370,7 @@ describe('Schema:', function() {
           notNull: true
         }), 'users');
       }).to.throw();
+
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           "default": null,
@@ -327,6 +378,7 @@ describe('Schema:', function() {
         }), 'users');
       }).to.not.throw();
     });
+
     it('should throw if given both sanitize and denyXSS', function() {
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
@@ -335,6 +387,7 @@ describe('Schema:', function() {
         }), 'users');
       }).to.throw();
     });
+
     it('should throw if given both default and required', function() {
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
@@ -343,6 +396,7 @@ describe('Schema:', function() {
         }), 'users');
       }).to.throw();
     });
+
     it('should throw if type is not a string and the string transformation methods are true', function() {
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
@@ -351,5 +405,6 @@ describe('Schema:', function() {
         }), 'users');
       }).to.throw();
     });
+
   });
 });
