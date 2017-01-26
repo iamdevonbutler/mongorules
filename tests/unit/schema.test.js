@@ -210,7 +210,6 @@ describe('Schema:', function() {
         }), 'users');
       }).to.not.throw();
 
-
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           type: Types.array(Types.mixed(Types.string, Types.number)),

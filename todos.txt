@@ -67,6 +67,7 @@
 - to test the error handling, do a duplicate key insert and make sure that returns an error.
 - gotta test unique indexes - pref an upsert after doing a unique index and it should error (https://docs.mongodb.com/v3.2/core/index-unique/#index-type-unique)
 - test mixed types w/ integration test.
+- pretty up errors.
 
 TYPES!!!!
 const {type} = require('mongorules');
