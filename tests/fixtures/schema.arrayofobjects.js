@@ -1,4 +1,4 @@
-const {Types} = require('../../lib/schema');
+const {Types} = require('../../lib');
 
 module.exports = {
 
