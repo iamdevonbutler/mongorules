@@ -9,6 +9,7 @@
 - make a list of all the operations from docs and make sure i have tests for all of them.
    - e.g. $.thisandthat
 
+- custom transform properties for schema.
 - there are types of shell methods. make sure databse methods work and are mentioned in docs.
 - see if $explain works (https://docs.mongodb.com/v3.2/reference/operator/meta/explain/#metaOp._S_explain)
 - change the way we do dates. there should be timestamp and date types. (https://docs.mongodb.com/v3.2/reference/operator/update/currentDate/)
