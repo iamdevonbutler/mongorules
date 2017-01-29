@@ -1,3 +1,7 @@
+- the pattern of method() -> return error -> if error -> .... , might be able to be improved via currying and compose.
+- check formatting of every doxygen.
+- do type validation using the new syntax. we should be validating multi type fileds propertly.
+- resetPayload may be unnecessary if we are replaceing values anyway - perf test.
 - have a way to add supported operations via api. e.g. a way to process another query type (make `this` === preprocess)
 - add custom types
 - document the db alias const {db} = require('mongorules').

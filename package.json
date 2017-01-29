@@ -8,11 +8,12 @@
   ],
   "scripts": {
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/**/*.test.js",
-    "debug": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.coffee ./tests/**/*.test.coffee",
-    "test:preprocess": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/unit/preprocess.test.js ./tests/integration/*.preprocess.test.js",
-    "test:preprocess:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/preprocess.test.js",
+    "debug": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/**/*.test.js",
+    "test:preprocess": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/unit/*.preprocess.test.js ./tests/integration/*.preprocess.test.js",
+    "test:preprocess:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/*.preprocess.test.js",
     "test:preprocess:integration": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/*.preprocess.test.js",
     "test:utils:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/utils.test.js",
+    "test:utils:preprocess:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/utils.preprocess.test.js",
     "test:schema:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/schema.test.js",
     "test:transform:unit": "NODE_ENV=test DEBUG=mongorules ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/transform.test.js"
   },

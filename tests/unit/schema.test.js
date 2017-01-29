@@ -12,7 +12,7 @@ const _schemaValues = require('../fixtures/schema.values');
 const _schemaArrayOfValues = require('../fixtures/schema.arrayofvalues');
 const _schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects');
 
-describe('Schema:', function() {
+describe('Schema:', () => {
 
   beforeEach(function(done) {
     schemaValues = Object.assign({}, _schemaValues);
@@ -21,23 +21,23 @@ describe('Schema:', function() {
     done();
   });
 
-  describe('_addIdFieldToSchema', function() {
-    it('should return false when executing the validate function given an invalid ID', function() {
+  describe('_addIdFieldToSchema', () => {
+    it('should return false when executing the validate function given an invalid ID', () => {
       var result;
       result = schema._addIdFieldToSchema(schemaValues)._id.validate('a');
       return result.should.eql(false);
     });
-    it('should return true when executing the validate function given a valid ID', function() {
+    it('should return true when executing the validate function given a valid ID', () => {
       var result;
       result = schema._addIdFieldToSchema(schemaValues)._id.validate('560037cdfa952916b820528e');
       return result.should.eql(true);
     });
-    it('should add an _id field to a schema when one does not already exist', function() {
+    it('should add an _id field to a schema when one does not already exist', () => {
       var result;
       result = schema._addIdFieldToSchema(schemaValues);
       expect(result._id).to.exist;
     });
-    return it('should not add an _id field to a schema if one already exists', function() {
+    return it('should not add an _id field to a schema if one already exists', () => {
       var result;
       schemaValues._id = {
         type: 'string'
@@ -47,8 +47,8 @@ describe('Schema:', function() {
     });
   });
 
-  describe('_arrayifySchemaField()', function() {
-    it('should transform a validate/transform function into an array containing a function', function() {
+  describe('_arrayifySchemaField()', () => {
+    it('should transform a validate/transform function into an array containing a function', () => {
       var result;
       result = schema._arrayifySchemaField({
         transform: func,
@@ -57,7 +57,7 @@ describe('Schema:', function() {
       result.transform[0].should.eql(func);
       return result.validate[0].should.eql(func);
     });
-    return it('should transform a minLength/maxLength value into an array containing a minLength/maxLength value', function() {
+    return it('should transform a minLength/maxLength value into an array containing a minLength/maxLength value', () => {
       var result;
       result = schema._arrayifySchemaField({
         minLength: 1,
@@ -68,8 +68,8 @@ describe('Schema:', function() {
     });
   });
 
-  describe('_sortByFieldKey():', function() {
-    return it('should reorder an object by key by splitting on `.`.', function() {
+  describe('_sortByFieldKey():', () => {
+    return it('should reorder an object by key by splitting on `.`.', () => {
       var keys, obj, result;
       obj = {
         'a.a': 1,
@@ -84,23 +84,33 @@ describe('Schema:', function() {
     });
   });
 
-  describe('_findSchemaArrayOfObjectsChildFields():', function() {
-    it('should return a nested child object given a parent schema field key.', function() {
+  describe('_findSchemaArrayOfObjectsChildFields():', () => {
+    it('should return a nested child object given a parent schema field key.', () => {
       var result;
       result = schema._findSchemaArrayOfObjectsChildFields(schemaArrayOfObjects, 'account.friends.nicknames');
       result['account.friends.nicknames.name'].should.be.ok;
       result['account.friends.nicknames.giver'].should.be.ok;
       return result['account.friends.nicknames.giver.name'].should.be.ok;
     });
-    return it('should return null if no child objects exist.', function() {
+    return it('should return null if no child objects exist.', () => {
       var result;
       result = schema._findSchemaArrayOfObjectsChildFields(schemaArrayOfObjects, 'account.friends.eggs');
       expect(result).to.eql(null);
     });
   });
 
-  describe('preprocessSchema():', function() {
-    it('should process a schema consisting of values (w/o arrays)', function() {
+  describe('preprocessSchema():', () => {
+    it('should identify subdocument fields in an array via the _isSubdocumentInArray property', () => {
+      result = schema.preprocessSchema(schemaArrayOfObjects);
+      result['account.friends']._isSubdocumentInArray.should.be.false;
+      result['account.friends.name']._isSubdocumentInArray.should.be.true;
+      result['account.friends.nicknames']._isSubdocumentInArray.should.be.true;
+      result['account.friends.nicknames.name']._isSubdocumentInArray.should.be.true;
+      result['account.friends.nicknames.giver']._isSubdocumentInArray.should.be.true;
+      result['account.friends.nicknames.giver.name']._isSubdocumentInArray.should.be.true;
+    });
+
+    it('should process a schema consisting of values (w/o arrays)', () => {
       var result;
       result = schema.preprocessSchema(schemaValues);
       result['account.name'].should.be.ok;
@@ -112,14 +122,14 @@ describe('Schema:', function() {
       result.updated.should.be.ok;
       result._id.should.be.ok;
     });
-    it('should process a schema of values in arrays', function() {
+    it('should process a schema of values in arrays', () => {
       var result;
       result = schema.preprocessSchema(schemaArrayOfValues);
       result['account.friends'].should.be.ok;
       result['account.friends']._type.should.eql('arrayofvalues');
       result._id.should.be.ok;
     });
-    it('should process a schema of objects in arrays', function() {
+    it('should process a schema of objects in arrays', () => {
       var result;
       result = schema.preprocessSchema(schemaArrayOfObjects);
       result._id.should.be.ok;
@@ -134,8 +144,8 @@ describe('Schema:', function() {
     });
   });
 
-  describe('_setSchemaFieldDefaults():', function() {
-    return it('should set default values for all schema fields', function() {
+  describe('_setSchemaFieldDefaults():', () => {
+    return it('should set default values for all schema fields', () => {
       var defaults;
       defaults = schema._setSchemaFieldDefaults({});
       expect(defaults.required).to.not.be.undefined;
@@ -156,9 +166,9 @@ describe('Schema:', function() {
     });
   });
 
-  describe('_validateSchemaField():', function() {
+  describe('_validateSchemaField():', () => {
 
-    it('should throw if a field type is created w/o using the `.Types` object.', function() {
+    it('should throw if a field type is created w/o using the `.Types` object.', () => {
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           type: 'string',
@@ -172,7 +182,7 @@ describe('Schema:', function() {
       }).to.throw();
     });
 
-    it('should throw if given an invalid value for a schema property', function() {
+    it('should throw if given an invalid value for a schema property', () => {
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           required: 'true'
@@ -362,7 +372,7 @@ describe('Schema:', function() {
 
     });
 
-    it('should throw if default is null and notNull is true', function() {
+    it('should throw if default is null and notNull is true', () => {
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           "default": null,
@@ -378,7 +388,7 @@ describe('Schema:', function() {
       }).to.not.throw();
     });
 
-    it('should throw if given both sanitize and denyXSS', function() {
+    it('should throw if given both sanitize and denyXSS', () => {
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           sanitize: true,
@@ -387,7 +397,7 @@ describe('Schema:', function() {
       }).to.throw();
     });
 
-    it('should throw if given both default and required', function() {
+    it('should throw if given both default and required', () => {
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           "default": true,
@@ -396,7 +406,7 @@ describe('Schema:', function() {
       }).to.throw();
     });
 
-    it('should throw if type is not a string and the string transformation methods are true', function() {
+    it('should throw if type is not a string and the string transformation methods are true', () => {
       expect(() => {
         schema._validateSchemaField(schema._setSchemaFieldDefaults({
           type: 'boolean',
