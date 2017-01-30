@@ -1,3 +1,4 @@
+- donate to project
 - the pattern of method() -> return error -> if error -> .... , might be able to be improved via currying and compose.
 - check formatting of every doxygen.
 - do type validation using the new syntax. we should be validating multi type fileds propertly.
