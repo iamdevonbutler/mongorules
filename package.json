@@ -35,14 +35,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iamdevonbutler/node-mongorules.git"
+    "url": "git+https://github.com/iamdevonbutler/mongorules.git"
   },
   "author": "Jay Pescione <jpescione@gmail.com> (https://github.com/iamdevonbutler)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/iamdevonbutler/node-mongorules/issues"
+    "url": "https://github.com/iamdevonbutler/mongorules/issues"
   },
-  "homepage": "https://github.com/iamdevonbutler/node-mongorules#readme",
+  "homepage": "https://github.com/iamdevonbutler/mongorules#readme",
   "peerDependencies": {
     "mongodb": ">=2.0.0"
   },
