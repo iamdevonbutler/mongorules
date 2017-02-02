@@ -1,3 +1,6 @@
+- if we do the schema constructor pattern, instanciate the obj in schema.js
+and redo tests.
+- change name cleanupdatekey to something more generic and less updatey.
 - donate to project
 - the pattern of method() -> return error -> if error -> .... , might be able to be improved via currying and compose.
 - check formatting of every doxygen.
@@ -7,13 +10,14 @@
 - add custom types
 - document the db alias const {db} = require('mongorules').
 - get date types right. (do docs last) verify dates in Database e.g. timestamp constructor date constructor.
-
+- add email type
 - find out minimun mongo version this works w/.
 - put payloads from tests into a file called payloads.js
 - preprocess.utils.js & preprocess.js (preprocess.insert, preprocess.update)
 - make a list of all the operations from docs and make sure i have tests for all of them.
    - e.g. $.thisandthat
 
+- reconstructPayload does some weird stuff w/ modifiers. test to be sure it's not removing items by accident.
 - find out what data can be inserted in a update query field and see if we can do something to validate it.
 - private public method naming in preprocess code. make it consistent.
 - custom transform properties for schema.
@@ -78,24 +82,6 @@
 - custom denyXss function, custom timestamp validator - maybe make all type checks customizeable.
 - add other transform/validate properties to schema.
 - no need to do .preprocess naming.
-
-TYPES!!!!
-const {type} = require('mongorules');
-
-module.exports = {
-
-  "account.name": {
-    required: true,
-    type: type.string,
-    type: type.Array(type.number),
-    type: type.Array(type.mixed(type.number, type.string)),
-    type: type.Array(type.object),
-  },
-
-  out >>> {
-    type: array,
-    children: {
-      type: ['number', 'string']
-    }
-
-  }
+- not an actual todo, but once we create a pattern of implementation, you can
+abstract the pattern, and make it so adding processing for an operation
+can be implemented by leveraging a generic API.

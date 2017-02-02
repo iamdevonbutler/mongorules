@@ -60,8 +60,7 @@ describe('Preprocess utils:', () => {
           fieldInSubdocument: false,
           isEach: false,
           modifiers: null,
-          itemInArrayUpdate: true,
-          parentKey: null
+          itemInArray: true,
         }
       };
       result = deconstructPayload(payload);
@@ -88,8 +87,7 @@ describe('Preprocess utils:', () => {
           fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
-          itemInArrayUpdate: false,
-          parentKey: null
+          itemInArray: false,
         },
         'account.email': {
           value: 'j@j.com',
@@ -97,8 +95,7 @@ describe('Preprocess utils:', () => {
           fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
-          itemInArrayUpdate: false,
-          parentKey: null
+          itemInArray: false,
         },
         'account.friends': {
           value: [
@@ -109,8 +106,7 @@ describe('Preprocess utils:', () => {
           fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
-          itemInArrayUpdate: false,
-          parentKey: null
+          itemInArray: false,
         },
         'notifications': {
           value: [1, 2, 3],
@@ -118,8 +114,7 @@ describe('Preprocess utils:', () => {
           fieldInSubdocument: false,
           isEach: false,
           modifiers: null,
-          itemInArrayUpdate: false,
-          parentKey: null
+          itemInArray: false,
         }
       };
       result = deconstructPayload(payload);
@@ -145,8 +140,7 @@ describe('Preprocess utils:', () => {
           isEach: false,
           modifiers: null,
           fieldInSubdocument: false,
-          itemInArrayUpdate: true,
-          parentKey: null,
+          itemInArray: true,
         },
         'ratings.rating': {
           value: 2,
@@ -154,8 +148,7 @@ describe('Preprocess utils:', () => {
           fieldInSubdocument: false,
           isEach: false,
           modifiers: null,
-          itemInArrayUpdate: true,
-          parentKey: null,
+          itemInArray: true,
         },
         'account.name': {
           value: 'jay',
@@ -163,8 +156,7 @@ describe('Preprocess utils:', () => {
           fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
-          parentKey: null,
-          itemInArrayUpdate: false
+          itemInArray: false
         },
         'account.location.name': {
           value: 'home',
@@ -172,8 +164,7 @@ describe('Preprocess utils:', () => {
           fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
-          parentKey: null,
-          itemInArrayUpdate: false
+          itemInArray: false
         }
       };
       result = deconstructPayload(payload);
@@ -191,9 +182,8 @@ describe('Preprocess utils:', () => {
           payloadPath: ['account.notifications'],
           fieldInSubdocument: false,
           isEach: false,
-          parentKey: null,
           modifiers: null,
-          itemInArrayUpdate: false
+          itemInArray: false,
         }
       };
       result = deconstructPayload(payload);
@@ -206,7 +196,7 @@ describe('Preprocess utils:', () => {
         'account.notifications': {
           $each: [1, 2, 3],
           $slice: -5,
-          $position: 0
+          $position: 0,
         }
       };
       parsedPayload = {
@@ -222,8 +212,7 @@ describe('Preprocess utils:', () => {
           ],
           fieldInSubdocument: false,
           isEach: true,
-          parentKey: null,
-          itemInArrayUpdate: false
+          itemInArray: false
         }
       };
       result = deconstructPayload(payload);
