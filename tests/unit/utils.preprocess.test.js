@@ -8,7 +8,7 @@ const {
   getPayloadKeys,
   deconstructPayload,
   getSubdocumentSchema,
-} = require('../../lib/preprocess/utils.preprocess');
+} = require('../../lib/utils/preprocessUtils');
 
 describe('Preprocess utils:', () => {
 
