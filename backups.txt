@@ -57,7 +57,7 @@ field update. no need to process it like an entire document.
   //     this.value = fieldSchema.default;
   //   }
   // }
-  
+
 
   // enforceRequiredFields() {
   //   var schema, schemaKeys, payload, errors = [];
@@ -194,95 +194,7 @@ field update. no need to process it like an entire document.
   //   return errors && errors.length ? errors : null;
   // }
 
-  // preprocessField(fieldValue, fieldKey, fieldSchema, cacheKey) {
-  //   var type, errors = [];
-  //   type = fieldSchema._type;
-  //   switch (type) {
-  //     case 'value':
-  //       ({errors, fieldValue} = this.preprocessFieldValue(fieldValue, fieldKey, fieldSchema));
-  //       break;
-  //     case 'arrayofvalues':
-  //       ({errors, fieldValue} = this.preprocessArrayOfValues(fieldValue, fieldKey, fieldSchema));
-  //       break;
-  //     case 'arrayofobjects':
-  //       ({errors, fieldValue} = this.preprocessArrayOfObjects(fieldValue, fieldKey, fieldSchema, cacheKey));
-  //       break;
-  //   }
-  //   if (fieldValue !== undefined) {
-  //     fieldValue = this.transform(fieldValue, fieldSchema);
-  //   }
-  //   return {
-  //     errors: errors && errors.length ? errors : null,
-  //     fieldValue,
-  //   };
-  // }
-  //
-  // preprocessFieldValue(fieldValue, fieldKey, fieldSchema) {
-  //   var errors;
-  //   errors = validatorValues.call(null, fieldValue, fieldKey, fieldSchema);
-  //   return {
-  //     errors: errors && errors.length ? errors : null,
-  //     fieldValue,
-  //   };
-  // }
-  //
-  // preprocessArrayOfObjects(fieldValue, fieldKey, fieldSchema, cacheKey) {
-  //   var payload, cacheKey, cached, errors = [];
-  //
-  //   // Validate the array field (not the subdocuments contained w/i).
-  //   errors = validatorArrayOfObjects1.call(null, fieldValue, fieldKey, fieldSchema);
-  //   if (errors && errors.length) {
-  //     return errors;
-  //   }
-  //
-  //   cacheKey = cacheKey + '.' + fieldKey;
-  //   cached = cache.get(cacheKey);
-  //   if (cached) {
-  //     ({errors, payload} = cached.preprocessFromCache(fieldValue, fieldKey, cacheKey));
-  //     if (errors && errors.length) return errors;
-  //   }
-  //   else {
-  //     let obj, schema = {};
-  //     schema = getSubdocumentSchema(fieldKey, this._schema);
-  //     obj = new this.SubdocumentPreprocessor(schema);
-  //     obj.addPayload(fieldValue, fieldKey);
-  //     errors = obj.preprocess(fieldKey, cacheKey);
-  //     if (errors) return errors;
-  //     payload = obj.getPayload();
-  //     obj.resetPayload();
-  //     cache.set(cacheKey, obj);
-  //   }
-  //
-  //   // Update fieldValue array w/ our newly preprocessed subdocument.
-  //   fieldValue = fieldValue.map((value, i) => payload[i]);
-  //
-  //   return {
-  //     errors: errors && errors.length ? errors : null,
-  //     fieldValue,
-  //   }
-  // }
-  //
-  // preprocessArrayOfValues(fieldValue, fieldKey, fieldSchema) {
-  //   var parents, errors = [];
-  //   errors = validatorArrayOfValues1.call(null, fieldValue, fieldKey, fieldSchema);
-  //   if (!errors) {
-  //     let isArray = isType(fieldValue, 'array');
-  //     if (isArray) {
-  //       fieldValue.forEach((value) => {
-  //         let error;
-  //         error = validatorArrayOfValues2.call(null, value, fieldKey, fieldSchema);
-  //         if (error) {
-  //           errors = errors.concat(error);
-  //         }
-  //       });
-  //     }
-  //   }
-  //   return {
-  //     errors: errors && errors.length ? errors : null,
-  //     fieldValue,
-  //   }
-  // }
-  //
+    //
   // transform(value, fieldSchema) {
   //   var type;
   //   type = fieldSchema._type;
