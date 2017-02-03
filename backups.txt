@@ -49,6 +49,16 @@ field update. no need to process it like an entire document.
 
 
 
+  // setDefaults() {
+  //   var value, fieldSchema;
+  //   value = this.value;
+  //   fieldSchema = this.fieldSchema;
+  //   if (value === undefined && fieldSchema.default !== undefined) {
+  //     this.value = fieldSchema.default;
+  //   }
+  // }
+  
+
   // enforceRequiredFields() {
   //   var schema, schemaKeys, payload, errors = [];
   //   schema = this._schema;

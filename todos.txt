@@ -1,6 +1,7 @@
-importing code from an index.js should not set module.exports  = require(...), you should manually pick out the properties to export.
+- add all supported operations to proxy file https://docs.mongodb.com/v3.2/reference/method/js-collection/
+-importing code from an index.js should not set module.exports  = require(...), you should manually pick out the properties to export.
 preprocessor._payload should be _payloads.
-default should be a func so that u can set live dates.
+- default should be a func so that u can set live dates.
 - setoninsert. figure out how to do validation for this ... https://docs.mongodb.com/v3.2/reference/operator/update/setOnInsert/#up._S_setOnInsert
 - its kidna weird that we leave $each on our payload path, and splcie modifiers ignrores each.
 shouldn't we clip off each w/ splice modifiers, and on reconstruction check to see if $each exists
@@ -35,7 +36,7 @@ and redo tests.
 - you can do the schema types the way react does.
 - test: https://docs.mongodb.com/manual/reference/operator/update/set/ (last example)
 - if type is given, validate to be sure the default is of that type
-- need to implement global error handler w/ proxy code.
+- global error handler not working (the property on self (api) vanishes by the time we call the getter)
 - check all intergation tests and try/catch errors. use setDefaultDb func?
 - allow for custom sanitize func
 - rename static methods to model method
