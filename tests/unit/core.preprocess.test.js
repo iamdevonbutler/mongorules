@@ -4,7 +4,7 @@ const assert = require('chai').assert;
 
 const schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects');
 const schemaArrayOfValues = require('../fixtures/schema.arrayofvalues');
-const PreprocessorCore = require('../../lib/preprocess/core.preprocess');
+const Preprocessor = require('../../lib/preprocess/preprocessor');
 
 var obj;
 
@@ -15,7 +15,7 @@ var obj;
 describe('Preprocess core:', () => {
 
   beforeEach(() => {
-    obj = new PreprocessorCore();
+    obj = new Preprocessor();
   });
 
   describe('enforceRequiredFields()', () => {

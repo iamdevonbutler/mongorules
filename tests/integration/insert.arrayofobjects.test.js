@@ -30,7 +30,6 @@ describe('insert(): array of objects:', () => {
     };
     // @todo, do this w/ a null and see if it errors.
     db.users.insert(doc).then(done, (e) => {
-      console.log(1111111);
       e.errors.length.should.eql(1);
       e.errors[0].property.should.eql('required');
       done();

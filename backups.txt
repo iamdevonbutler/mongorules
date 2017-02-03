@@ -1,90 +1,53 @@
-const cache = require('./cache');
-const {isType} = require('../utils');
-const {getPayloadKeys, getSubdocumentSchema} = require('./utils.preprocess');
+// schema.
+'account.name': {
+  required: true
+}
+'account.email': {
+  type: Types.email
+  required: true
+}
 
-const {
-  deconstructPayload,
-  // reconstructPayload,
-} = require('./utils.preprocess');
-
-const {
-  transformValue,
-  transformFunction,
-  transformString,
-} = require('../transform');
-
-const {
-  compose,
-  validateRequired,
-  validateNotNull,
-  validateType,
-  validateDenyXSS,
-  validateMinLength,
-  validateMaxLength,
-  validateFunction,
-} = require('../validate');
-
-const validatorValues = compose(
-  validateRequired,
-  validateNotNull,
-  validateType(),
-  validateDenyXSS,
-  validateMinLength(0),
-  validateMaxLength(0),
-  validateFunction(0)
-);
-
-const validatorArrayOfValues1 = compose(
-  validateRequired,
-  validateNotNull,
-  validateType({value: 'array'}),
-  validateMinLength(0),
-  validateMaxLength(0),
-  validateFunction(0)
-);
-
-const validatorArrayOfValues2 = compose(
-  validateNotNull,
-  validateType(),
-  validateMinLength(1),
-  validateMaxLength(1),
-  validateFunction(1)
-);
-
-const validatorArrayOfObjects1 = compose(
-  validateRequired,
-  validateNotNull,
-  validateType({value: 'object'}),
-  validateMinLength(0),
-  validateMaxLength(0),
-  validateFunction(0)
-);
-
-module.exports = class PreprocessorCore {
-
-  constructor() {
-    this.SubdocumentPreprocessor = require('./subdocument.preprocess');
+// payload
+{
+  $set: {
+    'account.name': 'jimbob'
   }
+}
 
-  preprocess() {
-    var payload, fieldKeys, errors = [];
-    payload = this._payload;
-    payload.forEach((payload2) => {
-      fieldKeys = Object.keys(payload2);
-      fieldKeys.forEach((fieldKey) => {
-        var fieldValue, error;
-        fieldValue = payload2[fieldKey];
-        fieldValue.setDefaults();
-        error = fieldValue.validate();
-        if (error) {
-          errors.push(error)
-        }
-        else {
-          fieldValue.transform();
-        }
-      });
-    });
-  }
+///////////////////////////
+
+different kinds of gets...
+embedded field get, subdocument get.
+how to tell which is which?
+inserts are always subdocument gets.
+same w/ upserts.
+only updates have the potential to perform and embedded field get.
+embedded fields must have $set
+and have a dot in the key
+the value is either a scalar or object.
+if scalar that's good.
+if it's an object (subdoc), we process the subdoc as an insert.
+and since there is a dot in the key, we don't need to bother w/
+required siblings and setting defaults in the containing obj (subdoc)
+one level up.
+
+* i'm thinking that subdocuments in arrays should be processed in isolation
+from their origins. set keys in schema to be relative to the subdocument.
+
+* as an aside, upserts can have both $set and $set on insert, and we
+need a way to grab an aggregate payload for processing all fields.
+
+* setoninsert, combine the two payloads for processing - it's an upsert potentially
+so we process as an insert.
+
+* addToSet operations and push should do things differently - it;s a single
+field update. no need to process it like an entire document.
+
+
+
+///////////////////////////
+
+
 
   // enforceRequiredFields() {
   //   var schema, schemaKeys, payload, errors = [];
@@ -341,26 +304,6 @@ module.exports = class PreprocessorCore {
   // }
 
   /**
-   * Remove the data from the deconstructed payload values property
-   * so that it can be updated to work w/ new data for subsequent requests.
-   */
-  clearPayloadValues() {
-    var payload;
-    payload = this._payload;
-    payload.forEach((payload2, i) => {
-      var keys;
-      keys = Object.keys(payload2);
-      keys.forEach((key) => {
-        this._payload[i][key].value = undefined;
-      });
-    });
-  }
-
-  resetPayload() {
-    this.clearPayloadValues();
-  }
-
-  /**
    * @todo - intented as a means to skip validating children in
    * schema when the parent container dne.
    */
@@ -378,5 +321,78 @@ module.exports = class PreprocessorCore {
   // }
 
 
+  // From insert.preprocess
+  /**
+   * Ensure all fields in payload are present in schema.
+   * Prevents the insertion of fields not found in schema.
+   * @param {Array} payload
+   * @param {Array} args
+   * @return {Error|null}
+   */
+  ensureFieldsExistInSchema(payload, args) {
+    var schema, payload, errors = [];
+    schema = this._schema;
+    payload.forEach((payload2, documentNumber) => {
+      var payloadKeys = getPayloadKeys(payload2);
+      payloadKeys.forEach((payloadKey) => {
+        var fieldExistsInSchema;
+        fieldExistsInSchema = !!schema[payloadKey];
+        if (!fieldExistsInSchema) {
+          errors.push(`Field "${payloadKey}" does not exist in schema (document #${documentNumber}).`);
+        }
+      });
+    });
+    return errors && errors.length ? errors : null;
+  }
 
-}
+
+//udpate.preprocess
+  /**
+   * Ensure all fields in payload, and in query, are present in schema.
+   * Some update operations insert data from the query.
+   * Prevents the insertion of fields not found in schema.
+   * @param {Array} payload
+   * @param {Array} args
+   * @return {Error|null}
+   */
+  ensureFieldsExistInSchema(payload, args) {
+    var validQuery, schema, errors = [];
+    schema = this._schema;
+    // Validate query.
+    validQuery = this._queryFieldsExistInSchema(args[0]);
+    if (!validQuery) {
+      errors.push(`Query fields do not exist in schema.`);
+    }
+    // Validate payload.
+    payload.forEach((payload2, documentNumber) => {
+      var payloadKeys = getPayloadKeys(payload2);
+      payloadKeys.forEach((payloadKey) => {
+        var fieldExistsInSchema;
+        payloadKey = cleanUpdateKey(payloadKey);
+        fieldExistsInSchema = !!schema[payloadKey];
+        if (!fieldExistsInSchema) {
+          errors.push(`Field "${payloadKey}" does not exist in schema (document #${documentNumber}).`);
+        }
+      });
+    });
+    return errors && errors.length ? errors : null;
+  }
+
+  /**
+   * Ensures that a update operation, with upsert = true,
+   * has a query that only contains fields that exist in schema.
+   * @param {Object} query
+   * @param {Object} schema
+   * @return {Boolean}
+   * @api private.
+   * @tests unit. @todo migrate tests.
+   */
+  _queryFieldsExistInSchema(query) {
+    var queryFields, schemaFields, schema;
+    schema = this._schema;
+    queryFields = getQueryFields(query);
+    schemaFields = Object.keys(schema);
+    return !queryFields.some((queryField) => {
+      return schemaFields.indexOf(queryField) === -1;
+    });
+  }

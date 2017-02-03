@@ -1,3 +1,10 @@
+importing code from an index.js should not set module.exports  = require(...), you should manually pick out the properties to export.
+preprocessor._payload should be _payloads.
+default should be a func so that u can set live dates.
+- setoninsert. figure out how to do validation for this ... https://docs.mongodb.com/v3.2/reference/operator/update/setOnInsert/#up._S_setOnInsert
+- its kidna weird that we leave $each on our payload path, and splcie modifiers ignrores each.
+shouldn't we clip off each w/ splice modifiers, and on reconstruction check to see if $each exists
+and do things that way. would fix it now, but i want things working better so i have a comparison to test against.
 - if we do the schema constructor pattern, instanciate the obj in schema.js
 and redo tests.
 - change name cleanupdatekey to something more generic and less updatey.
