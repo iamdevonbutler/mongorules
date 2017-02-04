@@ -95,7 +95,7 @@ module.exports = _this = {
       preprocessOperation = ['insert', 'update', 'save', 'findAndModify'].indexOf(state.action) > -1;
       if (model && model.schema && !state.novalidate && preprocessOperation) {
         let result;
-        result = preprocess._preprocessQuery(argumentsList, model, state.action);
+        result = preprocess._preprocessOperation(argumentsList, model, state.action);
         // Handle errors.
         if (result.errors) {
           _this._handleErrors(result.errors, 'DocumentValidationError', state.collectionName, state.action, localErrorHandler, globalErrorHandler);

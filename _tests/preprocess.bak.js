@@ -35,7 +35,7 @@ const self = module.exports;
  * @api public
  * @tests intergration
  */
-self.preprocessQuery = (args, schema, operation) => {
+self.preprocessOperation = (args, schema, operation) => {
   var result, payload, query, errors, isUpsert = false;
   // Validate payload.
   switch (operation) {
