@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
-    "mocha": "^2.3.0",
+    "mocha": "^3.2.0",
     "mongodb": "^2.0.0"
   },
   "dependencies": {

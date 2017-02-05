@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0eeca0cc-803c-48de-8566-f295f68efa79" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/api.js" afterPath="$PROJECT_DIR$/lib/api.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/preprocess/payload/insertPayload.js" afterPath="$PROJECT_DIR$/lib/preprocess/payload/insertPayload.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/preprocess/payload/payload.js" afterPath="$PROJECT_DIR$/lib/preprocess/payload/payload.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/preprocess/payload/payloadItem.js" afterPath="$PROJECT_DIR$/lib/preprocess/payload/payloadItem.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/preprocess/subdocumentPreprocessor.js" afterPath="$PROJECT_DIR$/lib/preprocess/subdocumentPreprocessor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/preprocess/updatePreprocessor.js" afterPath="$PROJECT_DIR$/lib/preprocess/updatePreprocessor.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/schema/schemaClass.js" afterPath="$PROJECT_DIR$/lib/schema/schemaClass.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/integration/insert.arrayofobjects.test.js" afterPath="$PROJECT_DIR$/tests/integration/insert.arrayofobjects.test.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -25,12 +25,18 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="insert.arrayofobjects.test.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="insert.arrayofobjects.test.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/integration/insert.arrayofobjects.test.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="124">
               <caret line="24" column="5" lean-forward="false" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-              <folding />
+              <folding>
+                <marker date="1486326471000" expanded="true" signature="960:962" ph="{...}" />
+                <marker date="1486326471000" expanded="true" signature="1046:1466" ph="{...}" />
+                <marker date="1486326471000" expanded="true" signature="1198:1460" ph="{...}" />
+                <marker date="1486326471000" expanded="true" signature="1308:1452" ph="{...}" />
+                <marker date="1486326471000" expanded="true" signature="5099:5101" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -48,8 +54,18 @@
       <file leaf-file-name="payload.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/payload.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
+            <state relative-caret-position="598">
               <caret line="26" column="1" lean-forward="false" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="insertPayload.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/insertPayload.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="27" column="1" lean-forward="false" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -58,8 +74,8 @@
       <file leaf-file-name="preprocessorCore.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/preprocess/preprocessorCore.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="14" column="40" lean-forward="true" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+            <state relative-caret-position="200">
+              <caret line="10" column="3" lean-forward="false" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -78,18 +94,18 @@
       <file leaf-file-name="proxy.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/proxy.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="107" column="9" lean-forward="false" selection-start-line="107" selection-start-column="9" selection-end-line="107" selection-end-column="9" />
+            <state relative-caret-position="124">
+              <caret line="105" column="12" lean-forward="false" selection-start-line="105" selection-start-column="12" selection-end-line="105" selection-end-column="12" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="errors.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/errors.js">
+      <file leaf-file-name="subdocumentPayload.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/subdocumentPayload.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="52" column="5" lean-forward="false" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+            <state relative-caret-position="79">
+              <caret line="5" column="3" lean-forward="false" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -98,18 +114,18 @@
       <file leaf-file-name="payloadItem.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/payloadItem.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="47" column="1" lean-forward="false" selection-start-line="47" selection-start-column="1" selection-end-line="47" selection-end-column="1" />
+            <state relative-caret-position="273">
+              <caret line="80" column="5" lean-forward="false" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="insertPayload.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/insertPayload.js">
+      <file leaf-file-name="subdocumentPreprocessor.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/preprocess/subdocumentPreprocessor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="27" column="1" lean-forward="false" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+            <state relative-caret-position="495">
+              <caret line="33" column="1" lean-forward="false" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -123,12 +139,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/tests/integration/insert.arrayofobjects.test.js" />
         <option value="$PROJECT_DIR$/lib/preprocess/payload/payload.js" />
         <option value="$PROJECT_DIR$/lib/preprocess/payload/payloadItem.js" />
         <option value="$PROJECT_DIR$/lib/preprocess/preprocessOperation.js" />
         <option value="$PROJECT_DIR$/lib/preprocess/preprocessorCore.js" />
         <option value="$PROJECT_DIR$/lib/api.js" />
+        <option value="$PROJECT_DIR$/tests/integration/insert.arrayofobjects.test.js" />
       </list>
     </option>
   </component>
@@ -146,8 +162,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="10" />
     <option name="y" value="43" />
-    <option name="width" value="1256" />
-    <option name="height" value="737" />
+    <option name="width" value="2231" />
+    <option name="height" value="1392" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -304,44 +320,50 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1486306305947</updated>
-      <workItem from="1486306307248" duration="1481000" />
+      <workItem from="1486306307248" duration="4019000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Mocha_integration - 2017.02.05 at 09h 53m 18s.xml">
+    <history-entry file="Mocha_integration - 2017.02.05 at 15h 01m 31s.xml">
       <configuration name="Mocha integration" configurationId="mocha-javascript-test-runner" />
     </history-entry>
-    <history-entry file="Mocha_integration - 2017.02.05 at 10h 01m 27s.xml">
+    <history-entry file="Mocha_integration - 2017.02.05 at 15h 01m 41s.xml">
       <configuration name="Mocha integration" configurationId="mocha-javascript-test-runner" />
     </history-entry>
-    <history-entry file="Mocha_integration - 2017.02.05 at 10h 04m 08s.xml">
+    <history-entry file="Mocha_integration - 2017.02.05 at 15h 01m 59s.xml">
       <configuration name="Mocha integration" configurationId="mocha-javascript-test-runner" />
     </history-entry>
-    <history-entry file="Mocha_integration - 2017.02.05 at 10h 06m 24s.xml">
+    <history-entry file="Mocha_integration - 2017.02.05 at 15h 13m 11s.xml">
       <configuration name="Mocha integration" configurationId="mocha-javascript-test-runner" />
     </history-entry>
-    <history-entry file="Mocha_integration - 2017.02.05 at 10h 17m 33s.xml">
+    <history-entry file="Mocha_integration - 2017.02.05 at 15h 13m 57s.xml">
       <configuration name="Mocha integration" configurationId="mocha-javascript-test-runner" />
     </history-entry>
-    <history-entry file="Mocha_integration - 2017.02.05 at 10h 18m 02s.xml">
+    <history-entry file="Mocha_integration - 2017.02.05 at 15h 20m 14s.xml">
       <configuration name="Mocha integration" configurationId="mocha-javascript-test-runner" />
     </history-entry>
-    <history-entry file="Mocha_integration - 2017.02.05 at 10h 21m 22s.xml">
+    <history-entry file="Mocha_integration - 2017.02.05 at 15h 23m 22s.xml">
       <configuration name="Mocha integration" configurationId="mocha-javascript-test-runner" />
     </history-entry>
-    <history-entry file="Mocha_integration - 2017.02.05 at 10h 22m 58s.xml">
+    <history-entry file="Mocha_integration - 2017.02.05 at 15h 24m 36s.xml">
+      <configuration name="Mocha integration" configurationId="mocha-javascript-test-runner" />
+    </history-entry>
+    <history-entry file="Mocha_integration - 2017.02.05 at 15h 28m 51s.xml">
+      <configuration name="Mocha integration" configurationId="mocha-javascript-test-runner" />
+    </history-entry>
+    <history-entry file="Mocha_integration - 2017.02.05 at 15h 29m 59s.xml">
       <configuration name="Mocha integration" configurationId="mocha-javascript-test-runner" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1481000" />
+    <option name="totallyTimeSpent" value="4019000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="10" y="43" width="1256" height="737" extended-state="0" />
-    <editor active="false" />
+    <frame x="10" y="43" width="2231" height="1392" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12738854" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.07171672" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -350,7 +372,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3997006" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3590325" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -370,75 +392,34 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/tests/integration/insert.arrayofobjects.test.js</url>
-          <line>32</line>
+          <url>file://$PROJECT_DIR$/lib/preprocess/preprocessorCore.js</url>
+          <line>10</line>
           <properties />
-          <option name="timeStamp" value="5" />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/lib/preprocess/subdocumentPreprocessor.js</url>
+          <line>26</line>
+          <properties />
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="6" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="mocha-javascript-test-runner">
         <watch expression="payload['account.friends'].value" language="JavaScript" />
         <watch expression="db.users" language="JavaScript" />
         <watch expression="db.users.find({})" language="JavaScript" />
+        <watch expression="this.getPayload()" language="JavaScript" />
       </configuration>
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/payloadItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="47" column="1" lean-forward="false" selection-start-line="47" selection-start-column="1" selection-end-line="47" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/payload.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="26" column="1" lean-forward="false" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/insertPayload.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="27" column="1" lean-forward="false" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/preprocess/preprocessOperation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/proxy.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="107" column="9" lean-forward="false" selection-start-line="107" selection-start-column="9" selection-end-line="107" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/errors.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="52" column="5" lean-forward="false" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/preprocess/preprocessorCore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="14" column="40" lean-forward="true" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+        <state relative-caret-position="364">
+          <caret line="60" column="3" lean-forward="false" selection-start-line="60" selection-start-column="3" selection-end-line="60" selection-end-column="3" />
           <folding />
         </state>
       </provider>
@@ -455,6 +436,76 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="124">
           <caret line="24" column="5" lean-forward="false" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+          <folding>
+            <marker date="1486326471000" expanded="true" signature="960:962" ph="{...}" />
+            <marker date="1486326471000" expanded="true" signature="1046:1466" ph="{...}" />
+            <marker date="1486326471000" expanded="true" signature="1198:1460" ph="{...}" />
+            <marker date="1486326471000" expanded="true" signature="1308:1452" ph="{...}" />
+            <marker date="1486326471000" expanded="true" signature="5099:5101" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/payload.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="26" column="1" lean-forward="false" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/insertPayload.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="1" lean-forward="false" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/preprocess/preprocessOperation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/proxy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="105" column="12" lean-forward="false" selection-start-line="105" selection-start-column="12" selection-end-line="105" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/preprocess/preprocessorCore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="3" lean-forward="false" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/payloadItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="80" column="5" lean-forward="false" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/preprocess/payload/subdocumentPayload.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="5" column="3" lean-forward="false" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/preprocess/subdocumentPreprocessor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="1" lean-forward="false" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
           <folding />
         </state>
       </provider>
