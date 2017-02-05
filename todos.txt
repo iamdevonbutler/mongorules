@@ -1,4 +1,4 @@
-
+- update docs for new error handling
 - test mixed types
 - docs:  fix legend links
 = what happens when u run a random method that isnt insert/update/... and theres a success and when the is a failure/

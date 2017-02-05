@@ -22,16 +22,15 @@ describe('insert(): array of objects:', () => {
     done();
   });
 
-  it('should throw an error given an object missing a required property', (done) => {
+  it('should promise.reject() an error given an object missing a required property', (done) => {
     var doc = {
       account: {
         friends: [{}]
       }
     };
     // @todo, do this w/ a null and see if it errors.
-    db.users.insert(doc).then(done, (e) => {
+    db.users.insert(doc).then(done, e => {
       e.errors.length.should.eql(1);
-      e.errors[0].property.should.eql('required');
       done();
     });
   });
@@ -40,16 +39,15 @@ describe('insert(): array of objects:', () => {
     var doc;
     doc = {
       account: {
-        friends: [
-          {
-            name: 'JAY'
-          }
-        ]
+        friends: [{
+          name: 'JAY'
+        }]
       }
     };
-    db.users.insert(doc).then(function(result) {
-      db.users.findOne({}).then(function(result) {
+    db.users.insert(doc).then(result => {
+      db.users.findOne({}).then(result => {
         result.account.friends[0].name.should.eql('jay!');
+        result.account.friends[0].nicknames.should.eql([]);
         done();
       });
     });
@@ -58,15 +56,13 @@ describe('insert(): array of objects:', () => {
     var doc;
     doc = {
       account: {
-        friends: [
-          {
-            name: ''
-          }
-        ]
+        friends: [{
+          name: ''
+        }]
       }
     };
     try {
-      db.users.insert(doc).then(function(result) {
+      db.users.insert(doc).then(result => {
         done(result);
       });
     } catch (e) {
@@ -80,7 +76,7 @@ describe('insert(): array of objects:', () => {
       }
     };
     try {
-      db.users.insert(doc).then(function(result) {
+      db.users.insert(doc).then(result => {
         done(result);
       });
     } catch (e) {
@@ -93,19 +89,17 @@ describe('insert(): array of objects:', () => {
     var doc;
     doc = {
       account: {
-        friends: [
-          {
-            name: 'jay'
-          }, {
-            name: 'jay'
-          }, {
-            name: 'jay'
-          }
-        ]
+        friends: [{
+          name: 'jay'
+        }, {
+          name: 'jay'
+        }, {
+          name: 'jay'
+        }]
       }
     };
     try {
-      db.users.insert(doc).then(function(result) {
+      db.users.insert(doc).then(result => {
         done(result);
       });
     } catch (e) {
@@ -118,15 +112,13 @@ describe('insert(): array of objects:', () => {
     var doc;
     doc = {
       account: {
-        friends: [
-          {
-            name: 1
-          }
-        ]
+        friends: [{
+          name: 1
+        }]
       }
     };
     try {
-      db.users.insert(doc).then(function(result) {
+      db.users.insert(doc).then(result => {
         done(result);
       });
     } catch (e) {
@@ -139,15 +131,13 @@ describe('insert(): array of objects:', () => {
     var doc;
     doc = {
       account: {
-        friends: [
-          {
-            name: '<script>jay</script>'
-          }
-        ]
+        friends: [{
+          name: '<script>jay</script>'
+        }]
       }
     };
-    db.users.insert(doc).then(function(result) {
-      db.users.findOne({}).then(function(result) {
+    db.users.insert(doc).then(result => {
+      db.users.findOne({}).then(result => {
         result.account.friends[0].name.should.not.eql('<script>jay</script>');
         done();
       });
@@ -157,15 +147,13 @@ describe('insert(): array of objects:', () => {
     var doc;
     doc = {
       account: {
-        friends: [
-          {
-            name: 'jay'
-          }
-        ]
+        friends: [{
+          name: 'jay'
+        }]
       }
     };
-    db.users.insert(doc).then(function(result) {
-      db.users.findOne({}).then(function(result) {
+    db.users.insert(doc).then(result => {
+      db.users.findOne({}).then(result => {
         result.account.friends.should.eql([
           {
             name: 'jay!',
@@ -180,27 +168,22 @@ describe('insert(): array of objects:', () => {
     var doc;
     doc = {
       account: {
-        friends: [
-          {
-            name: 'jay',
-            nicknames: [
-              {
-                name: 'gus',
-                giver: [
-                  {
-                    name: 'flip'
-                  }
-                ]
-              }
-            ]
-          }, {
-            name: 'lou'
-          }
-        ]
+        friends: [{
+          name: 'jay',
+          nicknames: [{
+            name: 'gus',
+            giver: [{
+              name: 'flip'
+            }]
+          }]
+        },
+        {
+          name: 'lou'
+        }]
       }
     };
-    db.users.insert(doc).then(function(result) {
-      db.users.findOne({}).then(function(result) {
+    db.users.insert(doc).then(result => {
+      db.users.findOne({}).then(result => {
         result.account.friends[1].should.be.ok;
         result.account.friends[0].name.should.eql('jay!');
         result.account.friends[0].nicknames[0].name.should.eql('gus');
