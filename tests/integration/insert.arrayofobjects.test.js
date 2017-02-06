@@ -2,11 +2,6 @@ const should = require('chai').should();
 const expect = require('chai').expect;
 const assert = require('chai').assert;
 
-const mongorules = require('../../lib');
-const schema = require('../fixtures/schema.arrayofobjects');
-var obj = {users: {schema}};
-mongorules.addModels('test', 'mongorules-testing', obj);
-
 var db;
 
 describe('insert(): array of objects:', () => {
@@ -14,22 +9,6 @@ describe('insert(): array of objects:', () => {
   beforeEach(() => {
     ({db} = require('../../lib')); // tests setDefaultDb() method.
   });
-
-  it ('should xxxx', function* () {
-    try {
-      var result = yield db.users.insert({});
-    }
-    catch (e){
-      console.log(e);
-    }
-  });
-
-
-
-
-
-
-
 
   // it('should reject an error given a payload missing a required property', (done) => {
   //   var doc = {

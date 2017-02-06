@@ -103,3 +103,7 @@ and redo tests.
 - not an actual todo, but once we create a pattern of implementation, you can
 abstract the pattern, and make it so adding processing for an operation
 can be implemented by leveraging a generic API.
+- think about error codes
+  - empty payload is 0
+  - validation error is 1
+  - mongodb error is 2
