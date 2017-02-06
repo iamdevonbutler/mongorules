@@ -6,7 +6,7 @@ var db;
 
 describe('insert(): array of objects:', () => {
 
-  beforeEach(() => {
+  before(() => {
     ({db} = require('../../lib')); // tests setDefaultDb() method.
   });
 

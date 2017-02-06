@@ -3,9 +3,7 @@
 const mongodb = require('mongodb');
 const mongorules = require('../../lib');
 
-var db, initDb;
-initDb = true;
-db = null;
+var db = null;
 
 var models = {
   users: {
@@ -19,8 +17,7 @@ var models = {
   }
 };
 
-beforeEach(function* () {
-  if (initDb) {
+before(function* () {
     var db2;
     try {
       db2 = yield mongorules.connect('test', 'mongodb://localhost/mongorules-testing', mongodb);
@@ -32,24 +29,15 @@ beforeEach(function* () {
     db = mongorules.addDatabase('test', 'mongorules-testing', db2);
     mongorules.addModels('test', 'mongorules-testing', models);
     mongorules.setDefaultDb('test', 'mongorules-testing');
-    initDb = false;
-    try {
-      yield db.users.remove({});
-      yield db.users2.remove({});
-      yield db.users3.remove({});
-    }
-    catch (e) {
-      console.log(e);
-    }
+});
+
+beforeEach(function*() {
+  try {
+    yield db.users.remove({});
+    yield db.users2.remove({});
+    yield db.users3.remove({});
   }
-  else {
-    try {
-      yield db.users.remove({});
-      yield db.users2.remove({});
-      yield db.users3.remove({});
-    }
-    catch (e) {
-      console.log(e);
-    }
+  catch (e) {
+    console.log(e);
   }
 });

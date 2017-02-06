@@ -6,7 +6,7 @@ var db;
 
 describe('insert(): empty payload:', () => {
 
-  beforeEach(() => {
+  before(() => {
     ({db} = require('../../lib')); // tests setDefaultDb() method.
   });
 
