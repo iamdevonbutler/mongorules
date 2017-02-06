@@ -1,3 +1,5 @@
+- remove debug
+- running queries w/o a model.
 - how does it handle empty payloads - both root and subdocument
 - update docs for new error handling
 - test mixed types

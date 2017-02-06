@@ -36,7 +36,7 @@ module.exports = {
   // Array item w/ an array of objects as it's value.
   "account.friends.nicknames.giver": {
     type: Types.array(Types.object),
-    required: true
+    required: true,
   },
 
   "account.friends.nicknames.giver.name": {

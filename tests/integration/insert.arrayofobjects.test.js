@@ -2,58 +2,67 @@ const should = require('chai').should();
 const expect = require('chai').expect;
 const assert = require('chai').assert;
 
-var db = null;
-
 const mongorules = require('../../lib');
 const schema = require('../fixtures/schema.arrayofobjects');
+var obj = {users: {schema}};
+mongorules.addModels('test', 'mongorules-testing', obj);
+
+var db;
 
 describe('insert(): array of objects:', () => {
 
-  beforeEach((done) => {
-    var models;
-    mongorules.removeModel('test', 'mongorules-testing', 'users');
-    models = {
-      users: {
-        schema: schema
-      }
-    };
-    mongorules.addModels('test', 'mongorules-testing', models);
-    db = mongorules.getDatabase('test', 'mongorules-testing');
-    done();
+  beforeEach(() => {
+    ({db} = require('../../lib')); // tests setDefaultDb() method.
   });
 
-  it('should reject an error given a payload missing a required property', (done) => {
-    var doc = {
-      account: {
-        friends: [{}]
-      }
-    };
-    // @todo, do this w/ a null and see if it errors.
-    db.users.insert(doc).then(done, e => {
-      e.errors.length.should.eql(1);
-      done();
-    });
+  it ('should xxxx', function* () {
+    try {
+      var result = yield db.users.insert({});
+    }
+    catch (e){
+      console.log(e);
+    }
   });
 
-  it('should transform a property given a custom transform function', (done) => {
-    var doc;
-    doc = {
-      account: {
-        friends: [{
-          name: 'JAY'
-        }]
-      }
-    };
-    db.users.insert(doc).then(result => {
-      db.users.findOne({}).then(result => {
-        result.account.friends[0].name.should.eql('jay!');
-        result.account.friends[0].nicknames.should.eql([]);
-        done();
-      });
-    });
-  });
 
-  // 
+
+
+
+
+
+
+  // it('should reject an error given a payload missing a required property', (done) => {
+  //   var doc = {
+  //     account: {
+  //       friends: [{}]
+  //     }
+  //   };
+  //   // @todo, do this w/ a null and see if it errors.
+  //   db.users.insert(doc).then(done, e => {
+  //     e.errors.length.should.eql(1);
+  //     done();
+  //   });
+  // });
+
+  // it('should transform a property given a custom transform function', (done) => {
+  //   var doc;
+  //   doc = {
+  //     account: {
+  //       friends: [{
+  //         name: 'JAY'
+  //       }]
+  //     }
+  //   };
+  //   db.users.insert(doc).then(result => {
+  //     db.users.findOne({}).then(result => {
+  //       result.account.friends[0].name.should.eql('jay!');
+  //       result.account.friends[0].nicknames.should.eql([]);
+  //       done();
+  //     });
+  //   });
+  // });
+
+  //
   //
   // it('should throw an error given a document w/ data in violation of the minLength property', (done) => {
   //   var doc;
