@@ -67,33 +67,29 @@ describe('insert(): array of objects:', () => {
     var obj = {
       account: {
         friends: [{
-          name: ''
+          name: '' // minLength error.
         }]
       }
     };
     try {
       var result = yield db.users3.insert(obj);
-      console.log(result);
+    } catch (e) {
+      e.errors.length.should.eql(1);
+      e.errors[0].property.should.eql('minLength');
+    }
+
+    obj = {
+      account: {
+        friends: []
+      }
+    };
+    try {
+      yield db.users3.insert(obj);
     } catch (e) {
       console.log(e);
       e.errors.length.should.eql(1);
       e.errors[0].property.should.eql('minLength');
     }
-
-    // doc = {
-    //   account: {
-    //     friends: []
-    //   }
-    // };
-    // try {
-    //   db.users.insert(doc).then(result => {
-    //     done(result);
-    //   });
-    // } catch (e) {
-    //   e.errors.length.should.eql(1);
-    //   e.errors[0].property.should.eql('minLength');
-    //   done();
-    // }
   });
   //
   // it('should throw an error given a document w/ data in violation of the maxLength property', (done) => {
