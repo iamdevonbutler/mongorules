@@ -1,3 +1,5 @@
+- schema.js preprocess schema retuns new Schema, should we do that? also the name preprocessSchema is just ok.
+- custom transform func can break schema. maybe compare and if diff, validate again.
 - add use strict
 - remove debug
 - running queries w/o a model.

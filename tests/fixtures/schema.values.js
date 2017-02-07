@@ -10,10 +10,10 @@ module.exports = {
     denyXSS: true,
     minLength: 1,
     maxLength: 20,
-    transform: function(value) {
+    transform(value) {
       return 'hey ' + value;
     },
-    validate: function(value) {
+    validate(value) {
       return value !== 'tim';
     }
   },
@@ -31,14 +31,6 @@ module.exports = {
 
   "age": {
     type: Types.number,
-  },
-
-  "birthday": {
-    type: Types.date,
-  },
-
-  "updated": {
-    type: Types.date,
   },
 
   "created": {

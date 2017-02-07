@@ -84,54 +84,35 @@ describe('Schema:', () => {
     });
   });
 
-  describe('_findSchemaArrayOfObjectsChildFields():', () => {
-    it('should return a nested child object given a parent schema field key.', () => {
-      var result;
-      result = schema._findSchemaArrayOfObjectsChildFields(schemaArrayOfObjects, 'account.friends.nicknames');
-      result['account.friends.nicknames.name'].should.be.ok;
-      result['account.friends.nicknames.giver'].should.be.ok;
-      return result['account.friends.nicknames.giver.name'].should.be.ok;
-    });
-    return it('should return null if no child objects exist.', () => {
-      var result;
-      result = schema._findSchemaArrayOfObjectsChildFields(schemaArrayOfObjects, 'account.friends.eggs');
-      expect(result).to.eql(null);
-    });
-  });
-
   describe('preprocessSchema():', () => {
-    it('should identify subdocument fields in an array via the _isSubdocumentInArray property', () => {
-      result = schema.preprocessSchema(schemaArrayOfObjects);
-      result['account.friends']._isSubdocumentInArray.should.be.false;
-      result['account.friends.name']._isSubdocumentInArray.should.be.true;
-      result['account.friends.nicknames']._isSubdocumentInArray.should.be.true;
-      result['account.friends.nicknames.name']._isSubdocumentInArray.should.be.true;
-      result['account.friends.nicknames.giver']._isSubdocumentInArray.should.be.true;
-      result['account.friends.nicknames.giver.name']._isSubdocumentInArray.should.be.true;
-    });
-
-    it('should process a schema consisting of values (w/o arrays)', () => {
+    it('should process a values schema', () => {
       var result;
       result = schema.preprocessSchema(schemaValues);
+      result = result._schema;
       result['account.name'].should.be.ok;
       result['account.friends'].should.be.ok;
       result['account.friends']._type.should.eql('arrayofvalues');
       result.newsletter.should.be.ok;
       result.age.should.be.ok;
-      result.birthday.should.be.ok;
-      result.updated.should.be.ok;
+      result.created.should.be.ok;
       result._id.should.be.ok;
     });
-    it('should process a schema of values in arrays', () => {
+
+    it('should process a array of values schema', () => {
       var result;
       result = schema.preprocessSchema(schemaArrayOfValues);
+      result = result._schema;
+      result['account.friends'].type.value.should.eql(['array']);
+      result['account.friends'].type.children.should.eql(['string', 'number']);
       result['account.friends'].should.be.ok;
       result['account.friends']._type.should.eql('arrayofvalues');
       result._id.should.be.ok;
     });
-    it('should process a schema of objects in arrays', () => {
+
+    it('should process a schema with objects in arrays', () => {
       var result;
       result = schema.preprocessSchema(schemaArrayOfObjects);
+      result = result._schema;
       result._id.should.be.ok;
       result['account.friends'].should.be.ok;
       result['account.friends']._type.should.eql('arrayofobjects');

@@ -10,18 +10,25 @@ describe('insert(): array of objects:', () => {
     ({db} = require('../../lib')); // tests setDefaultDb() method.
   });
 
-  // it('should reject an error given a payload missing a required property', (done) => {
-  //   var doc = {
-  //     account: {
-  //       friends: [{}]
-  //     }
-  //   };
-  //   // @todo, do this w/ a null and see if it errors.
-  //   db.users.insert(doc).then(done, e => {
-  //     e.errors.length.should.eql(1);
-  //     done();
-  //   });
-  // });
+  it('should error given a payload missing a required property', function* () {
+    var doc = {
+      account: {
+        name: 'jay',
+        friends: ['a', 1]
+      }
+    };
+    try {
+      yield db.users.insert(doc);
+      var re = yield db.users.findOne();
+      console.log(re);
+    }
+    catch (e) {
+      // schema should use the [] for min/max/valid/transform.
+      // see if it sets a freidns default. e.g. just provide account.
+      console.log(e.errors[0]);
+      e.errors.length.should.eql(1);
+    }
+  });
 
   // it('should transform a property given a custom transform function', (done) => {
   //   var doc;
