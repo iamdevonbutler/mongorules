@@ -12,47 +12,60 @@ describe('insert(): empty payload:', () => {
 
   it ('should error given an empty payload', function* () {
     try {
-      var result = yield db.users.insert();
+      yield db.users.insert();
     }
     catch (e){
       e.errors.length.should.eql(1);
     }
 
     try {
-      var result = yield db.users.insert(null);
+      yield db.users.insert(null);
     }
     catch (e){
       e.errors.length.should.eql(1);
     }
 
     try {
-      var result = yield db.users.insert({});
+      yield db.users.insert({});
     }
     catch (e){
       e.errors.length.should.eql(1);
     }
 
     try {
-      var result = yield db.users.insert([]);
+      yield db.users.insert([]);
     }
     catch (e){
       e.errors.length.should.eql(1);
     }
 
     try {
-      var result = yield db.users.insert([null]);
+      yield db.users.insert([null]);
     }
     catch (e){
       e.errors.length.should.eql(1);
     }
 
     try {
-      var result = yield db.users.insert([{}]);
+      yield db.users.insert([{}]);
     }
     catch (e){
       e.errors.length.should.eql(1);
     }
 
+    try {
+      yield db.users3.insert(1);
+    }
+    catch (e) {
+      e.errors.length.should.eql(1);
+    }
+
+    try {
+      yield db.users3.insert([1]);
+    }
+    catch (e) {
+      e.errors.length.should.eql(1);
+    }
 
   });
 

@@ -28,9 +28,6 @@ describe('Preprocess core:', () => {
       expect(result && result.length).to.eql(1);
     });
 
-    it ('', () => {
-
-    });
 
   });
 

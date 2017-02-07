@@ -10,79 +10,91 @@ describe('insert(): array of objects:', () => {
     ({db} = require('../../lib')); // tests setDefaultDb() method.
   });
 
-  it('should error given a payload missing a required property', function* () {
-    var doc = {
-      account: {
-        name: 'jay',
-        friends: ['a', 1]
-      }
-    };
+  it('should error given a payload w/ fields not in schema', function* () {
     try {
-      yield db.users.insert(doc);
-      var re = yield db.users.findOne();
-      console.log(re);
+      yield db.users3.insert({account: {}});
     }
     catch (e) {
-      // schema should use the [] for min/max/valid/transform.
-      // see if it sets a freidns default. e.g. just provide account.
-      console.log(e.errors[0]);
+      e.errors.length.should.eql(1);
+    }
+
+    try {
+      yield db.users3.insert({notInSchema: {a:1}});
+    }
+    catch (e) {
       e.errors.length.should.eql(1);
     }
   });
 
-  // it('should transform a property given a custom transform function', (done) => {
-  //   var doc;
-  //   doc = {
-  //     account: {
-  //       friends: [{
-  //         name: 'JAY'
-  //       }]
-  //     }
-  //   };
-  //   db.users.insert(doc).then(result => {
-  //     db.users.findOne({}).then(result => {
-  //       result.account.friends[0].name.should.eql('jay!');
-  //       result.account.friends[0].nicknames.should.eql([]);
-  //       done();
-  //     });
-  //   });
-  // });
 
-  //
-  //
-  // it('should throw an error given a document w/ data in violation of the minLength property', (done) => {
-  //   var doc;
-  //   doc = {
-  //     account: {
-  //       friends: [{
-  //         name: ''
-  //       }]
-  //     }
-  //   };
-  //   try {
-  //     db.users.insert(doc).then(result => {
-  //       done(result);
-  //     });
-  //   } catch (e) {
-  //     e.errors.length.should.eql(1);
-  //     e.errors[0].property.should.eql('minLength');
-  //     done();
-  //   }
-  //   doc = {
-  //     account: {
-  //       friends: []
-  //     }
-  //   };
-  //   try {
-  //     db.users.insert(doc).then(result => {
-  //       done(result);
-  //     });
-  //   } catch (e) {
-  //     e.errors.length.should.eql(1);
-  //     e.errors[0].property.should.eql('minLength');
-  //     done();
-  //   }
-  // });
+  it('should error given a payload missing a required property', function* () {
+    var obj = {
+      account: {
+        friends: [{
+          name: 'jay',
+          nicknames: [{
+            giver: [{name: 'jay'}]
+          }]
+        }]
+      }
+    };
+    try {
+      yield db.users3.insert(obj);
+    }
+    catch (e) {
+    // missing account.friends.nicknames.name
+      e.errors.length.should.eql(1);
+    }
+  });
+
+  it('should transform a property given a custom transform function', function* () {
+    var obj = {
+      account: {
+        friends: [{
+          name: 'JAY'
+        }]
+      }
+    };
+    yield db.users3.insert(obj);
+    var result = yield db.users3.findOne();
+    result.account.friends[0].name.should.eql('jay!');
+    result.account.friends[0].nicknames.should.eql([]);
+  });
+
+
+
+  it('should error given a document w/ data in violation of the minLength property', function* () {
+    var obj = {
+      account: {
+        friends: [{
+          name: ''
+        }]
+      }
+    };
+    try {
+      var result = yield db.users3.insert(obj);
+      console.log(result);
+    } catch (e) {
+      console.log(e);
+      e.errors.length.should.eql(1);
+      e.errors[0].property.should.eql('minLength');
+    }
+
+    // doc = {
+    //   account: {
+    //     friends: []
+    //   }
+    // };
+    // try {
+    //   db.users.insert(doc).then(result => {
+    //     done(result);
+    //   });
+    // } catch (e) {
+    //   e.errors.length.should.eql(1);
+    //   e.errors[0].property.should.eql('minLength');
+    //   done();
+    // }
+  });
   //
   // it('should throw an error given a document w/ data in violation of the maxLength property', (done) => {
   //   var doc;

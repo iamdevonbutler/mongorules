@@ -12,21 +12,35 @@ describe('update(): empty payload:', () => {
 
   it ('should error given an empty payload', function* () {
     try {
-      var result = yield db.users.update({'account.name': 'jay'});
+      yield db.users.update({'account.name': 'jay'});
     }
     catch (e){
       e.errors.length.should.eql(1);
     }
 
     try {
-      var result = yield db.users.update({'account.name': 'jay'}, null);
+      yield db.users.update({'account.name': 'jay'}, null);
     }
     catch (e){
       e.errors.length.should.eql(1);
     }
 
     try {
-      var result = yield db.users.update({'account.name': 'jay'}, {});
+      yield db.users.update({'account.name': 'jay'}, {});
+    }
+    catch (e){
+      e.errors.length.should.eql(1);
+    }
+
+    try {
+      yield db.users.update({'account.name': 'jay'}, 1);
+    }
+    catch (e){
+      e.errors.length.should.eql(1);
+    }
+
+    try {
+      yield db.users.update({'account.name': 'jay'}, [1]);
     }
     catch (e){
       e.errors.length.should.eql(1);
