@@ -30,6 +30,17 @@ describe('insert(): array of objects:', () => {
     }
   });
 
+  it ('should error given an object violating minLength', function*() {
+    try {
+      yield db.users3.insert({account: {friends:[]}});
+      exit();
+    }
+    catch (e) {
+      e.errors.length.should.eql(1);
+      e.errors[0].property.should.eql('minLength');
+    }
+  });
+
 
   it('should error given a payload missing a required property', function* () {
     var obj = {

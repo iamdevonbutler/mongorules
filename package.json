@@ -7,23 +7,26 @@
     "lib"
   ],
   "scripts": {
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/**/*.test.js",
-    "debug": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/**/*.test.js",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/**/*.test.js",
+
     "test:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/*.test.js",
     "test:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/*.test.js",
+
     "test:preprocess": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/unit/*.preprocess.test.js ./tests/integration/*.preprocess.test.js",
     "test:preprocess:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/*.preprocess.test.js",
     "test:preprocess:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/*.preprocess.test.js",
     "test:preprocess:utils:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/utils.preprocess.test.js",
+    "test:preprocess:core:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/core.preprocess.test.js",
+
     "test:utils:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/utils.test.js",
     "test:schema:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/schema.test.js",
     "test:transform:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/transform.test.js",
     "test:validate:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/validate.test.js",
+
     "test:insert:arrayofobjects:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.arrayofobjects.test.js",
-    "test:emptypayload:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.emptypayload.test.js ./tests/integration/update.emptypayload.test.js",
+    "test:insert:arrayofvalues:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.arrayofvalues.test.js",
+    "test:emptypayload:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.emptypayload.test.js ./tests/integration/update.emptypayload.test.js"
 
-
-    "test:preprocess:core:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/core.preprocess.test.js"
   },
   "engines": {
     "node": ">=6.0.x"

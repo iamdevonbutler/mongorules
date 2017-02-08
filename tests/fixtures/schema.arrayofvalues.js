@@ -12,10 +12,17 @@ module.exports = {
     filterNulls: true,
     minLength: [2, 1],
     maxLength: [3, 3],
-    validate: [function(value) {
-      return value === 'aaa' ? false : true;
+    validate: [
+      value => {
+      return value !== ['reject me'];
+    }, value => {
+      return value !== 'reject me';
     }],
-    transform: [function(value) {
+    transform: [
+      value => {
+        console.log(value);
+      // return 'hey ' + value;
+    }, value => {
       return 'hey ' + value;
     }]
   }
