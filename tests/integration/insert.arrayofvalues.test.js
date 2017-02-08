@@ -81,6 +81,7 @@ describe('insert(): array of values:', () => {
     catch (e) {
       console.log(e);
     }
+
     var result = yield db.users2.findOne({});
     console.log(result);
     res.account.friends.length.should.eql(2);
