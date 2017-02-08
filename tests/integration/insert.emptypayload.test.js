@@ -2,6 +2,8 @@ const should = require('chai').should();
 const expect = require('chai').expect;
 const assert = require('chai').assert;
 
+const {exit} = require('../helpers/utils');
+
 var db;
 
 describe('insert(): empty payload:', () => {
@@ -13,6 +15,7 @@ describe('insert(): empty payload:', () => {
   it ('should error given an empty payload', function* () {
     try {
       yield db.users.insert();
+      exit();
     }
     catch (e){
       e.errors.length.should.eql(1);
@@ -20,6 +23,7 @@ describe('insert(): empty payload:', () => {
 
     try {
       yield db.users.insert(null);
+      exit();
     }
     catch (e){
       e.errors.length.should.eql(1);
@@ -27,6 +31,7 @@ describe('insert(): empty payload:', () => {
 
     try {
       yield db.users.insert({});
+      exit();
     }
     catch (e){
       e.errors.length.should.eql(1);
@@ -34,6 +39,7 @@ describe('insert(): empty payload:', () => {
 
     try {
       yield db.users.insert([]);
+      exit();
     }
     catch (e){
       e.errors.length.should.eql(1);
@@ -41,6 +47,7 @@ describe('insert(): empty payload:', () => {
 
     try {
       yield db.users.insert([null]);
+      exit();
     }
     catch (e){
       e.errors.length.should.eql(1);
@@ -48,6 +55,7 @@ describe('insert(): empty payload:', () => {
 
     try {
       yield db.users.insert([{}]);
+      exit();
     }
     catch (e){
       e.errors.length.should.eql(1);
@@ -55,6 +63,7 @@ describe('insert(): empty payload:', () => {
 
     try {
       yield db.users3.insert(1);
+      exit();
     }
     catch (e) {
       e.errors.length.should.eql(1);
@@ -62,6 +71,7 @@ describe('insert(): empty payload:', () => {
 
     try {
       yield db.users3.insert([1]);
+      exit();
     }
     catch (e) {
       e.errors.length.should.eql(1);
