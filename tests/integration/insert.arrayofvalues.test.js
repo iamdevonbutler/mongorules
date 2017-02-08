@@ -56,7 +56,7 @@ describe('insert(): array of values:', () => {
     }
     obj = {
       account: {
-        friends: ['lrn', 'gus', 'jayy']
+        friends: ['lrn', 'gus', 'jayyyyyyyyyyyyy']
       }
     };
     try {
@@ -75,72 +75,71 @@ describe('insert(): array of values:', () => {
       }
     };
 
-    try {
-      yield db.users2.insert([obj]);
-    }
-    catch (e) {
-      console.log(e);
-    }
 
+    yield db.users2.insert([obj]);
     var result = yield db.users2.findOne({});
-    console.log(result);
-    res.account.friends.length.should.eql(2);
-    res.account.friends[0].should.eql('hey lrn');
-    res.account.friends[1].should.eql('hey el');
+    result.account.friends.length.should.eql(2);
+    result.account.friends[0].should.eql('hey lrn');
+    result.account.friends[1].should.eql('hey el');
   });
 
-//   it('should validate using the custom validate function', function(done) {
-//     var doc, e;
-//     doc = {
-//       account: {
-//         friends: ['aaa', 'gus', 'jay']
-//       }
-//     };
-//     try {
-//       return db.users2.insert([doc]).then(function(result) {
-//         return done(result);
-//       });
-//     } catch (_error) {
-//       e = _error;
-//       e.errors.length.should.eql(1);
-//       e.errors[0].property.should.eql('validate');
-//       return done();
-//     }
-//   });
-//   it('should throw given a null value when notNull is true', function(done) {
-//     var doc, e;
-//     doc = {
-//       account: {
-//         friends: null
-//       }
-//     };
-//     try {
-//       return db.users2.insert([doc]).then(function(result) {
-//         return done(result);
-//       });
-//     } catch (_error) {
-//       e = _error;
-//       e.errors.length.should.eql(1);
-//       e.errors[0].property.should.eql('notNull');
-//       return done();
-//     }
-//   });
-//   return it('should ensure all values are of type `string`', function(done) {
-//     var doc, e;
-//     doc = {
-//       account: {
-//         friends: [['a'], 'gus', 'jay']
-//       }
-//     };
-//     try {
-//       return db.users2.insert(doc).then(function(result) {
-//         return done(result);
-//       });
-//     } catch (_error) {
-//       e = _error;
-//       e.errors.length.should.eql(1);
-//       e.errors[0].property.should.eql('type');
-//       return done();
-//     }
-//   });
+  it('should validate using the custom validate function', function*() {
+    var obj = {
+      account: {
+        friends: ['reject', 'reject']
+      }
+    };
+    try {
+      yield db.users2.insert(obj);
+      exit();
+    } catch (e) {
+      e.errors.length.should.eql(1);
+      e.errors[0].property.should.eql('validate');
+    }
+
+    obj = {
+      account: {
+        friends: ['rej', 'rej']
+      }
+    };
+    try {
+      yield db.users2.insert(obj);
+      exit();
+    } catch (e) {
+      e.errors.length.should.eql(2);
+      e.errors[0].property.should.eql('validate');
+      e.errors[1].property.should.eql('validate');
+    }
+  });
+
+  it('should error given a null value when notNull is true', function* () {
+    var obj = {
+      account: {
+        friends: null
+      }
+    };
+    try {
+      yield db.users2.insert([obj]);
+      exit();
+    } catch (e) {
+      e.errors.length.should.eql(1);
+      e.errors[0].property.should.eql('notNull');
+    }
+  });
+
+  it('should ensure all values are of type `string`', function*() {
+    var obj = {
+      account: {
+        friends: [['a'], 'gus', 'jay']
+      }
+    };
+    try {
+      yield db.users2.insert(obj);
+      exit();
+    } catch (e) {
+      e.errors.length.should.eql(1);
+      e.errors[0].property.should.eql('type');
+    }
+
+  });
 });

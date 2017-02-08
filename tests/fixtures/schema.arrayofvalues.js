@@ -1,29 +1,29 @@
 const {Types} = require('../../lib');
+const {isType} = require('../../lib/utils');
 
 module.exports = {
 
   "account.friends": {
-    type: Types.array(Types.string, Types.number),
+    type: Types.array(Types.string),
     required: true,
     notNull: true,
     lowercase: true,
     trim: true,
     denyXSS: true,
     filterNulls: true,
-    minLength: [2, 1],
-    maxLength: [3, 3],
+    minLength: [2, 5],
+    maxLength: [3, 10],
     validate: [
       value => {
-      return value !== ['reject me'];
+      return value.indexOf('hey reject') === -1;
     }, value => {
-      return value !== 'reject me';
+      return value !== 'hey rej';
     }],
     transform: [
       value => {
-        console.log(value);
-      // return 'hey ' + value;
+        return value;
     }, value => {
-      return 'hey ' + value;
+      return isType(value, 'string') ? 'hey ' + value : value;;
     }]
   }
 
