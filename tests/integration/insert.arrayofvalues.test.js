@@ -9,7 +9,7 @@ var db;
 describe('insert(): array of values:', () => {
 
   before(() => {
-    ({db} = require('../../lib')); // tests setDefaultDb() method.
+    ({db} = require('../../lib'));
   });
 
   it('should error when violating the minLength constraint', function* () {

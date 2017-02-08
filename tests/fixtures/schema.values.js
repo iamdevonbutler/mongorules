@@ -1,4 +1,5 @@
 const {Types} = require('../../lib');
+const {isType} = require('../../lib/utils');
 
 module.exports = {
 
@@ -8,25 +9,26 @@ module.exports = {
     trim: true,
     lowercase: true,
     denyXSS: true,
-    minLength: 1,
+    minLength: 4,
     maxLength: 20,
     transform(value) {
-      return 'hey ' + value;
+      return isType(value, 'string') ? 'hey ' + value : value;
     },
     validate(value) {
-      return value !== 'tim';
+      return value !== 'hey tim';
     }
   },
 
   "account.friends": {
-    type: Types.array(Types.string),
+    type: Types.array(Types.mixed(Types.string, Types.number)),
     notNull: true,
     default: []
   },
 
   "newsletter": {
     type: Types.boolean,
-    default: true
+    default: true,
+    notNull: true,
   },
 
   "age": {
@@ -34,7 +36,7 @@ module.exports = {
   },
 
   "created": {
-    type: Types.date,
+    type: Types.mixed(Types.date, Types.timestamp),
   }
 
 }

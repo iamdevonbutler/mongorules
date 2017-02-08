@@ -23,8 +23,9 @@
     "test:transform:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/transform.test.js",
     "test:validate:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/validate.test.js",
 
-    "test:insert:arrayofobjects:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.arrayofobjects.test.js",
+    "test:insert:values:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.values.test.js",
     "test:insert:arrayofvalues:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.arrayofvalues.test.js",
+    "test:insert:arrayofobjects:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.arrayofobjects.test.js",
     "test:emptypayload:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.emptypayload.test.js ./tests/integration/update.emptypayload.test.js"
 
   },
