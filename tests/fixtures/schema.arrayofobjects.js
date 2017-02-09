@@ -1,4 +1,5 @@
 const {Types} = require('../../lib');
+const {isType} = require('../../lib/utils');
 
 module.exports = {
 
@@ -18,7 +19,7 @@ module.exports = {
     sanitize: true,
     minLength: 1,
     transform: function(value) {
-      return value + '!';
+      return value && isType(value, 'string') ? value + '!' : value;
     }
   },
 

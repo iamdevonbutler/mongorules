@@ -84,10 +84,10 @@ describe('Schema:', () => {
     });
   });
 
-  describe('preprocessSchema():', () => {
+  describe('generateSchema():', () => {
     it('should process a values schema', () => {
       var result;
-      result = schema.preprocessSchema(schemaValues);
+      result = schema.generateSchema(schemaValues);
       result = result._schema;
       result['account.name'].should.be.ok;
       result['account.friends'].should.be.ok;
@@ -100,7 +100,7 @@ describe('Schema:', () => {
 
     it('should process a array of values schema', () => {
       var result;
-      result = schema.preprocessSchema(schemaArrayOfValues);
+      result = schema.generateSchema(schemaArrayOfValues);
       result = result._schema;
       result['account.friends'].type.value.should.eql(['array']);
       result['account.friends'].type.children.should.eql(['string', 'number']);
@@ -111,7 +111,7 @@ describe('Schema:', () => {
 
     it('should process a schema with objects in arrays', () => {
       var result;
-      result = schema.preprocessSchema(schemaArrayOfObjects);
+      result = schema.generateSchema(schemaArrayOfObjects);
       result = result._schema;
       result._id.should.be.ok;
       result['account.friends'].should.be.ok;
@@ -147,17 +147,17 @@ describe('Schema:', () => {
     });
   });
 
-  describe('_validateSchemaField():', () => {
+  describe('validateSchemaField():', () => {
 
     it('should throw if a field type is created w/o using the `.Types` object.', () => {
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           type: 'string',
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           type: 'object'
         }), 'users');
       }).to.throw();
@@ -165,188 +165,188 @@ describe('Schema:', () => {
 
     it('should throw if given an invalid value for a schema property', () => {
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           required: 'true'
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           required: true
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           notNull: 'true'
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           notNull: true,
           required: true
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           type: Boolean
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           type: Types.boolean,
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           type: Types.array(Types.mixed(Types.string, Types.number)),
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           trim: 'true'
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           trim: true
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           uppercase: 'true'
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           uppercase: true
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           lowercase: 'true'
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           lowercase: true
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           sanitize: 'true'
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           sanitize: true
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           denyXSS: 'true'
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           denyXSS: true
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           validate: [true]
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           validate: func
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           validate: [func]
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           transform: [true]
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           transform: func
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           transform: [func]
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           filterNulls: 1
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           filterNulls: true
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           minLength: '1'
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           minLength: 1
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           minLength: [1]
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           maxLength: '1'
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           maxLength: 1
         }), 'users');
       }).to.not.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           maxLength: [1]
         }), 'users');
       }).to.not.throw();
@@ -355,14 +355,14 @@ describe('Schema:', () => {
 
     it('should throw if default is null and notNull is true', () => {
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           "default": null,
           notNull: true
         }), 'users');
       }).to.throw();
 
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           "default": null,
           notNull: false
         }), 'users');
@@ -371,7 +371,7 @@ describe('Schema:', () => {
 
     it('should throw if given both sanitize and denyXSS', () => {
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           sanitize: true,
           denyXSS: true
         }), 'users');
@@ -380,7 +380,7 @@ describe('Schema:', () => {
 
     it('should throw if given both default and required', () => {
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           "default": true,
           required: true
         }), 'users');
@@ -389,7 +389,7 @@ describe('Schema:', () => {
 
     it('should throw if type is not a string and the string transformation methods are true', () => {
       expect(() => {
-        schema._validateSchemaField(schema._setSchemaFieldDefaults({
+        schema.validateSchemaField(schema._setSchemaFieldDefaults({
           type: 'boolean',
           trim: true
         }), 'users');
