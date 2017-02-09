@@ -8,6 +8,7 @@ var db = null;
 var models = {
   users: {
     schema: require('../fixtures/schema.values'),
+    methods: require('../fixtures/staticmethods'),
   },
   users2: {
     schema: require('../fixtures/schema.arrayofvalues'),
