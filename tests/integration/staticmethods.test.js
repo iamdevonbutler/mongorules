@@ -4,7 +4,7 @@ const assert = require('chai').assert;
 
 var db;
 
-describe('Static methods:', function() {
+describe('static methods:', function() {
 
   before(() => {
     ({db} = require('../../lib'));
