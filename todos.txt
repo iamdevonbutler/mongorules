@@ -27,7 +27,6 @@ shouldn't we clip off each w/ splice modifiers, and on reconstruction check to s
 and do things that way. would fix it now, but i want things working better so i have a comparison to test against.
 - if we do the schema constructor pattern, instanciate the obj in schema.js
 and redo tests.
-- change name cleanupdatekey to something more generic and less updatey.
 - donate to project
 - the pattern of method() -> return error -> if error -> .... , might be able to be improved via currying and compose.
 - check formatting of every doxygen.

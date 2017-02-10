@@ -42,14 +42,4 @@ describe('Preprocess utils:', () => {
     });
   });
 
-
-  describe('deconstructPayload():', () => {
-
-    it('should process an update payload into a UpdatePayload object');
-
-
-  });
-
-
-
 });

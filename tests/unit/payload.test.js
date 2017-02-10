@@ -2,46 +2,11 @@ const should = require('chai').should();
 const expect = require('chai').expect;
 const assert = require('chai').assert;
 
-const schemaArrayOfObjects = require('../fixtures/schema.arrayofobjects');
+const Payload = require('../../lib/preprocess/payload/payload');
+const deconstructPayload = Payload.prototype.deconstructPayload;
+const ctx = new Payload();
 
-const {
-  getPayloadKeys,
-  deconstructPayload,
-  getSubdocumentSchema,
-} = require('../../lib/preprocess/utils.preprocess');
-
-describe('Preprocess utils:', () => {
-
-  describe('getSubdocumentSchema()', () => {
-    it('should return a partial schema', () => {
-      var result, keys;
-      result = getSubdocumentSchema('account.friends.nicknames', schemaArrayOfObjects);
-      keys = Object.keys(result);
-      keys.length.should.eql(3);
-      keys.should.eql([
-        'account.friends.nicknames.name',
-        'account.friends.nicknames.giver',
-        'account.friends.nicknames.giver.name',
-      ]);
-    });
-  });
-
-  describe('getPayloadKeys()', () => {
-    it('should return an array w/ all payload keys', () => {
-      var payload, result;
-      payload = {
-        a: 1,
-        b: 2,
-        c: [1,2,3],
-        d: [
-          { e:1, f:[1,2,3], g: [{h:1}] }
-        ]
-      };
-      result = getPayloadKeys(payload);
-      result.should.eql(['a', 'b', 'c', 'd', 'd.e', 'd.f', 'd.g', 'd.g.h'])
-    });
-  });
-
+describe('Payload:', () => {
 
   describe('deconstructPayload():', () => {
     it('should deconstruct an item in array update payload', () => {
@@ -57,13 +22,13 @@ describe('Preprocess utils:', () => {
             name: 1
           },
           payloadPath: ['account.friends.0'],
-          fieldInSubdocument: false,
           isEach: false,
           modifiers: null,
           itemInArray: true,
+          embeddedFieldUpdate: true,
         }
       };
-      result = deconstructPayload(payload);
+      result = deconstructPayload.call(ctx, payload);
       result.should.eql(parsedPayload);
     });
 
@@ -84,18 +49,18 @@ describe('Preprocess utils:', () => {
         'account.name': {
           value: 'jay',
           payloadPath: ['account', 'name'],
-          fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
           itemInArray: false,
+          embeddedFieldUpdate: false,
         },
         'account.email': {
           value: 'j@j.com',
           payloadPath: ['account', 'email'],
-          fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
           itemInArray: false,
+          embeddedFieldUpdate: false,
         },
         'account.friends': {
           value: [
@@ -103,21 +68,21 @@ describe('Preprocess utils:', () => {
             {name: 'lou'}
           ],
           payloadPath: ['account', 'friends'],
-          fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
           itemInArray: false,
+          embeddedFieldUpdate: false,
         },
         'notifications': {
           value: [1, 2, 3],
           payloadPath: ['notifications'],
-          fieldInSubdocument: false,
           isEach: false,
           modifiers: null,
           itemInArray: false,
+          embeddedFieldUpdate: false,
         }
       };
-      result = deconstructPayload(payload);
+      result = deconstructPayload.call(ctx, payload);
       result.should.eql(parsedPayload);
     });
 
@@ -139,35 +104,35 @@ describe('Preprocess utils:', () => {
           value: 'rain gear',
           isEach: false,
           modifiers: null,
-          fieldInSubdocument: false,
           itemInArray: true,
+          embeddedFieldUpdate: true,
         },
         'ratings.rating': {
           value: 2,
           payloadPath: ['ratings.0.rating'],
-          fieldInSubdocument: false,
           isEach: false,
           modifiers: null,
           itemInArray: true,
+          embeddedFieldUpdate: true,
         },
         'account.name': {
           value: 'jay',
           payloadPath: ['account', 'name'],
-          fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
-          itemInArray: false
+          itemInArray: false,
+          embeddedFieldUpdate: false,
         },
         'account.location.name': {
           value: 'home',
           payloadPath: ['account', 'location', 'name'],
-          fieldInSubdocument: true,
           isEach: false,
           modifiers: null,
-          itemInArray: false
+          itemInArray: false,
+          embeddedFieldUpdate: false,
         }
       };
-      result = deconstructPayload(payload);
+      result = deconstructPayload.call(ctx, payload);
       result.should.eql(parsedPayload);
     });
 
@@ -180,13 +145,13 @@ describe('Preprocess utils:', () => {
         'account.notifications': {
           value: 1,
           payloadPath: ['account.notifications'],
-          fieldInSubdocument: false,
           isEach: false,
           modifiers: null,
           itemInArray: false,
+          embeddedFieldUpdate: true,
         }
       };
-      result = deconstructPayload(payload);
+      result = deconstructPayload.call(ctx, payload);
       result.should.eql(parsedPayload);
     });
 
@@ -204,22 +169,17 @@ describe('Preprocess utils:', () => {
           value: [1, 2, 3],
           payloadPath: ['account.notifications', '$each'],
           modifiers: [
-            {
-              $slice: -5
-            }, {
-              $position: 0
-            }
+            {$slice: -5},
+            {$position: 0},
           ],
-          fieldInSubdocument: false,
           isEach: true,
-          itemInArray: false
+          itemInArray: false,
+          embeddedFieldUpdate: true,
         }
       };
-      result = deconstructPayload(payload);
+      result = deconstructPayload.call(ctx, payload);
       result.should.eql(parsedPayload);
     });
   });
-
-
 
 });

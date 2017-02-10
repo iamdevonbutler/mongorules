@@ -103,7 +103,7 @@ describe('Schema:', () => {
       result = schema.generateSchema(schemaArrayOfValues);
       result = result._schema;
       result['account.friends'].type.value.should.eql(['array']);
-      result['account.friends'].type.children.should.eql(['string', 'number']);
+      result['account.friends'].type.children.should.eql(['string']);
       result['account.friends'].should.be.ok;
       result['account.friends']._type.should.eql('arrayofvalues');
       result._id.should.be.ok;
