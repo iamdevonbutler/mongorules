@@ -1,3 +1,7 @@
+- validators - names start w/ 1. name, name1, name2, ....
+- give more meta info to custom validate and transform. transform might find it helpful if it knew that this was a update as opposed to an insert.
+- test type validation for array of values. make sure types are checked for inner and outer.
+- validate not null should be an array so that we can validate the outer array as not null, and inner items as not null.
 - test isRoot
 - make sure we are filtering nulls from arrays.
 - schema.js preprocess schema retuns new Schema, should we do that? also the name preprocessSchema is just ok.
