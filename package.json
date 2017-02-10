@@ -16,7 +16,7 @@
     "test:preprocess": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/unit/*.preprocess.test.js ./tests/integration/*.preprocess.test.js",
     "test:preprocess:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/*.preprocess.test.js",
     "test:preprocess:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/*.preprocess.test.js",
-    "test:preprocess:utils:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/utils.preprocess.test.js",
+    "test:preprocess:utils:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/preprocess.utils.test.js",
     "test:preprocess:payload:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/payload.test.js",
 
     "test:utils:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/utils.test.js",

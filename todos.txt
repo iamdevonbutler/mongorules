@@ -15,7 +15,6 @@
 - docs:  fix legend links
 = what happens when u run a random method that isnt insert/update/... and theres a success and when the is a failure/
 - we have rtoo many functions named preprocess
--= schemaclass _keys name is ambigious
 - this._paylaod -> this.payloads
 - add all supported operations to proxy file https://docs.mongodb.com/v3.2/reference/method/js-collection/
 -importing code from an index.js should not set module.exports  = require(...), you should manually pick out the properties to export.
