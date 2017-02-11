@@ -47,6 +47,18 @@ describe('Update(): array of values:', function() {
       var result = yield db.users2.findOne({});
       result.account.friends.should.eql(['hey gus', 'hey jay']);
     });
+
+    it('should update the friends array using dot notation', function* () {
+      var payload = {
+        '$set': {
+          'account.friends.0': 'lou'
+        }
+      };
+      yield db.users2.update({}, payload);
+      var result = yield db.users2.findOne({});
+      result.account.friends.should.eql(['hey lou', 'hey gus']);
+    });
+
   });
 
   describe('$addToSet', function() {
