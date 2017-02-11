@@ -9,6 +9,45 @@ const func = (x) => x * x;
 
 describe('Utils:', () => {
 
+  describe('isChild', () => {
+    it ('should return true given a child of depth 1', () => {
+      utils.isChild('a.b', 'a.b.c').should.eql(true);
+    });
+    it ('should return true given a child of depth 2', () => {
+      utils.isChild('a.b.c', 'a.b.c.d').should.eql(true);
+    });
+    it ('should return false given a non child field', () => {
+      utils.isChild('a.b', 'a.c').should.eql(false);
+      utils.isChild('a.b', 'a.c.e').should.eql(false);
+    });
+    it ('should return true given a child of depth 1 and depth === 1', () => {
+      utils.isChild('a.b', 'a.b.c', 1).should.eql(true);
+    });
+    it ('should return false given a child of depth 2 and depth === 1', () => {
+      utils.isChild('a.b', 'a.b.c.d', 1).should.eql(false);
+    });
+    it ('should return false given a child as the parent param', () => {
+      utils.isChild('a.b.c.d', 'a.b').should.eql(false);
+      utils.isChild('a.b.c.d', 'a.b', 1).should.eql(false);
+      utils.isChild('a.b.c.d', 'a.b', 2).should.eql(false);
+    });
+    it ('should return false given a matching key', () => {
+      utils.isChild('a.b', 'a.b').should.eql(false);
+    });
+  });
+
+  describe('isSibling', () => {
+    it ('should return true given a sibling', () => {
+      utils.isSibling('a.b.c', 'a.b.e').should.eql(true);
+    });
+    it ('should return false given a non sibling field', () => {
+      utils.isSibling('a.b.c', 'b.c.d').should.eql(false);
+    });
+    it ('should return false given a matching key', () => {
+      utils.isSibling('a.b', 'a.b').should.eql(false);
+    });
+  });
+
   describe('isObjectId', () => {
     it('should return false given an invalid ID', () => {
       result = utils.isObjectId('5888d77b3910d717882d70b1d'); // has extra character.

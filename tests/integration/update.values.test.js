@@ -228,84 +228,73 @@ describe('Update(): values:', () => {
           age: null
         }
       })
-      .catch(console.log);
       var result = yield db.users.findOne({});
       expect(result.age).to.eql(null);
     });
 
-  //   it('should update a nested field and not add extra fields', function*() {
-  //     yield db.users.update({}, {
-  //       '$set': {
-  //         'account.name': 'gus'
-  //       }
-  //     });
-//       var result = yield db.users.findOne({});
-  //         result.account.name.should.eql('hey gus');
-  //         result.account.friends.should.eql(['lrn']);
-  //         result.newsletter.should.eql(true);
-  //         result.age.should.eql(1);
-  //         Object.keys(result).length.should.eql(4);
-  //       });
-  //     });
-  //   });
+    it('should update a nested field and not add extra fields', function*() {
+      yield db.users.update({}, {
+        '$set': {
+          'account.name': 'gus'
+        }
+      });
+      var result = yield db.users.findOne({});
+      result.account.name.should.eql('hey gus');
+      result.account.friends.should.eql(['lrn']);
+      result.newsletter.should.eql(true);
+      result.age.should.eql(1);
+      Object.keys(result).length.should.eql(4);
+    });
   });
 
-  // describe('$addToSet', function() {
-  //   it('should add an item to the friends array', function*() {
-  //     yield db.users.update({}, {
-  //       '$addToSet': {
-  //         'account.friends': 'gus'
-  //       }
-  //     });
-//       var result = yield db.users.findOne({});
-  //         result.account.friends.should.eql(['lrn', 'gus']);
-  //       });
-  //     });
-  //   });
-  //   it('should add multiple items using $each to an array', function*() {
-  //     var payload;
-  //     payload = {
-  //       '$addToSet': {
-  //         'account.friends': {
-  //           '$each': ['lou', 'gus']
-  //         }
-  //       }
-  //     };
-  //     yield db.users.update({}, payload);
-//       var result = yield db.users.findOne({});
-  //         result.account.friends.should.eql(['lrn', 'lou', 'gus']);
-  //       });
-  //     });
-  //   });
-  // });
-  //
-  // describe('$push', function() {
-  //   it('should add an item to the friends array', function*() {
-  //     yield db.users.update({}, {
-  //       '$push': {
-  //         'account.friends': 'gus'
-  //       }
-  //     });
-//       var result = yield db.users.findOne({});
-  //         result.account.friends.should.eql(['lrn', 'gus']);
-  //       });
-  //     });
-  //   });
-  //   it('should add multiple items using $each to an array and apply the $slice operator', function*() {
-  //     var payload;
-  //     payload = {
-  //       '$push': {
-  //         'account.friends': {
-  //           '$each': ['lou', 'gus', 'sam'],
-  //           '$slice': 2
-  //         }
-  //       }
-  //     };
-  //     yield db.users.update({}, payload);
-//       var result = yield db.users.findOne({});
-  //         result.account.friends.should.eql(['lrn', 'lou']);
-  //       });
-  //     });
-  //   });
-  // });
+  describe('$addToSet', function() {
+    it('should add an item to the friends array', function*() {
+      yield db.users.update({}, {
+        '$addToSet': {
+          'account.friends': 'gus'
+        }
+      });
+      var result = yield db.users.findOne({});
+      result.account.friends.should.eql(['lrn', 'gus']);
+    });
+
+    it('should add multiple items using $each to an array', function*() {
+      var payload = {
+        '$addToSet': {
+          'account.friends': {
+            '$each': ['lou', 'gus']
+          }
+        }
+      };
+      yield db.users.update({}, payload);
+      var result = yield db.users.findOne({});
+      result.account.friends.should.eql(['lrn', 'lou', 'gus']);
+    });
+  });
+
+  describe('$push', function() {
+    it('should add an item to the friends array', function*() {
+      yield db.users.update({}, {
+        '$push': {
+          'account.friends': 'gus'
+        }
+      });
+      var result = yield db.users.findOne({});
+      result.account.friends.should.eql(['lrn', 'gus']);
+    });
+
+    it('should add multiple items using $each to an array and apply the $slice operator', function*() {
+      var payload = {
+        '$push': {
+          'account.friends': {
+            '$each': ['lou', 'gus', 'sam'],
+            '$slice': 2
+          }
+        }
+      };
+      yield db.users.update({}, payload);
+      var result = yield db.users.findOne({});
+      result.account.friends.should.eql(['lrn', 'lou']);
+    });
+  });
 });

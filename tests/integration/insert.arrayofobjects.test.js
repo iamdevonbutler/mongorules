@@ -30,7 +30,7 @@ describe('Insert(): array of objects:', () => {
     }
   });
 
-  it ('should error given an object violating minLength', function*() {
+  it ('should error given an object violating minLength', function* () {
     try {
       yield db.users3.insert({account: {friends:[]}});
       exit();

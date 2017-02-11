@@ -32,7 +32,7 @@ module.exports = {
   },
 
   "age": {
-    type: Types.number,
+    type: Types.mixed(Types.number, Types.null),
   },
 
   "created": {
