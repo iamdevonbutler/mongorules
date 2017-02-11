@@ -23,7 +23,7 @@ module.exports = {
       value => {
         return value;
     }, value => {
-      return isType(value, 'string') ? 'hey ' + value : value;;
+      return isType(value, 'string') ? 'hey ' + value : value;
     }]
   }
 
