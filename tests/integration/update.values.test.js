@@ -227,7 +227,8 @@ describe('Update(): values:', () => {
         '$set': {
           age: null
         }
-      }).catch(console.log);
+      })
+      .catch(console.log);
       var result = yield db.users.findOne({});
       expect(result.age).to.eql(null);
     });

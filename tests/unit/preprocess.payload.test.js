@@ -22,7 +22,6 @@ describe('Payload:', () => {
             name: 1
           },
           payloadPath: ['account.friends.0'],
-          isEach: false,
           itemInArray: true,
           embeddedFieldUpdate: true,
         }
@@ -48,14 +47,12 @@ describe('Payload:', () => {
         'account.name': {
           value: 'jay',
           payloadPath: ['account', 'name'],
-          isEach: false,
           itemInArray: false,
           embeddedFieldUpdate: false,
         },
         'account.email': {
           value: 'j@j.com',
           payloadPath: ['account', 'email'],
-          isEach: false,
           itemInArray: false,
           embeddedFieldUpdate: false,
         },
@@ -65,14 +62,12 @@ describe('Payload:', () => {
             {name: 'lou'}
           ],
           payloadPath: ['account', 'friends'],
-          isEach: false,
           itemInArray: false,
           embeddedFieldUpdate: false,
         },
         'notifications': {
           value: [1, 2, 3],
           payloadPath: ['notifications'],
-          isEach: false,
           itemInArray: false,
           embeddedFieldUpdate: false,
         }
@@ -97,70 +92,26 @@ describe('Payload:', () => {
         'tags': {
           payloadPath: ['tags.1'],
           value: 'rain gear',
-          isEach: false,
           itemInArray: true,
           embeddedFieldUpdate: true,
         },
         'ratings.rating': {
           value: 2,
           payloadPath: ['ratings.0.rating'],
-          isEach: false,
           itemInArray: true,
           embeddedFieldUpdate: true,
         },
         'account.name': {
           value: 'jay',
           payloadPath: ['account', 'name'],
-          isEach: false,
           itemInArray: false,
           embeddedFieldUpdate: false,
         },
         'account.location.name': {
           value: 'home',
           payloadPath: ['account', 'location', 'name'],
-          isEach: false,
           itemInArray: false,
           embeddedFieldUpdate: false,
-        }
-      };
-      result = deconstructPayload.call(ctx, payload);
-      result.should.eql(parsedPayload);
-    });
-
-    it('should deconstruct a $addToSet payload', () => {
-      var parsedPayload, payload, result;
-      payload = {
-        'account.notifications': 1
-      };
-      parsedPayload = {
-        'account.notifications': {
-          value: 1,
-          payloadPath: ['account.notifications'],
-          isEach: false,
-          itemInArray: false,
-          embeddedFieldUpdate: true,
-        }
-      };
-      result = deconstructPayload.call(ctx, payload);
-      result.should.eql(parsedPayload);
-    });
-
-    it('should deconstruct a $addToSet w/ $each payload', () => {
-      var parsedPayload, payload, result;
-      payload = {
-        'account.notifications': {
-          $each: [1, 2, 3],
-          $slice: -5,
-          $position: 0,
-        }
-      };
-      parsedPayload = {
-        'account.notifications': {
-          value: [1, 2, 3],
-          payloadPath: ['account.notifications', '$each'],
-          isEach: true,
-          itemInArray: false,
-          embeddedFieldUpdate: true,
         }
       };
       result = deconstructPayload.call(ctx, payload);
