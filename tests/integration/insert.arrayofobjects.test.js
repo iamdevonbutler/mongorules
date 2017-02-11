@@ -6,7 +6,7 @@ const {exit} = require('../helpers/utils');
 
 var db;
 
-describe('insert(): array of objects:', () => {
+describe('Insert(): array of objects:', () => {
 
   before(() => {
     ({db} = require('../../lib')); // tests setDefaultDb() method.

@@ -6,7 +6,7 @@ const {exit} = require('../helpers/utils');
 
 var db;
 
-describe('insert(): array of values:', () => {
+describe('Insert(): array of values:', () => {
 
   before(() => {
     ({db} = require('../../lib'));

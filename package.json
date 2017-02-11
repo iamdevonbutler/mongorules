@@ -13,21 +13,22 @@
     "test:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/*.test.js",
     "test:statics": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/staticmethods.test.js",
 
-    "test:preprocess": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/unit/*.preprocess.test.js ./tests/integration/*.preprocess.test.js",
-    "test:preprocess:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/*.preprocess.test.js",
-    "test:preprocess:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/*.preprocess.test.js",
-    "test:preprocess:utils:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/preprocess.utils.test.js",
-    "test:preprocess:payload:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/payload.test.js",
+    "test:unit:utils": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/utils.test.js",
+    "test:unit:schema": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/schema.test.js",
+    "test:unit:transform": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/transform.test.js",
+    "test:unit:validate": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/validate.test.js",
+    "test:unit:preprocess:utils": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/preprocess.utils.test.js",
+    "test:unit:preprocess:payload": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/preprocess.payload.test.js",
 
-    "test:utils:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/utils.test.js",
-    "test:schema:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/schema.test.js",
-    "test:transform:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/transform.test.js",
-    "test:validate:unit": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --ui bdd --bail --colors ./tests/unit/validate.test.js",
+    "test:integration:insert:values": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.values.test.js",
+    "test:integration:insert:arrayofvalues": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.arrayofvalues.test.js",
+    "test:integration:insert:arrayofobjects": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.arrayofobjects.test.js",
 
-    "test:insert:values:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.values.test.js",
-    "test:insert:arrayofvalues:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.arrayofvalues.test.js",
-    "test:insert:arrayofobjects:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.arrayofobjects.test.js",
-    "test:emptypayload:integration": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.emptypayload.test.js ./tests/integration/update.emptypayload.test.js"
+    "test:integration:update:values": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/update.values.test.js",
+    "test:integration:update:arrayofvalues": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/update.arrayofvalues.test.js",
+    "test:integration:update:arrayofobjects": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/update.arrayofobjects.test.js",
+
+    "test:integration:emptypayload": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.emptypayload.test.js ./tests/integration/update.emptypayload.test.js"
 
   },
   "engines": {

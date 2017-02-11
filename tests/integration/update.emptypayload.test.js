@@ -6,7 +6,7 @@ const {exit} = require('../helpers/utils');
 
 var db;
 
-describe('update(): empty payload:', () => {
+describe('Update(): empty payload:', () => {
 
   before(() => {
     ({db} = require('../../lib')); // tests setDefaultDb() method.

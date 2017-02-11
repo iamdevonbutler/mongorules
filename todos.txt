@@ -1,3 +1,7 @@
+- do we need to fuck w/ modifiers in reconstructPayload since we are doing updates differently?
+- grep '@todo'
+- we shouldn't cache queries w/ errors.
+- test - an array update op that we dont cover to see if it works.
 - validators - names start w/ 1. name, name1, name2, ....
 - give more meta info to custom validate and transform. transform might find it helpful if it knew that this was a update as opposed to an insert.
 - test type validation for array of values. make sure types are checked for inner and outer.
@@ -17,7 +21,7 @@
 - we have rtoo many functions named preprocess
 - this._paylaod -> this.payloads
 - add all supported operations to proxy file https://docs.mongodb.com/v3.2/reference/method/js-collection/
--importing code from an index.js should not set module.exports  = require(...), you should manually pick out the properties to export.
+- importing code from an index.js should not set module.exports  = require(...), you should manually pick out the properties to export.
 preprocessor._payload should be _payloads.
 - default should be a func so that u can set live dates.
 - setoninsert. figure out how to do validation for this ... https://docs.mongodb.com/v3.2/reference/operator/update/setOnInsert/#up._S_setOnInsert
@@ -37,11 +41,9 @@ and redo tests.
 - get date types right. (do docs last) verify dates in Database e.g. timestamp constructor date constructor.
 - add email type
 - find out minimun mongo version this works w/.
-- put payloads from tests into a file called payloads.js
 - preprocess.utils.js & preprocess.js (preprocess.insert, preprocess.update)
 - make a list of all the operations from docs and make sure i have tests for all of them.
    - e.g. $.thisandthat
-
 - reconstructPayload does some weird stuff w/ modifiers. test to be sure it's not removing items by accident.
 - find out what data can be inserted in a update query field and see if we can do something to validate it.
 - private public method naming in preprocess code. make it consistent.
@@ -84,9 +86,7 @@ and redo tests.
 - debug statement - say something about that in docs.
 - could replace OOP validator w/ functional validator. -  find out how costly obj construction is in JS
 - travis should dl mongo 6.0 not ^6.0
-- might be double wrapping promises - db.users.remove is a promise to begin w/.
 - sanitize changes date from obj to string (will cause bugs)
-- restructure docs (/doc/...)
 - collection error handler absent from docs - .
 - doxygen tests 'none' refer to unit tests, most if not all things are tested via integration tests.
 - dyanamic docs - doc compiler
