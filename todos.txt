@@ -1,3 +1,4 @@
+- make sure momment is removed
 - purge utils of unnecessary functions
 - grep "// @todo - is this still necessary." - i dont think it is necessary, but make sure things work w/ weird dot notation
 - schema._schema -> _fields

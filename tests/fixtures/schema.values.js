@@ -12,7 +12,7 @@ module.exports = {
     minLength: 4,
     maxLength: 20,
     transform(value) {
-      return isType(value, 'string') ? 'hey ' + value : value;
+      return value && isType(value, 'string') ? 'hey ' + value : value;
     },
     validate(value) {
       return value !== 'hey tim';

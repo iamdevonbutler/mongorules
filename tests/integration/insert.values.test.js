@@ -38,14 +38,14 @@ describe('Insert(): values:', () => {
 
   it('should error given an empty document', function* () {
     try {
-      yield db.users.insert({});
+      var s = yield db.users.insert({});
       exit();
     } catch (e) {
       e.should.be.ok;
     }
   });
 
-  it('should throw an error when violating the minLength constraint', function* () {
+  it('should error when violating the minLength constraint', function* () {
     var obj = {
       account: {
         name: ''
