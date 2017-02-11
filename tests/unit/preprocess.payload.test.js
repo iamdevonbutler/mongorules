@@ -22,8 +22,6 @@ describe('Payload:', () => {
             name: 1
           },
           payloadPath: ['account.friends.0'],
-          itemInArray: true,
-          embeddedFieldUpdate: true,
         }
       };
       result = deconstructPayload.call(ctx, payload);
@@ -47,14 +45,10 @@ describe('Payload:', () => {
         'account.name': {
           value: 'jay',
           payloadPath: ['account', 'name'],
-          itemInArray: false,
-          embeddedFieldUpdate: false,
         },
         'account.email': {
           value: 'j@j.com',
           payloadPath: ['account', 'email'],
-          itemInArray: false,
-          embeddedFieldUpdate: false,
         },
         'account.friends': {
           value: [
@@ -62,14 +56,10 @@ describe('Payload:', () => {
             {name: 'lou'}
           ],
           payloadPath: ['account', 'friends'],
-          itemInArray: false,
-          embeddedFieldUpdate: false,
         },
         'notifications': {
           value: [1, 2, 3],
           payloadPath: ['notifications'],
-          itemInArray: false,
-          embeddedFieldUpdate: false,
         }
       };
       result = deconstructPayload.call(ctx, payload);
@@ -92,26 +82,18 @@ describe('Payload:', () => {
         'tags': {
           payloadPath: ['tags.1'],
           value: 'rain gear',
-          itemInArray: true,
-          embeddedFieldUpdate: true,
         },
         'ratings.rating': {
           value: 2,
           payloadPath: ['ratings.0.rating'],
-          itemInArray: true,
-          embeddedFieldUpdate: true,
         },
         'account.name': {
           value: 'jay',
           payloadPath: ['account', 'name'],
-          itemInArray: false,
-          embeddedFieldUpdate: false,
         },
         'account.location.name': {
           value: 'home',
           payloadPath: ['account', 'location', 'name'],
-          itemInArray: false,
-          embeddedFieldUpdate: false,
         }
       };
       result = deconstructPayload.call(ctx, payload);

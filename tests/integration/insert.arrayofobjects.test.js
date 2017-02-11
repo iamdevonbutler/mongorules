@@ -36,6 +36,7 @@ describe('Insert(): array of objects:', () => {
       exit();
     }
     catch (e) {
+      console.log(e);
       e.errors.length.should.eql(1);
       e.errors[0].property.should.eql('minLength');
     }
