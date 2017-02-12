@@ -65,7 +65,7 @@ describe('Update(): array of values:', function() {
           'account.friends.$': 'lou'
         }
       };
-      yield db.users2.update({'account.friends.0': 'hey lrn'}, payload).catch(console.dir);
+      yield db.users2.update({'account.friends.0': 'hey lrn'}, payload);
       var result = yield db.users2.findOne({});
       result.account.friends.should.eql(['hey lou', 'hey gus']);
     });

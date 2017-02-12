@@ -3,7 +3,7 @@
 const mongodb = require('mongodb');
 const mongorules = require('../../lib');
 
-var db = null;
+var db;
 
 var models = {
   users: {
