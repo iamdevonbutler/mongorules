@@ -63,25 +63,25 @@ describe('Update(): array of objects:', function() {
       ]);
     });
 
-  //   it('should update a single property on an object using the item in array syntax', function* () {
-  //     var payload = {
-  //       '$set': {
-  //         'account.friends.0.name': 'lou'
-  //       }
-  //     };
-  //     yield db.users3.update({}, payload);
-  //     var result = yield db.users3.findOne({});
-  //     result.account.friends.should.eql([
-  //       {
-  //         name: 'lou!',
-  //         nicknames: []
-  //       }, {
-  //         name: 'gus!',
-  //         nicknames: []
-  //       }
-  //     ]);
-  //   });
-  // });
+    it('should update a single property on an object using the item in array syntax', function* () {
+      var payload = {
+        '$set': {
+          'account.friends.0.name': 'lou'
+        }
+      };
+      yield db.users3.update({}, payload);
+      var result = yield db.users3.findOne({});
+      result.account.friends.should.eql([
+        {
+          name: 'lou!',
+          nicknames: []
+        }, {
+          name: 'gus!',
+          nicknames: []
+        }
+      ]);
+    });
+  });
   //
   // describe('$addToSet', function() {
   //   it('should add a single item to the nicknames array using the item in array syntax', function* () {
@@ -199,6 +199,6 @@ describe('Update(): array of objects:', function() {
   //     result.account.friends.length.should.eql(3);
   //     result.account.friends[2].should.eql(output);
   //   });
-  });
+  // });
 
 });
