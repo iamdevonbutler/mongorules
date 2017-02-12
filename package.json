@@ -1,7 +1,7 @@
 {
   "name": "mongorules",
   "version": "0.1.0-beta",
-  "description": "A small but fierce wrapper around the native mongodb driver leveraging ES6 proxy black magic and schemas.",
+  "description": "A small but fierce wrapper around the native mongodb driver - leveraging schemas - a syntactic mirror of the mongo shell interface.",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -27,6 +27,10 @@
     "test:integration:update:values": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/update.values.test.js",
     "test:integration:update:arrayofvalues": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/update.arrayofvalues.test.js",
     "test:integration:update:arrayofobjects": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/update.arrayofobjects.test.js",
+
+    "test:integration:findandmodify": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/findandmodify.test.js",
+    "test:integration:save": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/save.test.js",
+    "test:integration:upserts": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/upserts.test.js",
 
     "test:integration:emptypayload": "NODE_ENV=test ./node_modules/.bin/mocha --require co-mocha --reporter spec --ui bdd --bail --colors ./tests/helpers/setup.js ./tests/integration/insert.emptypayload.test.js ./tests/integration/update.emptypayload.test.js"
 
