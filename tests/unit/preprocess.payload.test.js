@@ -17,11 +17,10 @@ describe('Payload:', () => {
         }
       };
       parsedPayload = {
-        'account.friends': {
-          value: {
-            name: 1
-          },
-          payloadPath: ['account.friends.0'],
+        'account.friends.name': {
+          payloadPath: ['account.friends.0', 'name'],
+          value: 1,
+          isArrayItemUpdate: true,
         }
       };
       result = deconstructPayload.call(ctx, payload);
@@ -45,10 +44,12 @@ describe('Payload:', () => {
         'account.name': {
           value: 'jay',
           payloadPath: ['account', 'name'],
+          isArrayItemUpdate: false,
         },
         'account.email': {
           value: 'j@j.com',
           payloadPath: ['account', 'email'],
+          isArrayItemUpdate: false,
         },
         'account.friends': {
           value: [
@@ -56,10 +57,12 @@ describe('Payload:', () => {
             {name: 'lou'}
           ],
           payloadPath: ['account', 'friends'],
+          isArrayItemUpdate: false,
         },
         'notifications': {
           value: [1, 2, 3],
           payloadPath: ['notifications'],
+          isArrayItemUpdate: false,
         }
       };
       result = deconstructPayload.call(ctx, payload);
@@ -82,18 +85,22 @@ describe('Payload:', () => {
         'tags': {
           payloadPath: ['tags.1'],
           value: 'rain gear',
+          isArrayItemUpdate: true,
         },
         'ratings.rating': {
           value: 2,
           payloadPath: ['ratings.0.rating'],
+          isArrayItemUpdate: true,
         },
         'account.name': {
           value: 'jay',
           payloadPath: ['account', 'name'],
+          isArrayItemUpdate: false,
         },
         'account.location.name': {
           value: 'home',
           payloadPath: ['account', 'location', 'name'],
+          isArrayItemUpdate: false,
         }
       };
       result = deconstructPayload.call(ctx, payload);
