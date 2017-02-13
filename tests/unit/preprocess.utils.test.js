@@ -9,7 +9,7 @@ const {
   deconstructPayload,
   getSubdocumentSchema,
   getQueryFields,
-} = require('../../lib/utils/preprocess.utils');
+} = require('../../lib/utils/utils.preprocess');
 
 describe('Preprocess utils:', () => {
 

@@ -53,7 +53,6 @@ and redo tests.
 - get date types right. (do docs last) verify dates in Database e.g. timestamp constructor date constructor.
 - add email type
 - find out minimun mongo version this works w/.
-- preprocess.utils.js & preprocess.js (preprocess.insert, preprocess.update)
 - make a list of all the operations from docs and make sure i have tests for all of them.
    - e.g. $.thisandthat
 - reconstructPayload does some weird stuff w/ modifiers. test to be sure it's not removing items by accident.

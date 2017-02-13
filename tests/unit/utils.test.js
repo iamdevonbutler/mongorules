@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 const assert = require('chai').assert;
 
 const mongo = require('mongodb');
-const utils = require('../../lib/utils/main.utils');
+const utils = require('../../lib/utils/utils.main');
 
 const func = (x) => x * x;
 
