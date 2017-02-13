@@ -23,7 +23,6 @@
 - schema.js preprocess schema retuns new Schema, should we do that? also the name preprocessSchema is just ok.
 - custom transform func can break schema. maybe compare and if diff, validate again.
 - add use strict
-- remove debug
 - running queries w/o a model.
 - how does it handle empty payloads - both root and subdocument
 - update docs for new error handling
@@ -94,7 +93,6 @@ and redo tests.
 - might be able to cache the deconstruction...
 - pre-push live search console.logs
 - perf test values, array of values, array of objects.
-- debug statement - say something about that in docs.
 - could replace OOP validator w/ functional validator. -  find out how costly obj construction is in JS
 - travis should dl mongo 6.0 not ^6.0
 - sanitize changes date from obj to string (will cause bugs)
@@ -107,7 +105,6 @@ and redo tests.
 - in docs mention that this is for microservices and a deisgn paradigm of multiple db connections to a distributed cluser of datastores.
 - underscore prefixes in utils - remove, public has 2 audiences, 1) public to implementer of lib and public to myself as i include dependencies.
 - mention in docs that results from add/get database return a proxy, but u can get the naked (unproxied) connectino obj from getConnection
-- find out more uses for debug and evaluate existing uses.
 - reversing no validate - going to be the first param so u can query a - change docs.
 - how to insert types such as NumberLong (https://docs.mongodb.com/v3.2/reference/operator/query/type/)
 - see if query modifiers work w/ cursors (https://docs.mongodb.com/v3.2/reference/operator/query-modifier/)
