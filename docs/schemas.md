@@ -43,7 +43,7 @@ Resolves to:
   }
 }
 ```
-Check out [/tests/fixtures](https://github.com/iamdevonbutler/node-mongorules/tree/master/tests/fixtures) for examples on how to create schemas.
+Check out [/tests/fixtures](https://github.com/iamdevonbutler/mongorules/tree/master/tests/fixtures) for examples on how to create schemas.
 
 **Array of values**
 
@@ -159,7 +159,6 @@ If 'type' is set to 'date', the 'dateFormat' property must be set to enforce dat
 
 - 'iso8601'
 - 'timestamp'
-- [Custom moment.js format](http://momentjs.com/docs/#/parsing/string-format/) (in strict mode) - e.g. 'MM-DD-YYYY'
 
 To insert an iso8601 date into your database: use `new Date()` and mongodb will store it as a BSON 'ISODate' type. To insert a timestamp into your database, use `Date.now()` (@todo store as timestamp BSON type).
 

@@ -73,7 +73,6 @@
     "co": "4.6.0",
     "lodash": "4.17.4",
     "lodash-deep": "1.6.0",
-    "moment": "2.17.1",
     "xss-filters": "1.2.7"
   }
 }

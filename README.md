@@ -1,6 +1,6 @@
 # Mongorules (alpha)
 
-[![Build Status](https://travis-ci.org/iamdevonbutler/node-mongorules.svg?branch=master)](https://travis-ci.org/iamdevonbutler/node-mongorules)
+[![Build Status](https://travis-ci.org/iamdevonbutler/mongorules.svg?branch=master)](https://travis-ci.org/iamdevonbutler/mongorules)
 
 A small but fierce wrapper around the native mongodb driver - leveraging schemas - a syntactic mirror of the mongo shell interface.
 
