@@ -1,3 +1,6 @@
+- FindAndModify upsert test
+- not implememting getQueryFields.
+- findandmodify syntax differs from docs.
 - idk if payloadItem needs the payload path param
 - validate type is kinda weird for arrays. it does the outside and inside in the same go. test well for addtoset and else.
 - i want a todos app in the terminal for coding.

@@ -39,4 +39,6 @@ describe('FindAndModify():', function() {
     Object.keys(result).length.should.eql(4);
   });
 
+  // @todo upsert
+
 });

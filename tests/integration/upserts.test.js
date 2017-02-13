@@ -77,8 +77,8 @@ describe('Upserts:', function() {
       result = yield result.toArray();
       result.length.should.eql(2);
       result[1].account.name.should.eql('hey lrn');
-      result[1].account.friends.should.eql([]);
       result[1].newsletter.should.eql(true);
+      result[1].account.friends.should.eql([]);
     });
   });
 
@@ -92,7 +92,7 @@ describe('Upserts:', function() {
           'account.name': 'lrn'
         }
       };
-      var result = db.users.findAndModify(query, null, payload, {upsert: true, "new": true});
+      var result = yield db.users.findAndModify(query, null, payload, {upsert: true, "new": true});
       result.value.account.name.should.eql('hey lrn');
       result.value.account.friends.should.eql([]);
       result.value.newsletter.should.eql(true);

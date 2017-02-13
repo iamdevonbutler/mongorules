@@ -39,6 +39,7 @@ describe('Update(): array of objects:', function() {
       }
       catch (e) {
         e.errors[0].property.should.eql('type');
+        e.errors[0].expected[0].should.eql('string');
       }
     });
 
@@ -50,7 +51,7 @@ describe('Update(): array of objects:', function() {
           }
         }
       };
-      yield db.users3.update({}, payload).catch(console.dir);
+      yield db.users3.update({}, payload);
       var result = yield db.users3.findOne({});
       result.account.friends.should.eql([
         {
