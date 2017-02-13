@@ -6,7 +6,7 @@ A small but fierce wrapper around the native mongodb driver - leveraging schemas
 
 # Intro
 
-```
+```javascript
 const {db} = require('mongorules');
 
 yield db.users.insert({ account: {name: 'jay', friends: ['11', 'will']} });
@@ -25,15 +25,11 @@ Abiding by the the LOTR philosophy (one API to rule them all), mongorules adds a
 Custom **schemas** enforce consistency to operations:
 
 - `insert()`
-- `insertOne()`
-- `insertMany()`
 - `save()`
 - `update()`
-- `updateOne()`
-- `updateMany()`
 - `findAndModify()`
 
-All method calls are wrapped in **promises** and thus become yieldable, keeping your codebase syntactically lean.
+All method calls are wrapped in **promises** and thus become yieldable, keeping your codebase lean.
 
 **Static methods** can be attached to collection models.
 
@@ -47,13 +43,13 @@ All method calls are wrapped in **promises** and thus become yieldable, keeping 
 
 First, install mongorules:
 
-```
+```javascript
 npm install --save mongorules
 ```
 
 Second, init mongodb:
 
-```
+```javascript
 var db, mongodb, dbInstance;
 
 mongodb = require('mongodb');
@@ -66,7 +62,7 @@ db.addDatabase('api-development', dbInstance);
 
 Third, add models:
 
-```
+```javascript
 var db, schema, methods;
 
 db = require('mongorules');
@@ -84,7 +80,7 @@ db.addModels({
 
 Now, write queries:
 
-```
+```javascript
 var db, result, users;
 
 db = require('mongorules');
