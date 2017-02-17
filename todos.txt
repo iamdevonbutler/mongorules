@@ -31,7 +31,7 @@
 - this._paylaod -> this.payloads
 - add all supported operations to proxy file https://docs.mongodb.com/v3.2/reference/method/js-collection/
 - importing code from an index.js should not set module.exports  = require(...), you should manually pick out the properties to export.
-preprocessor._payload should be _payloads.
+
 - default should be a func so that u can set live dates.
 - setoninsert. figure out how to do validation for this ... https://docs.mongodb.com/v3.2/reference/operator/update/setOnInsert/#up._S_setOnInsert
 - its kidna weird that we leave $each on our payload path, and splcie modifiers ignrores each.
