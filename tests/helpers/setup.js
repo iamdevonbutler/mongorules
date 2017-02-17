@@ -19,17 +19,17 @@ var models = {
 };
 
 before(function* () {
-    var db2;
-    try {
-      db2 = yield mongorules.connect('test', 'mongodb://localhost/mongorules-testing', mongodb);
-    }
-    catch (e) {
-      console.error('>>> Connection error: be sure a "mongod" process is running.', e);
-      process.exit();
-    }
-    db = mongorules.addDatabase('test', 'mongorules-testing', db2);
-    mongorules.addModels('test', 'mongorules-testing', models);
-    mongorules.setDefaultDb('test', 'mongorules-testing');
+  var db2;
+  try {
+    db2 = yield mongorules.connect('test', 'mongodb://localhost/mongorules-testing', mongodb);
+  }
+  catch (e) {
+    console.error('>>> Connection error: be sure a "mongod" process is running.', e);
+    process.exit();
+  }
+  db = mongorules.addDatabase('test', 'mongorules-testing', db2);
+  mongorules.addModels('test', 'mongorules-testing', models);
+  mongorules.setDefaultDb('test', 'mongorules-testing');
 });
 
 beforeEach(function*() {
