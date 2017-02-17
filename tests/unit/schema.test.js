@@ -88,7 +88,6 @@ describe('Schema:', () => {
     it('should process a values schema', () => {
       var result;
       result = schema.generateSchema(schemaValues);
-      result = result._schema;
       result['account.name'].should.be.ok;
       result['account.friends'].should.be.ok;
       result['account.friends']._type.should.eql('arrayofvalues');
@@ -101,7 +100,6 @@ describe('Schema:', () => {
     it('should process a array of values schema', () => {
       var result;
       result = schema.generateSchema(schemaArrayOfValues);
-      result = result._schema;
       result['account.friends'].type.value.should.eql(['array']);
       result['account.friends'].type.children.should.eql(['string']);
       result['account.friends'].should.be.ok;
@@ -112,7 +110,6 @@ describe('Schema:', () => {
     it('should process a schema with objects in arrays', () => {
       var result;
       result = schema.generateSchema(schemaArrayOfObjects);
-      result = result._schema;
       result._id.should.be.ok;
       result['account.friends'].should.be.ok;
       result['account.friends']._type.should.eql('arrayofobjects');

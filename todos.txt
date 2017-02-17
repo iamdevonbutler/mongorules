@@ -1,3 +1,4 @@
+- see what timestamps look like once inserted.
 - default should be a function so u can set default time.
 - FindAndModify upsert test
 - will obj.validatequery() hit a save operation and will that be an issue.
@@ -9,7 +10,6 @@
 - static methods -> model methods
 - purge utils of unnecessary functions
 - grep "// @todo - is this still necessary." - i dont think it is necessary, but make sure things work w/ weird dot notation
-- schema._schema -> _fields
 - grep '@todo'
 - we shouldn't cache queries w/ errors.
 - test - an array update op that we dont cover to see if it works.
