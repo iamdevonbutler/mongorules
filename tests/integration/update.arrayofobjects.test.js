@@ -25,6 +25,48 @@ describe('Update(): array of objects:', function() {
   });
 
   describe('$set', function() {
+    it ('should error given invalid types and unknown fields in subdocuments', function* () {
+      var payload = {
+        '$set': {
+          'account.friends.0.nicknames': {
+            name: 1,
+            giver: [{notafield: 1}]
+          }
+        }
+      };
+      try {
+        yield db.users3.update({}, payload);
+        exit();
+      }
+      catch (e) {
+        e.errors.length.should.eql(2);
+        e.errors[0].property.should.eql('type');
+        e.errors[0].field.should.eql('account.friends.nicknames.name');
+        e.errors[1].field.should.eql('account.friends.nicknames.giver.notafield');
+      }
+    });
+
+    it ('should not error given a valid payload', function* () {
+      var payload = {
+        '$set': {
+          'account.friends.0.nicknames': {
+            name: 'name',
+            giver: [{name: 'name'}]
+          }
+        }
+      };
+      try {
+        yield db.users3.update({}, payload);
+        var result = db.users3.findOne();
+        console.log(result);
+        result.should.be.ok;
+      }
+      catch (e) {
+        console.log(e);
+        e.should.not.be.ok
+      }
+    });
+
     it('should error when given an invalid type', function* () {
       var payload = {
         '$set': {
