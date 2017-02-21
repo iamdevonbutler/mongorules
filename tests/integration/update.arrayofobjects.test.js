@@ -39,6 +39,7 @@ describe('Update(): array of objects:', function() {
         exit();
       }
       catch (e) {
+        console.log(e);
         e.errors.length.should.eql(2);
         e.errors[0].property.should.eql('type');
         e.errors[0].field.should.eql('account.friends.nicknames.name');
