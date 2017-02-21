@@ -1,3 +1,5 @@
+- more tests w/ multiple objs/values in arrays
+- does .schema need to be attached to payloadItem still?
 - arrayofvalues inside an arrayofobjects tests
 - see what timestamps look like once inserted.
 - default should be a function so u can set default time.

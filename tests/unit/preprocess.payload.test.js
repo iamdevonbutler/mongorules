@@ -24,7 +24,6 @@ describe('Payload:', () => {
         }
       };
       result = deconstructPayload.call(ctx, payload);
-      console.log(result);
       result.should.eql(parsedPayload);
     });
 

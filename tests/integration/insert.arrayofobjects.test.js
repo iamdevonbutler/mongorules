@@ -192,7 +192,7 @@ describe('Insert(): array of objects:', () => {
         }]
       }
     };
-    yield db.users3.insert(obj);
+    yield db.users3.insert(obj).catch(console.log);
     var result = yield db.users3.findOne({});
     obj = {
       friends: [{
