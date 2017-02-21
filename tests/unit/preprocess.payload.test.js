@@ -17,13 +17,14 @@ describe('Payload:', () => {
         }
       };
       parsedPayload = {
-        'account.friends.name': {
-          payloadPath: ['account.friends.0', 'name'],
-          value: 1,
+        'account.friends': {
+          payloadPath: ['account.friends.0'],
+          value: {name: 1},
           isArrayItemUpdate: true,
         }
       };
       result = deconstructPayload.call(ctx, payload);
+      console.log(result);
       result.should.eql(parsedPayload);
     });
 

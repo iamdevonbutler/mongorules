@@ -39,7 +39,6 @@ describe('Update(): array of objects:', function() {
         exit();
       }
       catch (e) {
-        console.log(e);
         e.errors.length.should.eql(2);
         e.errors[0].property.should.eql('type');
         e.errors[0].field.should.eql('account.friends.nicknames.name');
@@ -59,11 +58,9 @@ describe('Update(): array of objects:', function() {
       try {
         yield db.users3.update({}, payload);
         var result = db.users3.findOne();
-        console.log(result);
         result.should.be.ok;
       }
       catch (e) {
-        console.log(e);
         e.should.not.be.ok
       }
     });

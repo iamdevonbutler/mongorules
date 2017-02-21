@@ -18,7 +18,6 @@ describe('Insert(): array of objects:', () => {
       exit();
     }
     catch (e) {
-      console.log(e);
       e.errors.length.should.eql(1);
     }
 
@@ -60,7 +59,6 @@ describe('Insert(): array of objects:', () => {
     }
     catch (e) {
     // missing account.friends.nicknames.name
-      console.log(e);
       e.errors.length.should.eql(1);
     }
   });
@@ -75,7 +73,6 @@ describe('Insert(): array of objects:', () => {
     };
     yield db.users3.insert(obj);
     var result = yield db.users3.findOne();
-    console.log(result.account);
     result.account.friends[0].name.should.eql('jay!');
     result.account.friends[0].nicknames.should.eql([]);
   });
