@@ -134,7 +134,7 @@ describe('Update(): array of objects:', function() {
           }
         }
       };
-      yield db.users3.update({}, payload);
+      yield db.users3.update({}, payload).catch(console.log);
       var result = yield db.users3.findOne({});
       result.account.friends.should.eql([
         {
