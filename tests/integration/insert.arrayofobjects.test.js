@@ -128,6 +128,8 @@ describe('Insert(): array of objects:', () => {
     }
   });
 
+
+
   it('should error given an invalid type constraint on a property on an object', function* () {
     var obj = {
       account: {
@@ -138,12 +140,14 @@ describe('Insert(): array of objects:', () => {
     };
     try {
       yield db.users3.insert(obj);
-      exit()
+      exit();
     } catch (e) {
       e.errors.length.should.eql(1);
       e.errors[0].property.should.eql('type');
     }
   });
+
+
 
   it('should sanitize an object property', function* () {
     var obj = {
@@ -174,7 +178,6 @@ describe('Insert(): array of objects:', () => {
     }]);
   });
 
-
   it('should successfully insert a document given correct data', function* () {
     var obj = {
       account: {
@@ -188,7 +191,7 @@ describe('Insert(): array of objects:', () => {
           }]
         },
         {
-          name: 'lou'
+          name: 'lou',
         }]
       }
     };
@@ -212,4 +215,44 @@ describe('Insert(): array of objects:', () => {
     };
     result.account.should.eql(obj);
   });
+
+  // keep, we want two of the same test to test cache.
+  it('should successfully insert a document given correct data again', function* () {
+    var obj = {
+      account: {
+        friends: [{
+          name: 'jay',
+          nicknames: [{
+            name: 'gus',
+            giver: [{
+              name: 'flip'
+            }]
+          }]
+        },
+        {
+          name: 'lou',
+        }]
+      }
+    };
+    yield db.users3.insert(obj).catch(console.log);
+    var result = yield db.users3.findOne({});
+    obj = {
+      friends: [{
+          name: 'jay!',
+          nicknames: [{
+            name: 'gus',
+            giver: [{
+              name: 'flip'
+            }]
+          }]
+        },
+        {
+          name: 'lou!',
+          nicknames: [],
+        }
+      ]
+    };
+    result.account.should.eql(obj);
+  });
+
 });
