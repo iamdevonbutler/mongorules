@@ -39,7 +39,7 @@ describe('Preprocess utils:', () => {
         ]
       };
       result = getPayloadKeys(payload);
-      result.should.eql(['a', 'b', 'c', 'd', 'd.e', 'd.f', 'd.g', 'd.g.h'])
+      result.should.eql(['a', 'b', 'c', 'd', 'd-e', 'd-f', 'd-g', 'd-g-h'])
     });
   });
 

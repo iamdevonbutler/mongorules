@@ -237,7 +237,7 @@ describe('Update(): values:', () => {
         '$set': {
           'account.name': 'gus'
         }
-      });
+      }).catch(console.log);
       var result = yield db.users.findOne({});
       result.account.name.should.eql('hey gus');
       result.account.friends.should.eql(['lrn']);
