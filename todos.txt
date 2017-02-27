@@ -67,7 +67,6 @@ and redo tests.
 - you can do the schema types the way react does.
 - test: https://docs.mongodb.com/manual/reference/operator/update/set/ (last example)
 - if type is given, validate to be sure the default is of that type
-- global error handler not working (the property on self (api) vanishes by the time we call the getter)
 - check all intergation tests and try/catch errors. use setDefaultDb func?
 - allow for custom sanitize func
 - see how decorators can help w/ readibility

@@ -1,5 +1,6 @@
 ## Error handling
 There are three types of errors:
+
 - Schema validation errors
 - Document validation errors
 - Mongodb errors
@@ -14,28 +15,26 @@ There are three types of errors:
 ### Custom error handling
 Custom error handling can be established locally to each collection, via the model's `onError()` property, and globally using the `addGlobalErrorHandler()` method.
 
-If both local and global error handlers exist, the local error handler will be called in place of the global error handler. The global error handler, if present, will be passed to the local error handler as a function parameter, and it may be called from w/i the local handler.
+If both local and global error handlers exist, the local error handler will be called first. If falsy values are returned from both error handlers, the data from the errors arg, will be passed to the operations's promise reject callback. If both local and global error handlers return truthy value from their callbacks, the local error handler's result will be passed to the operation's reject callback.
 
-By default, the original error will be passed to the operation's promise reject callback. To modify this behavior, the return value from your local/global error handlers will replace the original error should the value be truthy.
+*The global error handler receives a third parameter `{Boolean} localHandlerExists` to provide potentially useful information regarding the handling of your programs' errors.*
 
-
-```
+```javascript
 /**
  * @param {Function} handler:
- * @param {Mixed} error.
+ * @param {Array} error.
  * @param {Object} info.
  *   @param {String} collectionName
  *   @param {String} methodName
  *   @param {String} databaseName
  *   @param {String} connectionName
- *  @param {Function} globalErrorHandler
+ * @param {Boolean} localHandlerExists.
  */
-model.onError((error, info, globalErrorHandler) => {
+mongorules.addGlobalErrorHandler((error, info, localHandlerExists) => {
    // e.g. log to database
-   // globalErrorHandler(error, info);
 });
 
-mongorules.addGlobalErrorHandler((error, info) => {
+model.onError((error, info) => {
    // e.g. log to database
 });
 ```
