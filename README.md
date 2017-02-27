@@ -6,30 +6,16 @@ A small but fierce wrapper around the native mongodb driver - leveraging schemas
 
 # Intro
 
-```javascript
-const {db} = require('mongorules');
-
-yield db.users.insert({ account: {name: 'jay', friends: ['11', 'will']} });
-
-var will = yield.db.users.findOne({'account.name': 'will'});
-var willsFriends = will.account.friends;
-
-var updatePayload = {$addToSet: {'account.name.friends': {$each: willsFriends} }};
-yield db.users.update({'account.name'; 'jay'}, updatePayload)
-
-
-```
-
 Abiding by the the LOTR philosophy (one API to rule them all), mongorules adds a little extra sauce on top of the [node-mongodb-native](https://github.com/mongodb/node-mongodb-native) driver:
 
 Custom **schemas** enforce consistency to operations:
 
 - `insert()`
-- `save()`
 - `update()`
+- `save()`
 - `findAndModify()`
 
-All method calls are wrapped in **promises** and thus become yieldable, keeping your codebase lean.
+All method calls are wrapped in **promises** and thus become yieldable.
 
 **Static methods** can be attached to collection models.
 
@@ -41,58 +27,71 @@ All method calls are wrapped in **promises** and thus become yieldable, keeping 
 
 ## Getting started
 
-First, install mongorules:
+First, install mongorules and mongodb:
 
 ```javascript
-npm install --save mongorules
+npm install --save mongorules mongodb
 ```
 
 Second, init mongodb:
 
 ```javascript
-var db, mongodb, dbInstance;
 
-mongodb = require('mongodb');
-db = require('mongorules');
+const mongodb = require('mongodb');
+const mongorules = require('mongorules');
+const url = process.env.MONGO_URL;
 
-dbInstance = yield db.connect(process.env.MONGO_URL, mongodb);
-db.addDatabase('api-development', dbInstance);
+const connection = yield mongorules.connect('local', url, mongodb);
+const db = mongorules.addDatabase('local', 'api-development', connection);
 ```
-*The connect method is a convenience method for `MongoClient.connect` that returns a promise (wrap code in [co](https://github.com/tj/co) to yield). You can init mongodb any way you choose as long as you pass the instance to the `addDatabase()` method.*
+*The connect method is a convenience method for `MongoClient.connect` that returns a promise.*
 
 Third, add models:
 
 ```javascript
-var db, schema, methods;
+const mongorules = require('mongorules');
+const schema = require('./schemas/users.js');
+const methods = require('./methods/users.js');
 
-db = require('mongorules');
-schema = require('./schemas/users.js');
-methods = require('./methods/users.js');
-
-db.addModels({
+mongorules.addModels('local', 'api-development', {
   users: {
-    schema: schema,
-    methods: methods,
+    schema,
+    methods,
     onError: function(collectionName, action, errors) {}
   }
 });
+```
+Add default db (optional).
+
+```javascript
+const mongorules = require('mongorules');
+mongorules.setDefaultDb('local', 'api-development');
 ```
 
 Now, write queries:
 
 ```javascript
-var db, result, users;
-
-db = require('mongorules');
+var result, users;
+const {db} = require('mongorules'); // This works because we setDefaultDb().
 
 result = yield db.users.insert({ name: 'jay' });
 result = yield db.users.find({ name: 'jay' });
 users = yield result.toArray();  
 ```
 
+If we did not call `setDefaultDb()` we would retrieve the db instance via:
+
+```javascript
+const mongorules = require('mongorules');
+const db = mongorules.getDatabase('local', 'api-development');
+
+// db.users.insert({...})
+
+```
+
 ## Supported operations
 
-All mongoodb native operations are supported. All [collection methods](http://docs.mongodb.org/manual/reference/method/js-collection/) will be wrapped in promises.
+All mongodb native operations are supported and are wrapped in promises.
 
 The following operations will enforce schema validation:
 
@@ -113,10 +112,11 @@ Mongorules supports validation for the following mongodb update operators:
 - `$addToSet`
 - `$push`
 
-Upsert operations are supported as well.
+Upsert operations are supported as well (validated as an insert).
+
 
 ## Performance
-See performance tests against the native mongodb driver at the [node-mongorules-performance-analysis ](https://github.com/iamdevonbutler/node-mongorules-performance-analysis) repo.
+See performance tests against the native mongodb driver and mongoose at the [mongorules-performance-analysis ](https://github.com/iamdevonbutler/mongorules-performance-analysis) repo.
 
 
 ## License
