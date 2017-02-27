@@ -26,7 +26,6 @@
 - setoninsert. figure out how to do validation for this ... https://docs.mongodb.com/v3.2/reference/operator/update/setOnInsert/#up._S_setOnInsert
 - the pattern of method() -> return error -> if error -> .... , might be able to be improved via currying and compose.
 - add more doxygens.
-- add use strict
 - remove @tests
 - do type validation using the new syntax. we should be validating multi type fileds propertly.
 - have a way to add supported operations via api. e.g. a way to process another query type (make `this` === preprocess)
