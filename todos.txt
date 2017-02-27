@@ -1,3 +1,4 @@
+- seems like the constructor params for payload update and payload are a bit messed up. too much isUpsert and isSetOperation
 - run each test twice to test cache.
 - more tests w/ multiple objs/values in arrays
 - does .schema need to be attached to payloadItem still?

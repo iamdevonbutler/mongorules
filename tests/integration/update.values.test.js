@@ -169,6 +169,31 @@ describe('Update(): values:', () => {
   });
 
   describe('$set', function() {
+    it ('should update fields when executed from cache', function* (){
+        yield db.users.update({'account.name': 'hey jay'}, {
+          $inc: {
+            age: 1,
+          },
+          '$set': {
+            'account.name': 'sam'
+          }
+        });
+        yield db.users.update({'account.name': 'hey sam'}, {
+          $inc: {
+            age: 10,
+          },
+          '$set': {
+            'account.name': 'gus'
+          }
+        });
+        var result = yield db.users.findOne({});
+        delete result._id;
+        result.should.eql({
+           account: {friends: ['lrn'], name: 'hey gus'},
+           newsletter: true,
+           age: 12,
+        });
+    });
     it('should error given an invalid type', function*() {
       try {
         yield db.users.update({}, {
