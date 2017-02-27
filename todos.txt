@@ -1,6 +1,5 @@
-- test error handling
 - test model methods (what does this == )
-- test connections
+- in docs mention that this is for microservices and a deisgn paradigm of multiple db connections to a distributed cluser of datastores.
 
 - seems like the constructor params for payload update and payload are a bit messed up. too much isUpsert and isSetOperation
 - run each test twice to test cache.
@@ -19,40 +18,28 @@
 - purge utils of unnecessary functions
 - grep "// @todo - is this still necessary." - i dont think it is necessary, but make sure things work w/ weird dot notation
 - grep '@todo'
-- we shouldn't cache queries w/ errors.
 - test - an array update op that we dont cover to see if it works.
 - give more meta info to custom validate and transform. transform might find it helpful if it knew that this was a update as opposed to an insert.
 - test type validation for array of values. make sure types are checked for inner and outer.
 - validate not null should be an array so that we can validate the outer array as not null, and inner items as not null.
-- test isRoot
 - make sure we are filtering nulls from arrays.
 - schema.js preprocess schema retuns new Schema, should we do that? also the name preprocessSchema is just ok.
 - custom transform func can break schema. maybe compare and if diff, validate again.
-- add use strict
 - running queries w/o a model.
-- how does it handle empty payloads - both root and subdocument
-- update docs for new error handling
 - test mixed types
-- docs:  fix legend links
-= what happens when u run a random method that isnt insert/update/... and theres a success and when the is a failure/
-- we have too many functions named preprocess
-- add all supported operations to proxy file https://docs.mongodb.com/v3.2/reference/method/js-collection/
+- what happens when u run a random method that isnt insert/update/... and theres a success and when the is a failure/
 - importing code from an index.js should not set module.exports  = require(...), you should manually pick out the properties to export.
 - default should be a func so that u can set live dates.
 - setoninsert. figure out how to do validation for this ... https://docs.mongodb.com/v3.2/reference/operator/update/setOnInsert/#up._S_setOnInsert
-- its kidna weird that we leave $each on our payload path, and splcie modifiers ignrores each.
-shouldn't we clip off each w/ splice modifiers, and on reconstruction check to see if $each exists
-and do things that way. would fix it now, but i want things working better so i have a comparison to test against.
-- if we do the schema constructor pattern, instanciate the obj in schema.js
-and redo tests.
 - the pattern of method() -> return error -> if error -> .... , might be able to be improved via currying and compose.
-- check formatting of every doxygen.
+- add more doxygens.
+- add use strict
+- remove @tests
 - do type validation using the new syntax. we should be validating multi type fileds propertly.
 - have a way to add supported operations via api. e.g. a way to process another query type (make `this` === preprocess)
 - add custom types
 - document the db alias const {db} = require('mongorules').
 - get date types right. (do docs last) verify dates in Database e.g. timestamp constructor date constructor.
-- add email type
 - find out minimun mongo version this works w/.
 - make a list of all the operations from docs and make sure i have tests for all of them.
    - e.g. $.thisandthat
@@ -64,25 +51,15 @@ and redo tests.
 - see if $explain works (https://docs.mongodb.com/v3.2/reference/operator/meta/explain/#metaOp._S_explain)
 - change the way we do dates. there should be timestamp and date types. (https://docs.mongodb.com/v3.2/reference/operator/update/currentDate/)
 - defaultDb docs
-- you can do the schema types the way react does.
 - test: https://docs.mongodb.com/manual/reference/operator/update/set/ (last example)
 - if type is given, validate to be sure the default is of that type
-- check all intergation tests and try/catch errors. use setDefaultDb func?
-- allow for custom sanitize func
-- see how decorators can help w/ readibility
-- pref test.
 - test removeModel and removeModels. add tests. in readme mention use cases for these (really edge case - if your api has a update hook you can change your models w/o taking the server down).
 - make sure gloabal and local error handelrs work
-- fix underscore `private` inconsistency. there are funcs in schema that should not have an underscore.
 - test duplicate key inserts and inserts on unique field - see what the error messages look like.
-- on schema file dont use _.isBoolean and destructure dependencies. utils can curry a type check func. var isBoolean = utils.isType('boolean')
 - array of arrays should get a mention in the docs and i should play around w/ them to see how they work.
-- date obj changed by sanitiz
+- date obj changed by sanitize
 - verify im doing dates right and _id.
-- test multiple database instances
-- use parens more for errors (see the last else statement in proxy step1)
 - should see what this is like when a model has no scheam and has model methods only.
-- utils.isType should not be private
 - getDatabase should always return a proxy - elims errors where people may pass in a third param by accident, and if someone wants a unproxied obj they can call getConnection and then conn.db()
 - metion $databaseName and the tradeoff - want a clean namespace for naming models. wouldnt be able to have a model named open w/o dollar prefix.
 - addModel should have more checks to ensure people are passing in a schema.
@@ -92,15 +69,13 @@ and redo tests.
 - perf test values, array of values, array of objects.
 - sanitize changes date from obj to string (will cause bugs)
 - collection error handler absent from docs - .
-- doxygen tests 'none' refer to unit tests, most if not all things are tested via integration tests.
 - add @file declarations
 - what happens when you try to do shit w/o calling addDatabase
-- in docs mention that this is for microservices and a deisgn paradigm of multiple db connections to a distributed cluser of datastores.
-- underscore prefixes in utils - remove, public has 2 audiences, 1) public to implementer of lib and public to myself as i include dependencies.
 - mention in docs that results from add/get database return a proxy, but u can get the naked (unproxied) connectino obj from getConnection
 - reversing no validate - going to be the first param so u can query a - change docs.
 - how to insert types such as NumberLong (https://docs.mongodb.com/v3.2/reference/operator/query/type/)
 - see if query modifiers work w/ cursors (https://docs.mongodb.com/v3.2/reference/operator/query-modifier/)
+- we shouldn't cache queries w/ errors.
 - to test the error handling, do a duplicate key insert and make sure that returns an error.
 - gotta test unique indexes - pref an upsert after doing a unique index and it should error (https://docs.mongodb.com/v3.2/core/index-unique/#index-type-unique)
 - test mixed types w/ integration test.
@@ -109,6 +84,8 @@ and redo tests.
 
 
 Phase II
+- allow for custom sanitize func
+- add email type
 - donate to project
 - pretty up errors.
 - pre-push live search console.logs
@@ -116,3 +93,6 @@ Phase II
   - empty payload is 0
   - validation error is 1
   - mongodb error is 2
+
+Questions
+- should there be a notification of you are operating on a model that does not exist.

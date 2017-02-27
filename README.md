@@ -15,6 +15,8 @@ Abiding by the the LOTR philosophy (one API to rule them all), mongorules adds a
 - `save()`
 - `findAndModify()`
 
+**Transforms** easily modify the payload.
+
 **Promises** wrap all mongodb native methods and thus become yieldable.
 
 **Model methods** can be attached to collection models.
@@ -83,10 +85,13 @@ If we did not call `setDefaultDb()` we would retrieve the db instance via:
 ```javascript
 const mongorules = require('mongorules');
 const db = mongorules.getDatabase('local', 'api-development');
+// .addDatabase() returns a db instance as well.
 
 // db.users.insert({...})
 
 ```
+
+
 
 ## Supported operations
 

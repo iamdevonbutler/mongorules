@@ -1,6 +1,6 @@
 {
   "name": "mongorules",
-  "version": "0.1.2-alpha",
+  "version": "0.1.3-alpha",
   "description": "A small but fierce wrapper around the native mongodb driver - leveraging schemas - a syntactic mirror of the mongo shell interface.",
   "main": "lib/index.js",
   "files": [
