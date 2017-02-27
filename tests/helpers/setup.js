@@ -8,7 +8,7 @@ var db;
 var models = {
   users: {
     schema: require('../fixtures/schema.values'),
-    methods: require('../fixtures/staticmethods'),
+    methods: require('../fixtures/modelmethods'),
   },
   users2: {
     schema: require('../fixtures/schema.arrayofvalues'),

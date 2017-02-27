@@ -1,3 +1,7 @@
+- test error handling
+- test model methods (what does this == )
+- test connections
+
 - seems like the constructor params for payload update and payload are a bit messed up. too much isUpsert and isSetOperation
 - run each test twice to test cache.
 - more tests w/ multiple objs/values in arrays
@@ -12,7 +16,6 @@
 - validate type is kinda weird for arrays. it does the outside and inside in the same go. test well for addtoset and else.
 - i want a todos app in the terminal for coding.
 - arent we doing some relative key thing for processing objs in arrays that might be invalid now?
-- static methods -> model methods
 - purge utils of unnecessary functions
 - grep "// @todo - is this still necessary." - i dont think it is necessary, but make sure things work w/ weird dot notation
 - grep '@todo'
@@ -67,7 +70,6 @@ and redo tests.
 - global error handler not working (the property on self (api) vanishes by the time we call the getter)
 - check all intergation tests and try/catch errors. use setDefaultDb func?
 - allow for custom sanitize func
-- rename static methods to model method
 - see how decorators can help w/ readibility
 - pref test.
 - test removeModel and removeModels. add tests. in readme mention use cases for these (really edge case - if your api has a update hook you can change your models w/o taking the server down).
@@ -78,10 +80,9 @@ and redo tests.
 - array of arrays should get a mention in the docs and i should play around w/ them to see how they work.
 - date obj changed by sanitiz
 - verify im doing dates right and _id.
-- static methods only accept generators?
 - test multiple database instances
 - use parens more for errors (see the last else statement in proxy step1)
-- should see what this is like when a model has no scheam and has statics only.
+- should see what this is like when a model has no scheam and has model methods only.
 - utils.isType should not be private
 - getDatabase should always return a proxy - elims errors where people may pass in a third param by accident, and if someone wants a unproxied obj they can call getConnection and then conn.db()
 - metion $databaseName and the tradeoff - want a clean namespace for naming models. wouldnt be able to have a model named open w/o dollar prefix.

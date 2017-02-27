@@ -10,7 +10,7 @@
 // const models = {
 //   users: {
 //     schema: require('../fixtures/schema.values'),
-//     methods: require('../fixtures/staticmethods')
+//     methods: require('../fixtures/modelmethods')
 //   }
 // };
 //
