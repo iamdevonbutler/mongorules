@@ -1,6 +1,6 @@
 - test model methods (what does this == )
 - in docs mention that this is for microservices and a deisgn paradigm of multiple db connections to a distributed cluser of datastores.
-
+- API docs, add horiz line underneath each item for readability.
 - seems like the constructor params for payload update and payload are a bit messed up. too much isUpsert and isSetOperation
 - run each test twice to test cache.
 - more tests w/ multiple objs/values in arrays
@@ -9,15 +9,8 @@
 - see what timestamps look like once inserted.
 - default should be a function so u can set default time.
 - FindAndModify upsert test
-- will obj.validatequery() hit a save operation and will that be an issue.
-- findandmodify syntax differs from docs - pass in params rather than object.
-- idk if payloadItem needs the payload path param
 - validate type is kinda weird for arrays. it does the outside and inside in the same go. test well for addtoset and else.
 - i want a todos app in the terminal for coding.
-- arent we doing some relative key thing for processing objs in arrays that might be invalid now?
-- purge utils of unnecessary functions
-- grep "// @todo - is this still necessary." - i dont think it is necessary, but make sure things work w/ weird dot notation
-- grep '@todo'
 - test - an array update op that we dont cover to see if it works.
 - give more meta info to custom validate and transform. transform might find it helpful if it knew that this was a update as opposed to an insert.
 - test type validation for array of values. make sure types are checked for inner and outer.
@@ -84,6 +77,7 @@
 
 
 Phase II
+- grep '@todo'
 - allow for custom sanitize func
 - add email type
 - donate to project
