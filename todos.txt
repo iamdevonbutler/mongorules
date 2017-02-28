@@ -1,13 +1,12 @@
+- default should be a func so that u can set live dates.
 - test model methods
 
 - in docs mention that this is for microservices and a deisgn paradigm of multiple db connections to a distributed cluser of datastores.
 - seems like the constructor params for payload update and payload are a bit messed up. too much isUpsert and isSetOperation
 - run each test twice to test cache.
 - more tests w/ multiple objs/values in arrays
-- does .schema need to be attached to payloadItem still?
 - arrayofvalues inside an arrayofobjects tests
 - see what timestamps look like once inserted.
-- default should be a function so u can set default time.
 - FindAndModify upsert test
 - validate type is kinda weird for arrays. it does the outside and inside in the same go. test well for addtoset and else.
 - test - an array update op that we dont cover to see if it works.
@@ -20,8 +19,6 @@
 - running queries w/o a model.
 - test mixed types
 - what happens when u run a random method that isnt insert/update/... and theres a success and when the is a failure/
-- importing code from an index.js should not set module.exports  = require(...), you should manually pick out the properties to export.
-- default should be a func so that u can set live dates.
 - setoninsert. figure out how to do validation for this ... https://docs.mongodb.com/v3.2/reference/operator/update/setOnInsert/#up._S_setOnInsert
 - the pattern of method() -> return error -> if error -> .... , might be able to be improved via currying and compose.
 - do type validation using the new syntax. we should be validating multi type fileds propertly.
@@ -43,7 +40,6 @@
 - test: https://docs.mongodb.com/manual/reference/operator/update/set/ (last example)
 - if type is given, validate to be sure the default is of that type
 - test removeModel and removeModels. add tests. in readme mention use cases for these (really edge case - if your api has a update hook you can change your models w/o taking the server down).
-- make sure gloabal and local error handelrs work
 - test duplicate key inserts and inserts on unique field - see what the error messages look like.
 - array of arrays should get a mention in the docs and i should play around w/ them to see how they work.
 - date obj changed by sanitize
@@ -53,27 +49,22 @@
 - metion $databaseName and the tradeoff - want a clean namespace for naming models. wouldnt be able to have a model named open w/o dollar prefix.
 - addModel should have more checks to ensure people are passing in a schema.
 - idk if _getModel (should be getModels) should throw.
-- add gh questions that are answered to a FAQ doc.
 - test time implementation
-- perf test values, array of values, array of objects.
 - sanitize changes date from obj to string (will cause bugs)
-- collection error handler absent from docs - .
 - add @file declarations
 - what happens when you try to do shit w/o calling addDatabase
 - mention in docs that results from add/get database return a proxy, but u can get the naked (unproxied) connectino obj from getConnection
 - reversing no validate - going to be the first param so u can query a - change docs.
-- how to insert types such as NumberLong (https://docs.mongodb.com/v3.2/reference/operator/query/type/)
-- see if query modifiers work w/ cursors (https://docs.mongodb.com/v3.2/reference/operator/query-modifier/)
-- we shouldn't cache queries w/ errors.
 - to test the error handling, do a duplicate key insert and make sure that returns an error.
 - gotta test unique indexes - pref an upsert after doing a unique index and it should error (https://docs.mongodb.com/v3.2/core/index-unique/#index-type-unique)
 - test mixed types w/ integration test.
-- custom denyXss function, custom timestamp validator - maybe make all type checks customizeable.
-- add other transform/validate properties to schema.
 
 
 Phase II
+- add gh questions that are answered to a FAQ doc.
+- custom denyXss function, custom timestamp validator - maybe make all type checks customizeable.
 - grep '@todo'
+- add other transform/validate properties to schema.
 - allow for custom sanitize func
 - add email type
 - donate to project
@@ -86,3 +77,5 @@ Phase II
 
 Questions
 - should there be a notification of you are operating on a model that does not exist.
+- how to insert types such as NumberLong (https://docs.mongodb.com/v3.2/reference/operator/query/type/)
+- see if query modifiers work w/ cursors (https://docs.mongodb.com/v3.2/reference/operator/query-modifier/)

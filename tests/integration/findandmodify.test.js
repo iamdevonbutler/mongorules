@@ -39,6 +39,36 @@ describe('FindAndModify():', function() {
     Object.keys(result).length.should.eql(4);
   });
 
-  // @todo upsert
+  it('should error given an upsert missing required fields', function* () {
+    var payload = {
+      '$set': {
+        'account.friends': ['sam']
+      }
+    };
+    try {
+      var result = yield db.users.findAndModify({}, [], payload, {"new": true, "upsert": true});
+      exit();
+    }
+    catch (e) {
+      e.errors.length.should.eql(1);
+      e.errors[0].field.should.eql('account.name');
+      e.errors[0].property.should.eql('required');
+    }
+  });
+
+  it('should perform an upsert', function* () {
+    var payload = {
+      '$set': {
+        'account.name': 'bob',
+      }
+    };
+    var result = yield db.users.findAndModify({}, [], payload, {"new": true, "upsert": true});
+    delete result.value._id;
+    result.value.should.eql({
+      account: { friends: [], name: 'hey bob' },
+      newsletter: true,
+      age: 1,
+    });
+  });
 
 });
