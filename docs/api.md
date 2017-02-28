@@ -1,4 +1,5 @@
 ## API
+
 ### .connect()
 Connects to mongodb using `MongoClient.connect()` (convenience method).
 
@@ -9,6 +10,8 @@ Connects to mongodb using `MongoClient.connect()` (convenience method).
 **Returns**
 {promise} Mongodb instance to be passed to the `addDatabase()` method.
 
+---
+
 ### .close()
 Closes a mongodb connection using `MongoClient.close()` (convenience method).
 
@@ -16,11 +19,15 @@ Closes a mongodb connection using `MongoClient.close()` (convenience method).
 {promise} The first parameter will contain the Error object if an error occured, or null otherwise. While the second parameter will contain the results from the close method or null if an error occured.
 
 
+---
+
 ### .addDatabase()
 
 **Arguments**
 - databaseName {String}
 - mongodbInstance {Object}
+
+---
 
 ### .addModel()
 
@@ -36,6 +43,9 @@ db.addModel('users', {
   onError: function() {...}
 });
 ```
+
+---
+
 ### .addModels()
 
 **Arguments**
@@ -51,6 +61,8 @@ db.addModel({
   }
 });
 ```
+
+---
 
 ### .addGlobalErrorHandler()
 Adds a global error handler for schema validation and mongodb errors.
