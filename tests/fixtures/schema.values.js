@@ -27,7 +27,7 @@ module.exports = {
 
   "newsletter": {
     type: Types.boolean,
-    default: true,
+    default: () => true,
     notNull: true,
   },
 
