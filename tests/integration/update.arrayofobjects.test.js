@@ -25,6 +25,26 @@ describe('Update(): array of objects:', function() {
   });
 
   describe('$set', function() {
+
+    it ('should perform a complex $set update', function* () {
+      var payload = {
+        '$set': {
+          'account.friends.0.nicknames': [{name: 'jim', giver: []}],
+          'account.friends.1': {name: 'drew'},
+        }
+      };
+      yield db.users3.update({}, payload).catch(console.log);
+      var result = yield db.users3.findOne({});
+      delete result._id;
+      result.account.should.eql({
+        friends: [
+          { name: 'lrn!',  nicknames: { giver: [], name: "jim"} },
+          { name: 'drew!', nicknames: [] },
+        ]
+      });
+
+    });
+
     it ('should error given invalid types and unknown fields in subdocuments', function* () {
       var payload = {
         '$set': {

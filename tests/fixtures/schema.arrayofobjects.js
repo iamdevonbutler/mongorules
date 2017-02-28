@@ -8,7 +8,7 @@ module.exports = {
     type: Types.array(Types.object),
     default: [],
     minLength: 1,
-    maxLength: 2
+    maxLength: 2,
   },
 
   "account.friends.name": {
@@ -18,9 +18,9 @@ module.exports = {
     lowercase: true,
     sanitize: true,
     minLength: 1,
-    transform: function(value) {
+    transform: (value) => {
       return value && isType(value, 'string') ? value + '!' : value;
-    }
+    },
   },
 
   // Array item w/ an array of objects as it's value.

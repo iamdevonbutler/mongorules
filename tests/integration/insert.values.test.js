@@ -12,6 +12,20 @@ describe('Insert(): values:', () => {
     ({db} = require('../../lib'));
   });
 
+  it ('should accept date types', function* () {
+    yield db.users.insert({account: {name: 'jay'}, created: new Date()});
+    yield db.users.insert({account: {name: 'jay'}, created: Date.now()});
+    try {
+      yield db.users.insert({account: {name: 'jay'}, created: 'error'});
+      exit()
+    }
+    catch (e) {
+      e.errors.length.should.eql(1);
+      e.errors[0].field.should.eql('created')
+      e.errors[0].property.should.eql('type')
+    }
+  });
+
   it('should error when inserting a document w/ an invalid ObjectID', function* () {
     try {
       yield db.users.insert({

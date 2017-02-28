@@ -1,49 +1,23 @@
-- test model methods
-
-- test: https://docs.mongodb.com/manual/reference/operator/update/setX (last example)
+- there are types of shell methods. make sure databse methods work and are mentioned in docs.
+- arrayofvalues inside an arrayofobjects tests
 - in docs mention that this is for microservices and a deisgn paradigm of multiple db connections to a distributed cluser of datastores.
 - seems like the constructor params for payload update and payload are a bit messed up. too much isUpsert and isSetOperation
-- run each test twice to test cache.
-- more tests w/ multiple objs/values in arrays
-- arrayofvalues inside an arrayofobjects tests
-- see what timestamps look like once inserted.
 - validate type is kinda weird for arrays. it does the outside and inside in the same go. test well for addtoset and else.
 - test - an array update op that we dont cover to see if it works.
 - give more meta info to custom validate and transform. transform might find it helpful if it knew that this was a update as opposed to an insert.
 - test type validation for array of values. make sure types are checked for inner and outer.
 - validate not null should be an array so that we can validate the outer array as not null, and inner items as not null.
 - make sure we are filtering nulls from arrays.
-- schema.js preprocess schema retuns new Schema, should we do that? also the name preprocessSchema is just ok.
-- custom transform func can break schema. maybe compare and if diff, validate again.
-- running queries w/o a model.
-- test mixed types
 - what happens when u run a random method that isnt insert/update/... and theres a success and when the is a failure/
-- setoninsert. figure out how to do validation for this ... https://docs.mongodb.com/v3.2/reference/operator/update/setOnInsert/#up._S_setOnInsert
-- the pattern of method() -> return error -> if error -> .... , might be able to be improved via currying and compose.
 - do type validation using the new syntax. we should be validating multi type fileds propertly.
-- have a way to add supported operations via api. e.g. a way to process another query type (make `this` === preprocess)
-- add custom types
-- document the db alias const {db} = require('mongorules').
-- get date types right. (do docs last) verify dates in Database e.g. timestamp constructor date constructor.
-- find out minimun mongo version this works w/.
 - make a list of all the operations from docs and make sure i have tests for all of them.
    - e.g. $.thisandthat
-- reconstructPayload does some weird stuff w/ modifiers. test to be sure it's not removing items by accident.
-- find out what data can be inserted in a update query field and see if we can do something to validate it.
-- private public method naming in preprocess code. make it consistent.
-- custom transform properties for schema.
-- there are types of shell methods. make sure databse methods work and are mentioned in docs.
 - see if $explain works (https://docs.mongodb.com/v3.2/reference/operator/meta/explain/#metaOp._S_explain)
-- change the way we do dates. there should be timestamp and date types. (https://docs.mongodb.com/v3.2/reference/operator/update/currentDate/)
 - defaultDb docs
 - test removeModel and removeModels. add tests. in readme mention use cases for these (really edge case - if your api has a update hook you can change your models w/o taking the server down).
-- test duplicate key inserts and inserts on unique field - see what the error messages look like.
-- array of arrays should get a mention in the docs and i should play around w/ them to see how they work.
-- date obj changed by sanitize
 - verify im doing dates right and _id.
 - should see what this is like when a model has no scheam and has model methods only.
 - getDatabase should always return a proxy - elims errors where people may pass in a third param by accident, and if someone wants a unproxied obj they can call getConnection and then conn.db()
-- metion $databaseName and the tradeoff - want a clean namespace for naming models. wouldnt be able to have a model named open w/o dollar prefix.
 - addModel should have more checks to ensure people are passing in a schema.
 - idk if _getModel (should be getModels) should throw.
 - test time implementation
@@ -52,18 +26,20 @@
 - what happens when you try to do shit w/o calling addDatabase
 - mention in docs that results from add/get database return a proxy, but u can get the naked (unproxied) connectino obj from getConnection
 - reversing no validate - going to be the first param so u can query a - change docs.
-- to test the error handling, do a duplicate key insert and make sure that returns an error.
 - gotta test unique indexes - pref an upsert after doing a unique index and it should error (https://docs.mongodb.com/v3.2/core/index-unique/#index-type-unique)
 - test mixed types w/ integration test.
 
 
 Phase II
+- architecture docs
 - add gh questions that are answered to a FAQ doc.
+- add custom types
+- add email type
+- custom transform properties for schema.
 - custom denyXss function, custom timestamp validator - maybe make all type checks customizeable.
 - grep '@todo'
 - add other transform/validate properties to schema.
 - allow for custom sanitize func
-- add email type
 - donate to project
 - pretty up errors.
 - pre-push live search console.logs
@@ -72,7 +48,10 @@ Phase II
   - validation error is 1
   - mongodb error is 2
 
+
 Questions
 - should there be a notification of you are operating on a model that does not exist.
 - how to insert types such as NumberLong (https://docs.mongodb.com/v3.2/reference/operator/query/type/)
 - see if query modifiers work w/ cursors (https://docs.mongodb.com/v3.2/reference/operator/query-modifier/)
+- find out minimun mongo version this works w/.
+- should we keep the return error from handleErrors thing or could it cause bugs.
