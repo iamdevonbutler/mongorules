@@ -169,6 +169,23 @@ describe('Insert(): values:', () => {
     })
   });
 
+  it('should error given incorrect types when accepting mixed types', function* () {
+    var obj = {
+      account: {
+        name: 'jay',
+        friends: [11, 'jimbob', {}]
+      }
+    };
+    try {
+      yield db.users.insert(obj);
+      exit();
+    }
+    catch (e) {
+      e.errors.length.should.eql(1);
+      e.errors[0].property.should.eql('type');
+    }
+  });
+
   it('should insert a document given valid dates', function* () {
     var date = Date.now();
     var obj = {

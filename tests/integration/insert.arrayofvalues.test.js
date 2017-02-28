@@ -74,8 +74,6 @@ describe('Insert(): array of values:', () => {
         friends: ['LRN', 'el ', null]
       }
     };
-
-
     yield db.users2.insert([obj]);
     var result = yield db.users2.findOne({});
     result.account.friends.length.should.eql(2);
@@ -127,6 +125,22 @@ describe('Insert(): array of values:', () => {
     }
   });
 
+  it('should error given an incorrect type', function*() {
+    var obj = {
+      account: {
+        friends: 11,
+      }
+    };
+    try {
+      yield db.users2.insert(obj);
+      exit();
+    } catch (e) {
+      e.errors.length.should.eql(1);
+      e.errors[0].property.should.eql('type');
+    }
+  });
+
+
   it('should ensure all values are of type `string`', function*() {
     var obj = {
       account: {
@@ -140,6 +154,6 @@ describe('Insert(): array of values:', () => {
       e.errors.length.should.eql(1);
       e.errors[0].property.should.eql('type');
     }
-
   });
+
 });

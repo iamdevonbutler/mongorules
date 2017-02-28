@@ -71,18 +71,13 @@ describe('Update(): array of objects:', function() {
         '$set': {
           'account.friends.0.nicknames': {
             name: 'name',
-            giver: [{name: 'name'}]
+            giver: [{name: 'name'}, {name: 'kenny'}, {name: 'bob'}]
           }
         }
       };
-      try {
-        yield db.users3.update({}, payload);
-        var result = db.users3.findOne();
-        result.should.be.ok;
-      }
-      catch (e) {
-        e.should.not.be.ok
-      }
+      yield db.users3.update({}, payload);
+      var result = yield db.users3.findOne();
+      result.should.be.ok;
     });
 
     it('should error when given an invalid type', function* () {

@@ -1,37 +1,11 @@
-- there are types of shell methods. make sure databse methods work and are mentioned in docs.
-- arrayofvalues inside an arrayofobjects tests
-- in docs mention that this is for microservices and a deisgn paradigm of multiple db connections to a distributed cluser of datastores.
 - seems like the constructor params for payload update and payload are a bit messed up. too much isUpsert and isSetOperation
-- validate type is kinda weird for arrays. it does the outside and inside in the same go. test well for addtoset and else.
-- test - an array update op that we dont cover to see if it works.
-- give more meta info to custom validate and transform. transform might find it helpful if it knew that this was a update as opposed to an insert.
-- test type validation for array of values. make sure types are checked for inner and outer.
-- validate not null should be an array so that we can validate the outer array as not null, and inner items as not null.
-- make sure we are filtering nulls from arrays.
-- what happens when u run a random method that isnt insert/update/... and theres a success and when the is a failure/
-- do type validation using the new syntax. we should be validating multi type fileds propertly.
-- make a list of all the operations from docs and make sure i have tests for all of them.
-   - e.g. $.thisandthat
-- see if $explain works (https://docs.mongodb.com/v3.2/reference/operator/meta/explain/#metaOp._S_explain)
-- defaultDb docs
-- test removeModel and removeModels. add tests. in readme mention use cases for these (really edge case - if your api has a update hook you can change your models w/o taking the server down).
-- verify im doing dates right and _id.
-- should see what this is like when a model has no scheam and has model methods only.
-- getDatabase should always return a proxy - elims errors where people may pass in a third param by accident, and if someone wants a unproxied obj they can call getConnection and then conn.db()
-- addModel should have more checks to ensure people are passing in a schema.
-- idk if _getModel (should be getModels) should throw.
-- test time implementation
-- sanitize changes date from obj to string (will cause bugs)
-- add @file declarations
-- what happens when you try to do shit w/o calling addDatabase
-- mention in docs that results from add/get database return a proxy, but u can get the naked (unproxied) connectino obj from getConnection
-- reversing no validate - going to be the first param so u can query a - change docs.
-- gotta test unique indexes - pref an upsert after doing a unique index and it should error (https://docs.mongodb.com/v3.2/core/index-unique/#index-type-unique)
-- test mixed types w/ integration test.
-
+- docs
+  - mention that this is for microservices and a deisgn paradigm of multiple db connections to a distributed cluser of datastores.
+  - defaultDb docs
 
 Phase II
 - architecture docs
+- validate not null should be an array field, so that we can validate the outer array as not null, and inner items as not null.
 - add gh questions that are answered to a FAQ doc.
 - add custom types
 - add email type
@@ -55,3 +29,5 @@ Questions
 - see if query modifiers work w/ cursors (https://docs.mongodb.com/v3.2/reference/operator/query-modifier/)
 - find out minimun mongo version this works w/.
 - should we keep the return error from handleErrors thing or could it cause bugs.
+- should we give more meta info to custom validate and transform. transform might find it helpful if it knew that this was a update as opposed to an insert.
+- should we notify the user when they are using an unsupported update operation such as $pull;

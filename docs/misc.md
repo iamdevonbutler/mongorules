@@ -7,3 +7,4 @@ There are some notes on the behavior of mongorules that may not be initially obv
 - During an insert/update, fields included in the payload that are not present in schema will be disregarded, and the operation will continue to execute.
 - findAndModify syntax differs from docs - pass in data as individual params rather than object.
 - sanitize changes date from obj to string
+- addDatabase and getDatabase return a proxy object, and u can get the (unproxied) connection obj from the .getConnection() method
