@@ -4,22 +4,24 @@
 <br>
 [close()](#close)
 <br>
-[addDatabase()](#addDatabase)
+[addDatabase()](#adddatabase)
 <br>
-[setDefaultDb()](#setDefaultDb)
+[setDefaultDb()](#setdefaultdb)
 <br>
-[addModels()](#addModels)
+[addModels()](#addmodels)
 <br>
-[addModel()](#addModel)
+[addModel()](#addmodel)
 <br>
-[addGlobalErrorHandler()](#addGlobalErrorHandler)
+[addGlobalErrorHandler()](#addglobalerrorhandler)
 <br>
-[addConnection()](#addConnection)
+[addConnection()](#addconnection)
 <br>
-[getConnection()](#getConnection)
+[getConnection()](#getconnection)
 <br>
-[getDatabase()](#getDatabase)
+[getDatabase()](#getdatabase)
 <br>
+
+---
 
 ### .connect()
 Connects to mongodb using `MongoClient.connect()` (convenience method).
@@ -177,5 +179,3 @@ Returns a proxied mongodb database instance.
 
 **Returns**
 {Object proxy} database instance.
-
----
