@@ -1,5 +1,10 @@
 ## Schemas
 
+
+talk about types
+
+
+
 Schemas are optional, and are not required for each collection in your database.
 
 ### Supported data structures

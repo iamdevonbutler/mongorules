@@ -1,4 +1,3 @@
-- seems like the constructor params for payload update and payload are a bit messed up. too much isUpsert and isSetOperation
 - perf test repo readme
 - docs
   - mention that this is for microservices and a deisgn paradigm of multiple db connections to a distributed cluser of datastores.
