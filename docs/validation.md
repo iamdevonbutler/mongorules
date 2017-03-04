@@ -1,28 +1,28 @@
 ## Document validation
 
-The following properties can be set in your field schemas for document validation purposes:
+The following properties can be set in your schemas for document validation purposes:
 
 - `required` {Boolean} default `false`
 - `notNull` {Boolean} default `false`
 - `default` {Mixed} default `undefined` *(can pass function)*
-- `type` {string|number|boolean|date} default `null` *(array and object types are implicit)*
-- `dateFormat` {String} default `null` *(used in conjunction w/ type: 'date')*
+- `type` {Use Types object} default `all types allowed`
 - `denyXSS` {Boolean} default `false`
-- `minLength` {Number | Array} default `null`
-- `maxLength` {Number | Array} default `null`
-- `validate` {Function} default `null`
+- `minLength` {Number|Array} default `null`
+- `maxLength` {Number|Array} default `null`
+- `validate` {Function|Array} default `null`
   - *@param {Mixed} value*
-  - *@param {Object} schema*
+  - *@param {Object} fieldSchema*
   - *@return {Boolean} - you should return a `Boolean`.*
 
-## Document validation
-Document validation will occur on `insert()`, `update()`, `save()`, and `findAndModify()` operations, and enforce the rules declared in your schemas. As w/ mongodb query errors, document validation failures will throw errors if custom error handlers are not provided (see [Error handling](#error-handling)).
+Document validation will occur on `insert()`, `update()`, `save()`, and `findAndModify()` operations, and enforce the rules declared in your schemas. The following update operators will be validated: `$set`, `$addToSet`, `$push`, `$inc`, `$mul`, `$min`, `$max`.
+
+See [Error handling](https://github.com/iamdevonbutler/mongorules/blob/master/docs/error-handling.md) to learn how to properly handle validation errors.
 
 ### novalidate
 
 In instances where you want to run a query w/o schema validation you may prefix your query w/ the 'novalidate' property:
 
-```
+```javascript
 var result = db.novalidate.users.insert({...});
 ```
 
@@ -30,7 +30,7 @@ var result = db.novalidate.users.insert({...});
 
 If 'required' is `true`, `undefined` values will fail validation.
 
-If 'notNull' is `true`, `null` values will fail validation.
+If 'notNull' is `true`, `null` and `undefined` values will fail validation.
 
 *An empty string or empty array that is 'required' will pass validation. If this is not the intended behavior, set a minLength value.*
 
@@ -39,27 +39,49 @@ If 'required' is `false`, the 'default' property may be set. The default value w
 
 If a `function` is provided, it will be evaluated at runtime - useful for setting default dates.
 
-### The 'type' and 'dateFormat' properties
+### The 'type' property
+
+To set the type property you must first import the `Types` object from mongorules.
+
+```javascript
+const {Types} = require('mongorules');
+```
 
 Allowed types include:
 
-- 'string'
-- 'number'
-- 'boolean'
-- 'date'
+- Types.string
+- Types.number
+- Types.date
+- Types.timestamp
+- Types.boolean
+- Types.null
+- Types.objectId
+- Types.object
+- Types.array
+- Types.mixed
 
-Type checking will be enforced on each value in an *arrays of values*.
+You can require multiple types:
 
-*Mongorules supports types for arrays of values, arrays of objects; however, there is no need to explicitly specify the type - the type is implied from your schema. See [supported data structures](#supported-data-structures).*
+```javascript
+{
+  type: Types.mixed(Types.string, Types.number)
+}
+```
 
-#### Date formats
+Type setting for an array of values:
 
-If 'type' is set to 'date', the 'dateFormat' property must be set to enforce date specific validation. Allowed 'dateFormat' values include:
+```javascript
+{
+  type: Types.array(Types.string, Types.number)
+}
+```
 
-- 'iso8601'
-- 'timestamp'
-
-To insert an iso8601 date into your database: use `new Date()` and mongodb will store it as a BSON 'ISODate' type. To insert a timestamp into your database, use `Date.now()` (@todo store as timestamp BSON type).
+Type setting for an array of objects:
+```javascript
+{
+  type: Types.array(Types.object)
+}
+```
 
 ### The 'denyXSS' property
 
@@ -71,34 +93,33 @@ For an *array of values*, each value, if of type `string`, will be evaluated.
 
 Enforces min and max length values on arrays and strings.
 
-**For arrays:**
+**Array syntax:**
 
 If a single value is provided, the number of items in array will be evaluated.
 
-If an array is provided, the first value will evaluate the number of items in the array, and the second value will evaluate the length of each item.
+For array fields: If an array is provided, the first value will evaluate the number of items in the array, and the second value will evaluate the length of each item.
 
 ```
 {
-  fieldName: [{
+  arrayField: {
     minLength: [1, 1]  
-  }]
+  }
 }
 ```
 
 *Note: if using the array syntax, pass `null` to skip a particular validation*
 
 ### The 'validate' property
-The custom validation handler accepts two parameters, the field value, and field schema, and should return either `true` or `false`. The function is executed after the standard validation properties.
+The custom validation handler accepts two parameters, the field value, and field schema, and should return either `true` or `false`.
 
-```
+```javascript
 {
-  fieldName: [{
-    validate:
-      function(value, schema) {
-        return true;
-      }
-  }]
+  fieldName: {
+    validate: (value, schema) => true,
+  }
 }
 ```
 
-*Note: when processing an array of values/objects, each value/object will be passed to the validate handler.*
+**Array syntax:**
+
+For array fields: if an array of validate handlers is provided, the first handler will evaluate array itself, and the second handler will evaluate each item in the array.

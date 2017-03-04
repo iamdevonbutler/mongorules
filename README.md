@@ -38,11 +38,10 @@ npm install --save mongorules mongodb
 Second, init mongodb:
 
 ```javascript
-
 const mongorules = require('mongorules');
 const mongodb = require('mongodb');
-const url = process.env.MONGO_URL;
 
+const url = process.env.MONGO_URL;
 const connection = yield mongorules.connect('local', url, mongodb);
 const db = mongorules.addDatabase('local', 'api-development', connection);
 ```
@@ -62,7 +61,7 @@ mongorules.addModels('local', 'api-development', {
   }
 });
 ```
-Add default db (optional).
+Add default db (recommended).
 
 ```javascript
 const mongorules = require('mongorules');
@@ -108,13 +107,13 @@ The following operations will enforce schema validation:
 
 Mongorules supports validation for the following mongodb update operators:
 
-- `$inc`
-- `$mul`
 - `$set`
-- `$min`
-- `$max`
 - `$addToSet`
 - `$push`
+- `$inc`
+- `$mul`
+- `$min`
+- `$max`
 
 Upsert operations are supported as well (validated as an insert).
 
@@ -122,6 +121,7 @@ Upsert operations are supported as well (validated as an insert).
 ## Docs
 
 - [API](https://github.com/iamdevonbutler/mongorules/blob/master/docs/api.md)
+- [Connecting](https://github.com/iamdevonbutler/mongorules/blob/master/docs/connecting.md)
 - [Schemas](https://github.com/iamdevonbutler/mongorules/blob/master/docs/schemas.md)
 - [Document Transformation](https://github.com/iamdevonbutler/mongorules/blob/master/docs/transformation.md)
 - [Document Validation](https://github.com/iamdevonbutler/mongorules/blob/master/docs/validation.md)

@@ -1,5 +1,7 @@
 ## Document transformation
 
+The following properties can be set in your schemas for document transformation purposes:
+
 *Transformation properties*
 - `trim` {Boolean} default `false`
 - `lowercase` {Boolean} default `false`
@@ -27,17 +29,15 @@ The 'trim', 'lowercase', and 'uppercase' properties accept a Boolean and can onl
 For an *array of values*, each value, if of type `string`, will be evaluated.
 
 ### The 'transform' property
-The custom transform handler accepts two parameters, the field value, and the field schema, and should return the manipulated value. The function is executed after the standard transformation properties.
+The custom transform handler accepts two parameters, the field value, and the field schema, and should return the manipulated value.
 
-```
+```javascript
 {
-  fieldName: [{
-    transform:
-      function(value, schema) {
-        return value;
-      }
-  }]
+  fieldName: {
+    transform: (value, schema) => value;
+  }
 }
 ```
+**Array syntax:**
 
-*Note: when processing an array of values/objects, each value/object will be passed to the transform handler.*
+For array fields: if an array of transform handlers is provided, the first handler will evaluate array itself, and the second handler will evaluate each item in the array.

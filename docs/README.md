@@ -1,6 +1,7 @@
 # Docs
 
 - [API](https://github.com/iamdevonbutler/mongorules/blob/master/docs/api.md)
+- [Connecting](https://github.com/iamdevonbutler/mongorules/blob/master/docs/connecting.md)
 - [Schemas](https://github.com/iamdevonbutler/mongorules/blob/master/docs/schemas.md)
 - [Document Transformation](https://github.com/iamdevonbutler/mongorules/blob/master/docs/transformation.md)
 - [Document Validation](https://github.com/iamdevonbutler/mongorules/blob/master/docs/validation.md)
