@@ -27,6 +27,18 @@ Abiding by the the LOTR philosophy (one API to rule them all), mongorules adds a
 - Mongodb >= 2.6
 
 
+## Docs
+
+- [API](https://github.com/iamdevonbutler/mongorules/blob/master/docs/api.md)
+- [Connecting](https://github.com/iamdevonbutler/mongorules/blob/master/docs/connecting.md)
+- [Schemas](https://github.com/iamdevonbutler/mongorules/blob/master/docs/schemas.md)
+- [Document Transformation](https://github.com/iamdevonbutler/mongorules/blob/master/docs/transformation.md)
+- [Document Validation](https://github.com/iamdevonbutler/mongorules/blob/master/docs/validation.md)
+- [Model methods](https://github.com/iamdevonbutler/mongorules/blob/master/docs/model-methods.md)
+- [Error handling](https://github.com/iamdevonbutler/mongorules/blob/master/docs/error-handling.md)
+- [Misc](https://github.com/iamdevonbutler/mongorules/blob/master/docs/misc.md)
+
+
 ## Getting started
 
 First, install mongorules and mongodb:
@@ -79,19 +91,6 @@ result = yield db.users.find({ name: 'jay' });
 users = yield result.toArray();  
 ```
 
-If we did not call `setDefaultDb()` we would retrieve the db instance via:
-
-```javascript
-const mongorules = require('mongorules');
-const db = mongorules.getDatabase('local', 'api-development');
-// .addDatabase() returns a db instance as well.
-
-// db.users.insert({...})
-
-```
-
-
-
 ## Supported operations
 
 All mongodb native operations are supported and are wrapped in promises.
@@ -116,18 +115,6 @@ Mongorules supports validation for the following mongodb update operators:
 - `$max`
 
 Upsert operations are supported as well (validated as an insert).
-
-
-## Docs
-
-- [API](https://github.com/iamdevonbutler/mongorules/blob/master/docs/api.md)
-- [Connecting](https://github.com/iamdevonbutler/mongorules/blob/master/docs/connecting.md)
-- [Schemas](https://github.com/iamdevonbutler/mongorules/blob/master/docs/schemas.md)
-- [Document Transformation](https://github.com/iamdevonbutler/mongorules/blob/master/docs/transformation.md)
-- [Document Validation](https://github.com/iamdevonbutler/mongorules/blob/master/docs/validation.md)
-- [Model methods](https://github.com/iamdevonbutler/mongorules/blob/master/docs/model-methods.md)
-- [Error handling](https://github.com/iamdevonbutler/mongorules/blob/master/docs/error-handling.md)
-- [Misc](https://github.com/iamdevonbutler/mongorules/blob/master/docs/misc.md)
 
 
 ## Performance
