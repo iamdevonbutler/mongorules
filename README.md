@@ -44,7 +44,7 @@ Abiding by the the LOTR philosophy (one API to rule them all), mongorules adds a
 First, install mongorules and mongodb:
 
 ```javascript
-npm install --save mongorules mongodb
+npm install --save mongorules@0.1.4-alpha mongodb
 ```
 
 Second, init mongodb:
