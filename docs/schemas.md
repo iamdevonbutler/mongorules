@@ -20,7 +20,7 @@ const {Types} = require('mongorules');
     minLength: 3,
     lowercase: true,
     trim: true,
-    validate: (value) => value,
+    validate: (value) => true,
   },
   "account.name": {
     type: Types.string,
